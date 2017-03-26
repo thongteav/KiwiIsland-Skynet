@@ -25,7 +25,7 @@ public class Kiwi  extends Fauna
     * Count this kiwi
     */
     public void count() {
-        counted = true;
+        counted = true  ;
     }
  
    /**
