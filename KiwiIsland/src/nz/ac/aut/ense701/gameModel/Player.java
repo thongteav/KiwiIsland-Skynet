@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.Graphics;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -45,6 +46,10 @@ public class Player
        this.alive = true;
        this.backpack = new HashSet<Item>();
     }   
+    
+    public void render(Graphics g){
+        g.drawImage(Assets.player_down[0], position.getColumn(), position.getRow(), 64, 64, null);
+    }
     
     /*****************************************************************************************************
      * Accessor methods
