@@ -17,7 +17,7 @@ public class Assets {
     public static BufferedImage[] player_left;
     public static BufferedImage[] player_right;
     
-    public static int width = 400, height = 599;
+    public static int width = 180, height = 269;
     
     public static void init(){
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("res/player.png"));

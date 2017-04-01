@@ -18,6 +18,7 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import nz.ac.aut.ense701.gameModel.Assets;
 import nz.ac.aut.ense701.gameModel.Island;
+import nz.ac.aut.ense701.gameModel.KeyManager;
 import nz.ac.aut.ense701.gameModel.Player;
 import nz.ac.aut.ense701.gameModel.Position;
 
@@ -31,7 +32,7 @@ public class KiwiIslandUI extends JPanel implements ActionListener{
     private Player player;
     
     public KiwiIslandUI() {
-        super();
+        super();        
         setLayout(new BorderLayout());
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -40,12 +41,17 @@ public class KiwiIslandUI extends JPanel implements ActionListener{
         }
         
         Assets.init();
+        player = new Player(new Position(new Island(30, 30), 0, 0), "Dave", 100.0, 10.0, 5.0);
         
         canvas = new DrawingCanvas();
-        player = new Player(new Position(new Island(30, 30), 0, 0), "Dave", 100.0, 10.0, 5.0);
         add(canvas);
+        
         timer = new Timer(20, this);
         timer.start();
+    }
+    
+    public void update(){
+        
     }
     
     @Override
@@ -64,7 +70,7 @@ public class KiwiIslandUI extends JPanel implements ActionListener{
             width = screenSize.width * 4 / 5;
             height = screenSize.height * 4 / 5;
             setPreferredSize(new Dimension(width, height));
-            setBackground(Color.white);
+            setBackground(Color.green);
         }
         
         public void paintComponent(Graphics g){

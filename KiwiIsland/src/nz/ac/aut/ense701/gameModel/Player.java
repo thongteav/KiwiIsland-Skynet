@@ -47,6 +47,11 @@ public class Player
        this.backpack = new HashSet<Item>();
     }   
     
+    /**
+     * Rendering the player character at the specified position using the graphic object.
+     * 
+     * @param g a graphic object use to draw the character
+     */
     public void render(Graphics g){
         g.drawImage(Assets.player_down[0], position.getColumn(), position.getRow(), 64, 64, null);
     }
