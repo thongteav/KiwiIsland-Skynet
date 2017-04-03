@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 
 /**
  *
- * @author Thong
+ * @author Thong Teav
  */
 public class Assets {
     public static BufferedImage[] player_down;
