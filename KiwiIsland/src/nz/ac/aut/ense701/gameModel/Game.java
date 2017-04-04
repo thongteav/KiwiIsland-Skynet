@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -517,7 +518,15 @@ public class Game
         return successfulMove;
     }
     
-    
+    /**
+     * Draw the island and the player onto the canvas
+     * 
+     * @param g 
+     */
+    public void render(Graphics g){
+        island.render(g);
+        player.render(g);
+    }
     
     /**
      * Adds a game event listener.

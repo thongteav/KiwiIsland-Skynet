@@ -597,7 +597,8 @@ public class KiwiCountUI
         {
             for ( int col = 0 ; col < columns ; col++ )
             {
-                pnlIsland.add(new GridSquarePanel(game, row, col));
+                GridSquarePanel gsPanel = new GridSquarePanel(game, row, col);
+                pnlIsland.add(gsPanel);
             }
         }
     }
