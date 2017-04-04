@@ -24,6 +24,8 @@ public class KeyManager implements KeyListener {
     }
 
     public void tick() {
+        
+        //hi
         W = keys[KeyEvent.VK_W];
         S = keys[KeyEvent.VK_S];
         D = keys[KeyEvent.VK_D];
