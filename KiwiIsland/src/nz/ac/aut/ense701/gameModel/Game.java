@@ -56,6 +56,7 @@ public class Game
         loseMessage = "";
         playerMessage = "";
         notifyGameEventListeners();
+        keyManager = new KeyManager();
     }
 
     /***********************************************************************************************************************
@@ -854,7 +855,7 @@ public class Game
     private String winMessage = "";
     private String loseMessage  = "";
     private String playerMessage  = "";   
-
+    private KeyManager keyManager;
     
 
 

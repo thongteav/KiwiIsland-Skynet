@@ -18,7 +18,6 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import nz.ac.aut.ense701.gameModel.Assets;
 import nz.ac.aut.ense701.gameModel.Island;
-import nz.ac.aut.ense701.gameModel.KeyManager;
 import nz.ac.aut.ense701.gameModel.Player;
 import nz.ac.aut.ense701.gameModel.Position;
 
