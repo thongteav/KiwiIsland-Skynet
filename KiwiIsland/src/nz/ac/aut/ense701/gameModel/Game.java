@@ -63,13 +63,21 @@ public class Game
     /***********************************************************************************************************************
      * Accessor methods for game data
     ************************************************************************************************************************/
-    
+    /**
+     * Get the key manager
+     * 
+     * @return 
+     */
+    public KeyManager getKeyManager()    
+    {
+        return keyManager;
+    }
+
     /**
      * Get number of rows on island
      * @return number of rows.
      */
-    public int getNumRows()
-    {
+    public int getNumRows() {
         return island.getNumRows();
     }
     
@@ -559,7 +567,7 @@ public class Game
      */
     private void updateGameState()
     {
-         String message = "";
+        String message = "";
         if ( !player.isAlive() )
         {
             state = GameState.LOST;

@@ -12,6 +12,7 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -20,6 +21,7 @@ import nz.ac.aut.ense701.gameModel.Assets;
 import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.GameEventListener;
 import nz.ac.aut.ense701.gameModel.Island;
+import nz.ac.aut.ense701.gameModel.MoveDirection;
 import nz.ac.aut.ense701.gameModel.Player;
 import nz.ac.aut.ense701.gameModel.Position;
 
@@ -27,67 +29,87 @@ import nz.ac.aut.ense701.gameModel.Position;
  *
  * @author Thong
  */
-public class KiwiIslandUI extends JPanel implements ActionListener{
-    
+public class KiwiIslandUI implements ActionListener {
+
+    private JFrame frame;
     private DrawingCanvas canvas;
     private Timer timer;
     private Game game;
-    
+
     public KiwiIslandUI() {
-        super();        
-        setLayout(new BorderLayout());
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
         Assets.init();
         game = new Game();
-        canvas = new DrawingCanvas();
-        add(canvas);
+
+        frame = new JFrame("Kiwi Island");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = kit.getScreenSize();
+        int width = screenSize.width * 4 / 5;
+        int height = screenSize.height * 4 / 5;
+        frame.setSize(width, height);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        canvas = new DrawingCanvas(width, height);        
+        frame.add(canvas);
+        frame.pack();
+        frame.addKeyListener(game.getKeyManager());
         
         timer = new Timer(20, this);
         timer.start();
     }
-    
-    public void update(){
+
+    public void update() {
+        game.getKeyManager().update();
         
+        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_W)) {
+            game.playerMove(MoveDirection.NORTH);
+        }
+        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_S)) {
+            game.playerMove(MoveDirection.SOUTH);
+        }
+        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_A)) {
+            game.playerMove(MoveDirection.WEST);
+        }
+        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_D)) {
+            game.playerMove(MoveDirection.EAST);
+        }
     }
-    
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == timer){
+        if (e.getSource() == timer) {
+            update();
             canvas.repaint();
         }
     }
-   
-    private class DrawingCanvas extends JPanel{
-        private int width, height;
-        
-        public DrawingCanvas(){
-            Toolkit kit = Toolkit.getDefaultToolkit();
-            Dimension screenSize = kit.getScreenSize();
-            width = screenSize.width * 4 / 5;
-            height = screenSize.height * 4 / 5;
+
+    private class DrawingCanvas extends JPanel {
+        public DrawingCanvas(int width, int height) {
+            super();
+            setLayout(new BorderLayout());
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             setPreferredSize(new Dimension(width, height));
             setBackground(Color.green);
         }
-        
-        public void paintComponent(Graphics g){
+
+        public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            
+
             game.render(g);
         }
     }
-    
-    public static void main(String[] args){
-        JFrame frame = new JFrame("Kiwi Island");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(new KiwiIslandUI());
-        frame.pack();
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+
+    public static void main(String[] args) {
+//        JFrame frame = new JFrame("Kiwi Island");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.getContentPane().add(new KiwiIslandUI());
+//        frame.pack();
+//        frame.setVisible(true);
+//        frame.setLocationRelativeTo(null);
+        new KiwiIslandUI();
     }
 }
