@@ -1,6 +1,8 @@
 
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.Graphics;
+
 
 /**
  * Fauna at this point represents any species that is not a kiwi or a predator on the island.
@@ -25,7 +27,9 @@ public class Fauna extends Occupant
         super(pos, name, description);
     } 
     
- 
+    public void render(Graphics g){
+        g.drawImage(Assets.faunaMap.get(this.getName()), this.getPosition().getColumn() * 64, this.getPosition().getRow() * 64, 64, 64, null);
+    }
 
 
     @Override

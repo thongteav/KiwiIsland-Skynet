@@ -326,7 +326,18 @@ public class Island
         for(int row = 0; row < this.numRows; row++){
             for(int col = 0; col < this.numColumns; col++){
                 GridSquare gs = islandGrid[row][col];
-                gs.getTerrain().render(g, col, row);
+                
+                //only the render the visible gridsquare
+                if(gs.isVisible()){
+                    //render the terrain
+                    gs.getTerrain().render(g, col, row);
+                    //render the occupants
+                    for(Occupant o : gs.getOccupants()){
+                        if(o instanceof Fauna){
+                            ((Fauna) o).render(g);//render the fauna
+                        }
+                    }
+                }
             }
         }
     }

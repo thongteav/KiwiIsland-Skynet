@@ -93,7 +93,7 @@ public class KiwiIslandUI implements ActionListener {
                 e.printStackTrace();
             }
             setPreferredSize(new Dimension(width, height));
-            setBackground(Color.green);
+            setBackground(Color.white);
         }
 
         public void paintComponent(Graphics g) {
