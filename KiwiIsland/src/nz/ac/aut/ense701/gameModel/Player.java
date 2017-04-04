@@ -53,7 +53,7 @@ public class Player
      * @param g a graphic object use to draw the character
      */
     public void render(Graphics g){
-        g.drawImage(Assets.player_down[0], position.getColumn(), position.getRow(), 64, 64, null);
+        g.drawImage(Assets.player_down[0], position.getColumn() * 64, position.getRow() * 64, 64, 64, null);
     }
     
     /*****************************************************************************************************

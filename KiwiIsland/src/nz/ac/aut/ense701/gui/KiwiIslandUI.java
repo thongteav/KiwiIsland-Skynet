@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import nz.ac.aut.ense701.gameModel.Assets;
+import nz.ac.aut.ense701.gameModel.Game;
+import nz.ac.aut.ense701.gameModel.GameEventListener;
 import nz.ac.aut.ense701.gameModel.Island;
 import nz.ac.aut.ense701.gameModel.Player;
 import nz.ac.aut.ense701.gameModel.Position;
@@ -26,9 +28,10 @@ import nz.ac.aut.ense701.gameModel.Position;
  * @author Thong
  */
 public class KiwiIslandUI extends JPanel implements ActionListener{
+    
     private DrawingCanvas canvas;
     private Timer timer;
-    private Player player;
+    private Game game;
     
     public KiwiIslandUI() {
         super();        
@@ -40,8 +43,7 @@ public class KiwiIslandUI extends JPanel implements ActionListener{
         }
         
         Assets.init();
-        player = new Player(new Position(new Island(30, 30), 0, 0), "Dave", 100.0, 10.0, 5.0);
-        
+        game = new Game();
         canvas = new DrawingCanvas();
         add(canvas);
         
@@ -53,13 +55,14 @@ public class KiwiIslandUI extends JPanel implements ActionListener{
         
     }
     
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == timer){
             canvas.repaint();
         }
     }
-    
+   
     private class DrawingCanvas extends JPanel{
         private int width, height;
         
@@ -75,7 +78,7 @@ public class KiwiIslandUI extends JPanel implements ActionListener{
         public void paintComponent(Graphics g){
             super.paintComponent(g);
             
-            player.render(g);
+            game.render(g);
         }
     }
     

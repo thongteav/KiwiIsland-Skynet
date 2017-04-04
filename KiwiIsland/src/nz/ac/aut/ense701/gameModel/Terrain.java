@@ -1,5 +1,8 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
 /**
  * Enumeration class Terrain - represents terrain types on Kiwi Island.
  * 
@@ -11,14 +14,15 @@ package nz.ac.aut.ense701.gameModel;
  */
 public enum Terrain
 {
-    SAND(".", 1.0),
-    FOREST("*", 2.0),
-    WETLAND ("#", 2.5),
-    SCRUB("^", 3.0),
-    WATER("~", 4.0);
+    SAND(".", 1.0, Assets.sand),
+    FOREST("*", 2.0, Assets.forest),
+    WETLAND ("#", 2.5, Assets.wetland),
+    SCRUB("^", 3.0, Assets.scrub),
+    WATER("~", 4.0, Assets.water);
     
     private final double difficulty;
     private final String stringRep;
+    private BufferedImage texture;
     
     /**
      * Creates a new terrain with a given difficulty 
@@ -26,10 +30,11 @@ public enum Terrain
      * @param stringRep the string representation of the terrain.
      * @param difficulty the difficulty of the terrain
      */
-    private Terrain(String stringRep, double difficulty)
+    private Terrain(String stringRep, double difficulty, BufferedImage texture)
     {
         this.stringRep  = stringRep;
         this.difficulty = difficulty;
+        this.texture = texture;
     }
     
     /**
@@ -50,6 +55,14 @@ public enum Terrain
         return stringRep;
     }
     
+    public BufferedImage getTexture(){
+        return texture;
+    }
+    
+    public void render(Graphics g, int x, int y){
+        g.drawImage(texture, x * 64, y * 64, 64, 64, null);
+    }
+    
     /**
      * Returns a terrain object from the terrain string representation.
      * @param terrainString the string to compare
@@ -68,6 +81,5 @@ public enum Terrain
         }
         return terrain;
     }
-    
 }
 
