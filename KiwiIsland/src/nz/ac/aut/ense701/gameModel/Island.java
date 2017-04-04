@@ -1,5 +1,7 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.Graphics;
+
 /**
  * A class to represent an island in the world on which the game is played.
  * @author AS
@@ -318,6 +320,26 @@ public class Island
             System.out.println(rowTerrain);
         }
         System.out.println(horizontalLine);
+    }
+    
+    public void render(Graphics g){
+        for(int row = 0; row < this.numRows; row++){
+            for(int col = 0; col < this.numColumns; col++){
+                GridSquare gs = islandGrid[row][col];
+                
+                //only the render the visible gridsquare
+                if(gs.isVisible()){
+                    //render the terrain
+                    gs.getTerrain().render(g, col, row);
+                    //render the occupants
+                    for(Occupant o : gs.getOccupants()){
+                        if(o instanceof Fauna){
+                            ((Fauna) o).render(g);//render the fauna
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /*****************************************************************************************************************************

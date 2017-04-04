@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -56,18 +57,27 @@ public class Game
         loseMessage = "";
         playerMessage = "";
         notifyGameEventListeners();
+        keyManager = new KeyManager();
     }
 
     /***********************************************************************************************************************
      * Accessor methods for game data
     ************************************************************************************************************************/
-    
+    /**
+     * Get the key manager
+     * 
+     * @return 
+     */
+    public KeyManager getKeyManager()    
+    {
+        return keyManager;
+    }
+
     /**
      * Get number of rows on island
      * @return number of rows.
      */
-    public int getNumRows()
-    {
+    public int getNumRows() {
         return island.getNumRows();
     }
     
@@ -517,7 +527,15 @@ public class Game
         return successfulMove;
     }
     
-    
+    /**
+     * Draw the island and the player onto the canvas
+     * 
+     * @param g 
+     */
+    public void render(Graphics g){
+        island.render(g);
+        player.render(g);
+    }
     
     /**
      * Adds a game event listener.
@@ -549,7 +567,7 @@ public class Game
      */
     private void updateGameState()
     {
-         String message = "";
+        String message = "";
         if ( !player.isAlive() )
         {
             state = GameState.LOST;
@@ -854,7 +872,7 @@ public class Game
     private String winMessage = "";
     private String loseMessage  = "";
     private String playerMessage  = "";   
-
+    private KeyManager keyManager;
     
 
 
