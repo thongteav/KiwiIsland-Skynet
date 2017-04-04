@@ -104,12 +104,6 @@ public class KiwiIslandUI implements ActionListener {
     }
 
     public static void main(String[] args) {
-//        JFrame frame = new JFrame("Kiwi Island");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.getContentPane().add(new KiwiIslandUI());
-//        frame.pack();
-//        frame.setVisible(true);
-//        frame.setLocationRelativeTo(null);
         new KiwiIslandUI();
     }
 }
