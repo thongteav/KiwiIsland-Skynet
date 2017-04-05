@@ -10,7 +10,7 @@ import java.awt.event.KeyListener;
 
 /**
  *
- * @author Thong
+ * @author Thong,Harindu
  */
 public class KeyManager implements KeyListener{
     private boolean[] keys, justPressed, cantPress;
