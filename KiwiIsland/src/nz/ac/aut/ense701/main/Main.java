@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.main;
 
+import javax.swing.SwingUtilities;
 import nz.ac.aut.ense701.gui.KiwiIslandUI;
 
 
@@ -34,11 +35,13 @@ public class Main {
                 gui.setVisible(true);
             }
         });*/
-        
-        
-        KiwiIslandUI kiwi =new KiwiIslandUI();
+       
+                //new KiwiIslandUI().Mainmenu();
+           
+             // Mainmenu menu=new Mainmenu();
+        KiwiIslandUI kiwi = new KiwiIslandUI();
         kiwi.Mainmenu();
-        
+
     }
 
 }

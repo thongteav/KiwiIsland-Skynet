@@ -8,19 +8,16 @@ package nz.ac.aut.ense701.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -36,9 +33,11 @@ public class KiwiIslandUI implements ActionListener {
 
     private JFrame frame;
     private DrawingCanvas canvas;
+
     private Timer timer;
     private Game game;
     private UIState state = UIState.Mainmenu;
+    private Backgroundpanel panel = new Backgroundpanel();
 
     Toolkit kit = Toolkit.getDefaultToolkit();
     Dimension screenSize = kit.getScreenSize();
@@ -46,8 +45,6 @@ public class KiwiIslandUI implements ActionListener {
     int height = screenSize.height * 4 / 5;
 
     public KiwiIslandUI() {
-
-       
 
     }
 
@@ -62,11 +59,22 @@ public class KiwiIslandUI implements ActionListener {
         frame.requestFocus();
 
         frame.setSize(width, height);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         canvas = new DrawingCanvas(width, height);
         frame.add(canvas);
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (JOptionPane.showConfirmDialog(frame,
+                        "Are you sure to exit the game? progress will be lost", "Exit Game?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
         frame.pack();
         frame.addKeyListener(game.getKeyManager());
 
@@ -77,43 +85,86 @@ public class KiwiIslandUI implements ActionListener {
 
     public final void Mainmenu() {
         frame = new JFrame("Kiwi Island");
-        try {
 
-            JPanel panel = new JPanel() {
+        frame.setPreferredSize(
+                new Dimension(width, height));
 
-                private Image backgroundImage = ImageIO.read(new File("res/background.jpg"));
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
 
-                public void paint(Graphics g) {
-                    super.paint(g);
-                     g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
-                }
-            };
-            frame.setPreferredSize(new Dimension(width, height));
+        panel.setSize(width, height);
+        JButton button = new JButton("new game");
+        JButton button2 = new JButton("Settings");
+        JButton button3 = new JButton("Exitgame");
 
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-            
-            panel.setSize(width, height);
-            JButton button = new JButton("new game");
-            
+        JLabel title = new JLabel("Kiwi Island");
 
-            button.addActionListener(new ActionListener() {
+        title.setFont(new Font("Serif", Font.BOLD, 36));
+        title.setForeground(Color.WHITE);
 
-                @Override
-                public void actionPerformed(ActionEvent e) {
-
-                    state = UIState.Game;
-                    game(frame);
-                }
-            });
-
-            panel.add(button);
-            frame.add(panel);
-            frame.pack();
-            frame.setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(KiwiIslandUI.class.getName()).log(Level.SEVERE, null, ex);
+        button.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e
+            ) {
+                frame.remove(panel);
+                state = UIState.Game;
+                game(frame);
+            }
         }
+        );
+
+        button3.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e
+            ) {
+                System.exit(0);
+            }
+        }
+        );
+
+        //JLabel background1 = new JLabel(new ImageIcon("res/background.jpg"));
+        panel.setLayout(
+                null);
+
+        title.setBounds(
+                300, 30,
+                200,
+                100);
+
+        button.setBounds(width
+                / 2, 250,
+                200,
+                75);
+        button2.setBounds(width
+                / 2, 350,
+                200,
+                75);
+        button3.setBounds(width
+                / 2, 450,
+                200,
+                75);
+
+        title.setText(
+                "Kiwi Island");
+
+        panel.add(title);
+
+        panel.add(button);
+
+        panel.add(button2);
+
+        panel.add(button3);
+
+        //frame.add(background1);
+        frame.add(panel);
+
+        frame.pack();
+        frame.repaint();
+
+        frame.setVisible(
+                true);
     }
 
     public UIState getuistate() {
@@ -159,9 +210,10 @@ public class KiwiIslandUI implements ActionListener {
             setBackground(Color.BLACK);
         }
 
+        @Override
         public void paintComponent(Graphics g) {
-            super.paintComponent(g);
 
+            super.paintComponent(g);
             game.render(g);
         }
     }
