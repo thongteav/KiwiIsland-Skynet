@@ -9,19 +9,21 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.UIManager;
-import javax.swing.WindowConstants;
-import javax.swing.plaf.ComponentUI;
 import nz.ac.aut.ense701.gameModel.Assets;
 import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.MoveDirection;
@@ -32,83 +34,93 @@ import nz.ac.aut.ense701.gameModel.MoveDirection;
  */
 public class KiwiIslandUI implements ActionListener {
 
-    private enum UIState {
-        Mainmenu, Game
-    };
-
     private JFrame frame;
     private DrawingCanvas canvas;
     private Timer timer;
     private Game game;
+    private UIState state = UIState.Mainmenu;
 
-    Mainmenu main = new Mainmenu();
-    UIState state = UIState.Game;
-    JPanel pannel = new JPanel();
-    JButton okButton = new JButton("OK");
-
-    int width = 0;
-    int height = 0;
+    Toolkit kit = Toolkit.getDefaultToolkit();
+    Dimension screenSize = kit.getScreenSize();
+    int width = screenSize.width * 4 / 5;
+    int height = screenSize.height * 4 / 5;
 
     public KiwiIslandUI() {
+
+       
+
+    }
+
+    private void game(JFrame jframe) {
         Assets.init();
 
-        frame = new JFrame("Kiwi Island");
-        Toolkit kit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = kit.getScreenSize();
-        width = screenSize.width * 4 / 5;
-        height = screenSize.height * 4 / 5;
+        game = new Game();
+
+        frame.repaint();
+        frame = jframe;
+
+        frame.requestFocus();
+
         frame.setSize(width, height);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        pannel.add(okButton);
-        okButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                state = UIState.Game;
-                game = new Game();
-                frame.remove(pannel);
-
-                canvas = new DrawingCanvas(width, height);
-                frame.add(canvas);
-
-                frame.setVisible(true);
-
-                frame.pack();
-                frame.addKeyListener(game.getKeyManager());
-                timer = new Timer(20, this);
-                timer.start();
-
-            }
-        });
-        frame.add(pannel);
-
-        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent ev) {
-                //frame.dispose();
-                System.out.println("works");
-                if (state == UIState.Mainmenu) {
-                    System.exit(0);
-                } else {
-                    state = UIState.Mainmenu;
-
-                    frame.remove(canvas);
-                    frame.repaint();
-                    pannel.add(okButton);
-                    frame.add(pannel);
-                    frame.pack();
-                    timer.stop();
-                }
-            }
-        });
-        frame.setVisible(true);
-
+        canvas = new DrawingCanvas(width, height);
+        frame.add(canvas);
         frame.pack();
+        frame.addKeyListener(game.getKeyManager());
+
+        timer = new Timer(20, this);
+        timer.start();
 
     }
 
-    public void update() {
+    public final void Mainmenu() {
+        frame = new JFrame("Kiwi Island");
+        try {
 
+            JPanel panel = new JPanel() {
+
+                private Image backgroundImage = ImageIO.read(new File("res/background.jpg"));
+
+                public void paint(Graphics g) {
+                    super.paint(g);
+                     g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
+                }
+            };
+            frame.setPreferredSize(new Dimension(width, height));
+
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            
+            panel.setSize(width, height);
+            JButton button = new JButton("new game");
+            
+
+            button.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    state = UIState.Game;
+                    game(frame);
+                }
+            });
+
+            panel.add(button);
+            frame.add(panel);
+            frame.pack();
+            frame.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(KiwiIslandUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public UIState getuistate() {
+        return state;
+    }
+
+    public void update() {
         game.getKeyManager().update();
 
         if (game.getKeyManager().keyJustPressed(KeyEvent.VK_W)) {
@@ -130,7 +142,6 @@ public class KiwiIslandUI implements ActionListener {
         if (e.getSource() == timer) {
             update();
             canvas.repaint();
-
         }
     }
 
@@ -145,23 +156,13 @@ public class KiwiIslandUI implements ActionListener {
                 e.printStackTrace();
             }
             setPreferredSize(new Dimension(width, height));
-            setBackground(Color.white);
-        }
-
-        public void setUI(ComponentUI newUI) {
-            frame.removeAll();
-            JButton okButton = new JButton("OK");
-            super.add(okButton);
-
+            setBackground(Color.BLACK);
         }
 
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
 
-            if (state == UIState.Game) {
-                game.render(g);
-            }
-
+            game.render(g);
         }
     }
 

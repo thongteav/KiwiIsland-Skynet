@@ -1,10 +1,9 @@
 package nz.ac.aut.ense701.main;
 
-import nz.ac.aut.ense701.gameModel.Game;
-
-import nz.ac.aut.ense701.gui.KiwiCountUI;
 import nz.ac.aut.ense701.gui.KiwiIslandUI;
 
+
+import static nz.ac.aut.ense701.gui.UIState.Mainmenu;
 
 /**
  * Kiwi Count Project
@@ -19,7 +18,6 @@ public class Main {
      *
      * @param args the command line arguments
      */
-    
     public static void main(String[] args) {
         // create the game object
 
@@ -36,9 +34,11 @@ public class Main {
                 gui.setVisible(true);
             }
         });*/
-        new KiwiIslandUI();
         
-
+        
+        KiwiIslandUI kiwi =new KiwiIslandUI();
+        kiwi.Mainmenu();
+        
     }
 
 }
