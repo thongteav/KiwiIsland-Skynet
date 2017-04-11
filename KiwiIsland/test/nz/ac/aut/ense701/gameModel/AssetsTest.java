@@ -20,7 +20,7 @@ public class AssetsTest {
     }
     
     /**
-     * Test of get the corresponding image by passing the name as a key in the Assets class
+     * Test of getting the corresponding image by passing the name as a key in the Assets class
      */
     @Test
     public void testGetImage(){

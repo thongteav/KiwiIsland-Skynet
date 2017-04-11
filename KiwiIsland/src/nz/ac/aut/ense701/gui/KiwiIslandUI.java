@@ -37,7 +37,7 @@ public class KiwiIslandUI implements ActionListener {
     private Timer timer;
     private Game game;
     private UIState state = UIState.Mainmenu;
-    private Backgroundpanel panel = new Backgroundpanel();
+    private Backgroundpanel backgroundPanel = new Backgroundpanel();
 
     Toolkit kit = Toolkit.getDefaultToolkit();
     Dimension screenSize = kit.getScreenSize();
@@ -90,7 +90,7 @@ public class KiwiIslandUI implements ActionListener {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        panel.setSize(width, height);
+        backgroundPanel.setSize(width, height);
         JButton button = new JButton("New Game");
         JButton button2 = new JButton("Load Game");
         JButton button3 = new JButton("High Score");
@@ -99,14 +99,14 @@ public class KiwiIslandUI implements ActionListener {
         JLabel title = new JLabel("Kiwi Island");
 
         title.setFont(new Font("Serif", Font.BOLD, 36));
-        title.setForeground(Color.WHITE);
+        title.setForeground(Color.BLACK);
 
         button.addActionListener(
                 new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e
             ) {
-                frame.remove(panel);
+                frame.remove(backgroundPanel);
                 state = UIState.Game;
                 game(frame);
             }
@@ -123,7 +123,7 @@ public class KiwiIslandUI implements ActionListener {
         }
         );
 
-        panel.setLayout(null);
+        backgroundPanel.setLayout(null);
 
         title.setBounds(
                 300, 30,
@@ -149,14 +149,14 @@ public class KiwiIslandUI implements ActionListener {
 
         title.setText("Kiwi Island");
 
-        panel.add(title);
-        panel.add(button);
-        panel.add(button2);
-        panel.add(button3);
-        panel.add(button4);
+        backgroundPanel.add(title);
+        backgroundPanel.add(button);
+        backgroundPanel.add(button2);
+        backgroundPanel.add(button3);
+        backgroundPanel.add(button4);
 
         //frame.add(background1);
-        frame.add(panel);
+        frame.add(backgroundPanel);
  
         frame.pack();
         frame.repaint();

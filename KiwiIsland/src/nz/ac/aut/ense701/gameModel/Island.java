@@ -328,7 +328,7 @@ public class Island
                 GridSquare gs = islandGrid[row][col];
                 
                 //only the render the visible gridsquare
-                if(gs.isVisible()){
+                if(gs.isVisible() || gs.isExplored()){
                     //render the terrain
                     gs.getTerrain().render(g, col, row);
                     //render the occupants
@@ -337,6 +337,9 @@ public class Island
                             ((Fauna) o).render(g);//render the fauna
                         }
                     }
+                } else {
+                    //render a rectangular box to indicate a grid square
+                    gs.getTerrain().renderGrid(g, col, row);
                 }
             }
         }

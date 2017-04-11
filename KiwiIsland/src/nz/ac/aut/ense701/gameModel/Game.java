@@ -532,7 +532,7 @@ public class Game
      * 
      * @param g 
      */
-    public void render(Graphics g){
+    public void render(Graphics g){        
         island.render(g);
         player.render(g);
     }

@@ -64,6 +64,10 @@ public enum Terrain
         g.drawImage(texture, x * 64, y * 64, 64, 64, null);
     }
     
+    public void renderGrid(Graphics g, int x, int y){
+        g.drawRect(x * 64, y * 64, 64, 64);
+    }
+    
     /**
      * Returns a terrain object from the terrain string representation.
      * @param terrainString the string to compare
