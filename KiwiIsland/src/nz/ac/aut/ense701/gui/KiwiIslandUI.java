@@ -158,7 +158,6 @@ public class KiwiIslandUI implements ActionListener {
         //frame.add(background1);
         frame.add(panel);
  
-        
         frame.pack();
         frame.repaint();
         frame.setLocationRelativeTo(null);
@@ -206,7 +205,7 @@ public class KiwiIslandUI implements ActionListener {
                 e.printStackTrace();
             }
             setPreferredSize(new Dimension(width, height));
-            setBackground(Color.BLACK);
+            setBackground(Color.WHITE);
         }
 
         @Override
