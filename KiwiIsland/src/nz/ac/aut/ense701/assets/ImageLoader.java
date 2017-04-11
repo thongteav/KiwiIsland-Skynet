@@ -3,21 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nz.ac.aut.ense701.gameModel;
+package nz.ac.aut.ense701.assets;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-/***************************************************************************************
-*    Title: New-Beginner-Java-Game-Programming-Src
-*    Author: CodeNMore
-*    Date: 2014
-*    Code version: 
-*    Availability: https://github.com/CodeNMore/New-Beginner-Java-Game-Programming-Src
-*
-***************************************************************************************/
+/**
+ *
+ * @author Thong
+ */
 public class ImageLoader {
     public static BufferedImage loadImage(String path){
         try {

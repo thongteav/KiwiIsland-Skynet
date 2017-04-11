@@ -14,7 +14,7 @@ public class FaunaTest {
     }
 
     /**
-     * Test of getStringRepresentation method, of class Fauna.
+     * Test of getStringRepresentation method of class Fauna.
      */
     @Test
     public void testGetStringRepresentation() {
