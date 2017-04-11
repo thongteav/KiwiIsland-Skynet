@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import nz.ac.aut.ense701.assets.Assets;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 

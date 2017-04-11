@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.UIManager;
-import nz.ac.aut.ense701.gameModel.Assets;
+import nz.ac.aut.ense701.assets.Assets;
 import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.MoveDirection;
 
@@ -50,16 +50,11 @@ public class KiwiIslandUI implements ActionListener {
 
     private void game(JFrame jframe) {
         Assets.init();
-
         game = new Game();
-
         frame.repaint();
         frame = jframe;
-
         frame.requestFocus();
-
         frame.setSize(width, height);
-
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         canvas = new DrawingCanvas(width, height);
@@ -83,6 +78,9 @@ public class KiwiIslandUI implements ActionListener {
 
     }
 
+    /**
+     * The Mainmenu method contains code for the main menu of the game.
+     */
     public final void Mainmenu() {
         frame = new JFrame("Kiwi Island");
 
@@ -93,9 +91,10 @@ public class KiwiIslandUI implements ActionListener {
         frame.setVisible(true);
 
         panel.setSize(width, height);
-        JButton button = new JButton("new game");
-        JButton button2 = new JButton("Settings");
-        JButton button3 = new JButton("Exitgame");
+        JButton button = new JButton("New Game");
+        JButton button2 = new JButton("Load Game");
+        JButton button3 = new JButton("High Score");
+        JButton button4 = new JButton("Exit Game");
 
         JLabel title = new JLabel("Kiwi Island");
 
@@ -114,7 +113,7 @@ public class KiwiIslandUI implements ActionListener {
         }
         );
 
-        button3.addActionListener(
+        button4.addActionListener(
                 new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e
@@ -124,9 +123,7 @@ public class KiwiIslandUI implements ActionListener {
         }
         );
 
-        //JLabel background1 = new JLabel(new ImageIcon("res/background.jpg"));
-        panel.setLayout(
-                null);
+        panel.setLayout(null);
 
         title.setBounds(
                 300, 30,
@@ -136,35 +133,37 @@ public class KiwiIslandUI implements ActionListener {
         button.setBounds(width
                 / 2, 250,
                 200,
-                75);
+                60);
         button2.setBounds(width
-                / 2, 350,
+                / 2, 325,
                 200,
-                75);
+                60);
         button3.setBounds(width
-                / 2, 450,
+                / 2, 400,
                 200,
-                75);
+                60);
+        button4.setBounds(width
+                / 2, 475,
+                200,
+                60);
 
-        title.setText(
-                "Kiwi Island");
+        title.setText("Kiwi Island");
 
         panel.add(title);
-
         panel.add(button);
-
         panel.add(button2);
-
         panel.add(button3);
+        panel.add(button4);
 
         //frame.add(background1);
         frame.add(panel);
-
+ 
+        
         frame.pack();
         frame.repaint();
-
-        frame.setVisible(
-                true);
+        frame.setLocationRelativeTo(null);
+        frame.revalidate();
+        frame.setVisible(true);
     }
 
     public UIState getuistate() {
