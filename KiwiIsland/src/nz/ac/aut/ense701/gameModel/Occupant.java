@@ -1,5 +1,7 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.Graphics;
+
 /**
  * Abstract base class for occupants that inhabit Kiwi Island.
  * 
@@ -85,5 +87,5 @@ public abstract class Occupant
      */
     public abstract String getStringRepresentation();
 
-
+    public abstract void render(Graphics g);
 }

@@ -1,5 +1,8 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.Graphics;
+import nz.ac.aut.ense701.assets.Assets;
+
 /**
  * Predator represents a predator on the island.
  * If more specific behaviour is required for particular predators, descendants 
@@ -29,4 +32,8 @@ public class Predator extends Fauna
     {
         return "P";
     }    
+    
+    public void render(Graphics g){
+        g.drawImage(Assets.predatorMap.get(this.getName()), this.getPosition().getColumn() * GridSquare.width, this.getPosition().getRow() * GridSquare.height, GridSquare.width, GridSquare.height, null);
+    }
 }

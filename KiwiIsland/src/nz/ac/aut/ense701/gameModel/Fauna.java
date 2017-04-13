@@ -29,7 +29,7 @@ public class Fauna extends Occupant
     } 
     
     public void render(Graphics g){
-        g.drawImage(Assets.faunaMap.get(this.getName()), this.getPosition().getColumn() * 64, this.getPosition().getRow() * 64, 64, 64, null);
+        g.drawImage(Assets.faunaMap.get(this.getName()), this.getPosition().getColumn() * GridSquare.width, this.getPosition().getRow() * GridSquare.height, GridSquare.width, GridSquare.height, null);
     }
 
 

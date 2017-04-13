@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Set;
+import nz.ac.aut.ense701.gui.KiwiIslandUI;
 
 /**
  * This is the class that knows the Kiwi Island game rules and state
@@ -58,6 +59,9 @@ public class Game
         playerMessage = "";
         notifyGameEventListeners();
         keyManager = new KeyManager();
+        
+        GridSquare.width = KiwiIslandUI.height / island.getNumColumns() - 10;
+        GridSquare.height = KiwiIslandUI.height / island.getNumRows() - 10;
     }
 
     /***********************************************************************************************************************
