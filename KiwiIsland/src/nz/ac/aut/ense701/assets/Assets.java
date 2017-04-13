@@ -16,7 +16,10 @@ public class Assets {
     public static BufferedImage player_down, player_up, player_left, player_right;
     public static BufferedImage sand, forest, wetland, scrub, water;
     public static BufferedImage kiwi, tui, crab, fernbird, heron, oystercatcher, robin;
-    public static HashMap<String, BufferedImage> faunaMap;
+    public static BufferedImage sandwich, muesliBar, apple, orangeJuice;
+    public static BufferedImage trap, screwdriver;
+    public static BufferedImage rat, cat, kiore, stoat, possum;
+    public static HashMap<String, BufferedImage> faunaMap, foodMap, predatorMap, toolMap;
     
     public static int player_width = 180, player_height = 269;
     public static int tile_size = 32;
@@ -51,5 +54,35 @@ public class Assets {
         faunaMap.put("Heron", heron);
         faunaMap.put("Oystercatcher", oystercatcher);
         faunaMap.put("Robin", robin);
+        
+        sandwich = ImageLoader.loadImage("res/food/sandwich.png");
+        muesliBar = ImageLoader.loadImage("res/food/muesli bar.png");
+        apple = ImageLoader.loadImage("res/food/apple.png");
+        orangeJuice = ImageLoader.loadImage("res/food/orange juice.png");
+        
+        foodMap = new HashMap<String, BufferedImage>();
+        foodMap.put("Sandwich", sandwich);
+        foodMap.put("Muesli Bar", muesliBar);
+        foodMap.put("Apple", apple);
+        foodMap.put("Orange Juice", orangeJuice);
+        
+        rat = ImageLoader.loadImage("res/predators/rat.png");
+        cat = ImageLoader.loadImage("res/predators/cat.png");
+        kiore = ImageLoader.loadImage("res/predators/kiore.png");
+        stoat = ImageLoader.loadImage("res/predators/stoat.png");
+        possum = ImageLoader.loadImage("res/predators/possum.png");
+        
+        predatorMap = new HashMap<String, BufferedImage>();
+        predatorMap.put("Rat", rat);
+        predatorMap.put("Cat", cat);
+        predatorMap.put("Kiore", kiore);
+        predatorMap.put("Stoat", stoat);
+        predatorMap.put("Possum", possum);
+                
+        trap = ImageLoader.loadImage("res/tools/trap.png");
+        screwdriver = ImageLoader.loadImage("res/tools/screwdriver.png");
+        toolMap = new HashMap<String, BufferedImage>();
+        toolMap.put("Trap", trap);
+        toolMap.put("Screwdriver", screwdriver);
     }
 }

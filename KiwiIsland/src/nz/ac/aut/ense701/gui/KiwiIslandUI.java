@@ -23,13 +23,15 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import nz.ac.aut.ense701.assets.Assets;
 import nz.ac.aut.ense701.gameModel.Game;
+import nz.ac.aut.ense701.gameModel.GameEventListener;
+import nz.ac.aut.ense701.gameModel.GameState;
 import nz.ac.aut.ense701.gameModel.MoveDirection;
 
 /**
  *
  * @author Thong,Harindu
  */
-public class KiwiIslandUI implements ActionListener {
+public class KiwiIslandUI implements ActionListener, GameEventListener{
 
     private JFrame frame;
     private DrawingCanvas canvas;
@@ -39,25 +41,25 @@ public class KiwiIslandUI implements ActionListener {
     private UIState state = UIState.Mainmenu;
     private Backgroundpanel backgroundPanel = new Backgroundpanel();
 
-    Toolkit kit = Toolkit.getDefaultToolkit();
-    Dimension screenSize = kit.getScreenSize();
-    int width = screenSize.width * 4 / 5;
-    int height = screenSize.height * 4 / 5;
-
+    public static int width, height;
+    
     public KiwiIslandUI() {
-
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = kit.getScreenSize();
+        width = screenSize.width * 4 / 5;
+        height = screenSize.height * 4 / 5;
     }
 
     private void game(JFrame jframe) {
         Assets.init();
-        game = new Game();
+        game = new Game();        
         frame.repaint();
         frame = jframe;
         frame.requestFocus();
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        canvas = new DrawingCanvas(width, height);
+        canvas = new DrawingCanvas(height, height);
         frame.add(canvas);
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -72,10 +74,10 @@ public class KiwiIslandUI implements ActionListener {
         });
         frame.pack();
         frame.addKeyListener(game.getKeyManager());
-
+    
         timer = new Timer(20, this);
         timer.start();
-
+        
     }
 
     /**
@@ -184,13 +186,47 @@ public class KiwiIslandUI implements ActionListener {
         if (game.getKeyManager().keyJustPressed(KeyEvent.VK_D)) {
             game.playerMove(MoveDirection.EAST);
         }
+        
+        canvas.repaint();
+        gameStateChanged();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == timer) {
-            update();
-            canvas.repaint();
+            update();            
+        }
+    }
+
+    @Override
+    public void gameStateChanged() {
+        // check for "game over" or "game won"
+        if ( game.getState() == GameState.LOST )
+        {
+            JOptionPane.showMessageDialog(
+                    frame, 
+                    game.getLoseMessage(), "Game over!",
+                    JOptionPane.INFORMATION_MESSAGE);
+            game.createNewGame();
+            timer = new Timer(20, this);
+            timer.start();
+        }
+        else if ( game.getState() == GameState.WON )
+        {
+            JOptionPane.showMessageDialog(
+                    frame, 
+                    game.getWinMessage(), "Well Done!",
+                    JOptionPane.INFORMATION_MESSAGE);
+            game.createNewGame();
+            timer = new Timer(20, this);
+            timer.start();
+        }
+        else if (game.messageForPlayer())
+        {
+            JOptionPane.showMessageDialog(
+                    frame, 
+                    game.getPlayerMessage(), "Important Information",
+                    JOptionPane.INFORMATION_MESSAGE);   
         }
     }
 
