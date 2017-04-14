@@ -93,17 +93,17 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         frame.setVisible(true);
 
         backgroundPanel.setSize(width, height);
-        JButton button = new JButton("New Game");
-        JButton button2 = new JButton("Load Game");
-        JButton button3 = new JButton("High Score");
-        JButton button4 = new JButton("Exit Game");
+        JButton newGameButton = new JButton("New Game");
+        JButton loadGameButton = new JButton("Load Game");
+        JButton highscoreButton = new JButton("High Score");
+        JButton exitButton = new JButton("Exit Game");
 
         JLabel title = new JLabel("Kiwi Island");
 
         title.setFont(new Font("Serif", Font.BOLD, 36));
         title.setForeground(Color.BLACK);
 
-        button.addActionListener(
+        newGameButton.addActionListener(
                 new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e
@@ -115,7 +115,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         }
         );
 
-        button4.addActionListener(
+        exitButton.addActionListener(
                 new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e
@@ -131,20 +131,20 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
                 300, 30,
                 200,
                 100);
-
-        button.setBounds(width
+        
+        newGameButton.setBounds(width
                 / 2, 250,
                 200,
                 60);
-        button2.setBounds(width
+        loadGameButton.setBounds(width
                 / 2, 325,
                 200,
                 60);
-        button3.setBounds(width
+        highscoreButton.setBounds(width
                 / 2, 400,
                 200,
                 60);
-        button4.setBounds(width
+        exitButton.setBounds(width
                 / 2, 475,
                 200,
                 60);
@@ -152,10 +152,10 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         title.setText("Kiwi Island");
 
         backgroundPanel.add(title);
-        backgroundPanel.add(button);
-        backgroundPanel.add(button2);
-        backgroundPanel.add(button3);
-        backgroundPanel.add(button4);
+        backgroundPanel.add(newGameButton);
+        backgroundPanel.add(loadGameButton);
+        backgroundPanel.add(highscoreButton);
+        backgroundPanel.add(exitButton);
 
         //frame.add(background1);
         frame.add(backgroundPanel);
@@ -208,8 +208,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
                     game.getLoseMessage(), "Game over!",
                     JOptionPane.INFORMATION_MESSAGE);
             game.createNewGame();
-            timer = new Timer(20, this);
-            timer.start();
+            frame.addKeyListener(game.getKeyManager());
         }
         else if ( game.getState() == GameState.WON )
         {
@@ -218,8 +217,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
                     game.getWinMessage(), "Well Done!",
                     JOptionPane.INFORMATION_MESSAGE);
             game.createNewGame();
-            timer = new Timer(20, this);
-            timer.start();
+            frame.addKeyListener(game.getKeyManager());
         }
         else if (game.messageForPlayer())
         {
