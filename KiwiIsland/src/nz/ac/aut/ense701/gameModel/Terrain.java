@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import nz.ac.aut.ense701.assets.Assets;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -60,7 +61,11 @@ public enum Terrain
     }
     
     public void render(Graphics g, int x, int y){
-        g.drawImage(texture, x * 64, y * 64, 64, 64, null);
+        g.drawImage(texture, x * GridSquare.width, y * GridSquare.height, GridSquare.width, GridSquare.height, null);
+    }
+    
+    public void renderGrid(Graphics g, int x, int y){
+        g.drawRect(x * GridSquare.width, y * GridSquare.height, GridSquare.width, GridSquare.height);
     }
     
     /**

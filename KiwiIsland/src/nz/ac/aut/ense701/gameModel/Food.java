@@ -1,5 +1,8 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.Graphics;
+import nz.ac.aut.ense701.assets.Assets;
+
 /**
  * This class represents food that can be found on the island
  * and supplies energy when being consumed (used) by the player.
@@ -45,5 +48,7 @@ public class Food extends Item
         return "E";
     }
     
-    //george
+    public void render(Graphics g){
+        g.drawImage(Assets.foodMap.get(this.getName()), this.getPosition().getColumn() * GridSquare.width, this.getPosition().getRow() * GridSquare.height, GridSquare.width, GridSquare.height, null);
+    }
 }

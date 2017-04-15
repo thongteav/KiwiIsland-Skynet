@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import nz.ac.aut.ense701.assets.Assets;
 import java.awt.Graphics;
 import java.util.Collection;
 import java.util.Collections;
@@ -53,7 +54,7 @@ public class Player
      * @param g a graphic object use to draw the character
      */
     public void render(Graphics g){
-        g.drawImage(Assets.player_down, position.getColumn() * 64, position.getRow() * 64, 64, 64, null);
+        g.drawImage(Assets.player_down, position.getColumn() * GridSquare.width, position.getRow() * GridSquare.height, GridSquare.width, GridSquare.height, null);
     }
     
     /*****************************************************************************************************
