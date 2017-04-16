@@ -442,6 +442,7 @@ public class GameTest extends junit.framework.TestCase
         game.useItem(trap);
         //Predator 2
         if(moveOK){
+            moveOK = playerMoveEast(1);
             moveOK = playerMoveWest(1);
         }
         if(moveOK){

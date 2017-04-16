@@ -74,7 +74,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                     System.exit(0);
-                }
+                } 
             }
         });
         
