@@ -64,7 +64,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         frame = new JFrame("Kiwi Island");
         frame.setPreferredSize(new Dimension(width, height));
         frame.setVisible(true);       
-        
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         //addd a listener to close the application
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
