@@ -1,6 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
-import nz.ac.aut.ense701.assets.Assets;
+import nz.ac.aut.ense701.gui.Assets;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
