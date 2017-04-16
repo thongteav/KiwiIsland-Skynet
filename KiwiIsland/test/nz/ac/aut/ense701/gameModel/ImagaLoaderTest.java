@@ -5,7 +5,7 @@
  */
 package nz.ac.aut.ense701.gameModel;
 
-import nz.ac.aut.ense701.assets.ImageLoader;
+import nz.ac.aut.ense701.gui.ImageLoader;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

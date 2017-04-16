@@ -1,6 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
-import nz.ac.aut.ense701.assets.Assets;
+import nz.ac.aut.ense701.gui.Assets;
 import java.awt.Graphics;
 import java.util.Collection;
 import java.util.Collections;

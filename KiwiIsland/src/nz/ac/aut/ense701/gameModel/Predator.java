@@ -1,7 +1,7 @@
 package nz.ac.aut.ense701.gameModel;
 
 import java.awt.Graphics;
-import nz.ac.aut.ense701.assets.Assets;
+import nz.ac.aut.ense701.gui.Assets;
 
 /**
  * Predator represents a predator on the island.
