@@ -16,7 +16,14 @@ import java.util.regex.Pattern;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+
+/**
+ * This class establishes the dialog boxes to enter name and checks input to ensure it is correct
+ * @author Harindu Tillekeratna
+ * @author David Balzer
+ * @author George Xu
+ * @author Thong Teav
+ **/
 
 class GetNameDialog extends JDialog implements ActionListener, PropertyChangeListener {
 
@@ -124,8 +131,8 @@ class GetNameDialog extends JDialog implements ActionListener, PropertyChangeLis
                     textField.selectAll();
                     JOptionPane.showMessageDialog(this,
                             "Sorry, \"" + typedText + "\" "
-                            + "isn't a valid response.\n"
-                            + "Only alphanumeric characters, underscores and spaces allowed.",
+                            + "isn't a valid name.\n"
+                            + "Only alphanumeric characters, underscores and spaces accepted.",
                             "Try again",
                             JOptionPane.ERROR_MESSAGE);
                     typedText = null;

@@ -37,10 +37,9 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
     private DrawingCanvas canvas;
     private JLabel titleLabel;
     private JButton newGameButton;
-    private JButton loadGameButton;
     private JButton highscoreButton;
     private JButton exitButton;
-    private Backgroundpanel backgroundPanel;
+    private BackgroundPanel backgroundPanel;
     
     private Timer timer;
     private Game game;    
@@ -106,7 +105,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
      */
     public void createMainMenuView() {
         //create the background panel
-        backgroundPanel = new Backgroundpanel();
+        backgroundPanel = new BackgroundPanel();
         backgroundPanel.setSize(width, height);
         backgroundPanel.setLayout(null);
         
@@ -142,6 +141,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
                     frame.setResizable(true);
                     createGameView(getName.getValidatedText());
                 }
+                getName.exit();
             }
         }
         );
