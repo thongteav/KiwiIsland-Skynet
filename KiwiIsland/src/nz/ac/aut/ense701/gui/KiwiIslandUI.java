@@ -33,6 +33,7 @@ import nz.ac.aut.ense701.gameModel.MoveDirection;
  * @author Thong,Harindu
  */
 public class KiwiIslandUI implements ActionListener, GameEventListener{
+    //variables-----------------------------------------------------------------
     private JFrame frame;
     private DrawingCanvas canvas;
     private JLabel titleLabel;
@@ -46,17 +47,25 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
     private Game game;    
 
     public static int width, height;
+    //--------------------------------------------------------------------------
     
+    //constructor---------------------------------------------------------------
+    /**
+     * Sets up the user interface and displays the main menu
+     */
     public KiwiIslandUI() {
+        //get the screen size
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         width = screenSize.width * 4 / 5;
         height = screenSize.height * 4 / 5;
         
+        //set up the frame
         frame = new JFrame("Kiwi Island");
         frame.setPreferredSize(new Dimension(width, height));
         frame.setVisible(true);       
         
+        //addd a listener to close the application
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -69,14 +78,18 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
             }
         });
         
-        mainMenu();
+        //create the main menu user interface
+        createMainMenuView();
     }
-
-    private void getGameView() {
-        Assets.init();
-        String name = JOptionPane.showInputDialog(frame,"Please enter your player name:","Player name",JOptionPane.PLAIN_MESSAGE);
-        game = new Game();
-        game.getPlayer().setName(name);
+    
+    /**
+     * Creates a game user interface.
+     */
+    private void createGameView() {
+        Assets.init();//initialize the assets
+        String name = JOptionPane.showInputDialog(frame,"Please enter your player name:","Player name",JOptionPane.PLAIN_MESSAGE);//get the player name
+        game = new Game();//create a game
+        game.getPlayer().setName(name);//set the player name
         frame.repaint();
         frame.requestFocus();
         
@@ -84,19 +97,22 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         frame.add(canvas);
         frame.pack();
         frame.addKeyListener(game.getKeyManager());
-    
+        
+        //initialized the timer to call repeatedly
         timer = new Timer(20, this);
         timer.start();
     }
 
     /**
-     * The mainMenu method contains code for the main menu of the game.
+     * This createMainMenuView method contains code for the main menu of the game.
      */
-    public void mainMenu() {
+    public void createMainMenuView() {
+        //create the background panel
         backgroundPanel = new Backgroundpanel();
         backgroundPanel.setSize(width, height);
         backgroundPanel.setLayout(null);
         
+        //create the buttons
         newGameButton = new JButton("New Game");
         loadGameButton = new JButton("Load Game");
         highscoreButton = new JButton("High Score");
@@ -105,37 +121,40 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         titleLabel.setFont(new Font("Serif", Font.BOLD, 36));
         titleLabel.setForeground(Color.WHITE);
         
+        //set the size and position of the components
         titleLabel.setBounds(width / 2 - 100, 30, 200,100);        
         newGameButton.setBounds(width / 2 - 100, 250, 200, 60);
         loadGameButton.setBounds(width / 2 - 100, 325, 200, 60);
         highscoreButton.setBounds(width / 2 - 100, 400, 200, 60);
         exitButton.setBounds(width / 2 - 100, 475, 200, 60);
 
+        //add the components to the panel
         backgroundPanel.add(titleLabel);
         backgroundPanel.add(newGameButton);
         backgroundPanel.add(loadGameButton);
         backgroundPanel.add(highscoreButton);
         backgroundPanel.add(exitButton);
 
+        //listen for button press for a new game
         newGameButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e
-            ) {
-                frame.remove(backgroundPanel);
-                getGameView();
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(backgroundPanel);//remove the background panel
+                createGameView();//create and display the game interface
             }
         }
         );
 
+        //listen for exit button press
         exitButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e
-            ) {
-                System.exit(0);
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);//terminate the application
             }
         }
         );
-
+        
+        //add the background panel to the frame
         frame.add(backgroundPanel); 
         frame.pack();
         frame.repaint();
@@ -143,37 +162,52 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         frame.setLocationRelativeTo(null);
     }
 
+    /**
+     * This method is called repeatedly to update different variables in the background
+     */
     public void update() {
-        game.getKeyManager().update();
+        game.getKeyManager().update();//update the key input
 
-        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_W)) {
+        //check if the player has pressed the keys representing the move direction and update the position of the player accordingly
+        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_W) || game.getKeyManager().keyJustPressed(KeyEvent.VK_UP)) {
             game.playerMove(MoveDirection.NORTH);
         }
-        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_S)) {
+        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_S) || game.getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)) {
             game.playerMove(MoveDirection.SOUTH);
         }
-        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_A)) {
+        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_A) || game.getKeyManager().keyJustPressed(KeyEvent.VK_LEFT)) {
             game.playerMove(MoveDirection.WEST);
         }
-        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_D)) {
+        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_D) || game.getKeyManager().keyJustPressed(KeyEvent.VK_RIGHT)) {
             game.playerMove(MoveDirection.EAST);
         }
         
+        //updates the size of each grid square dynamically from the size of the frame
         GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumColumns();
         GridSquare.height = GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumRows();
         
+        //repaint the canvas with the updated information
         canvas.repaint();
+        
+        //check the game state
         gameStateChanged();
     }
 
     @Override
+    /**
+     * Check for an action trigger.
+     */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == timer) {
+            //if the action is triggered by the timer, update the variables and GUI
             update();            
         }
     }
 
     @Override
+    /**
+     * Check if the game state has changed.
+     */
     public void gameStateChanged() {
         // check for "game over" or "game won"
         if ( game.getState() == GameState.LOST )
@@ -183,7 +217,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
                     game.getLoseMessage(), "Game over!",
                     JOptionPane.INFORMATION_MESSAGE);
             game.createNewGame();
-            frame.addKeyListener(game.getKeyManager());
+            frame.addKeyListener(game.getKeyManager());//add the listener again for the new game
         }
         else if ( game.getState() == GameState.WON )
         {
@@ -192,7 +226,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
                     game.getWinMessage(), "Well Done!",
                     JOptionPane.INFORMATION_MESSAGE);
             game.createNewGame();
-            frame.addKeyListener(game.getKeyManager());
+            frame.addKeyListener(game.getKeyManager());//add the listener for the name game
         }
         else if (game.messageForPlayer())
         {
@@ -203,8 +237,16 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         }
     }
 
+    /**
+     * This is a private class to draw all the objects existed in the game class into the screen.
+     */
     private class DrawingCanvas extends JPanel {
-
+        /**
+         * Constructor to set up the panel.
+         * 
+         * @param width the specified width for the drawing canvas
+         * @param height the specified height for the drawing canvas
+         */
         public DrawingCanvas(int width, int height) {
             super();
             setLayout(new BorderLayout());
@@ -219,9 +261,8 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
 
         @Override
         public void paintComponent(Graphics g) {
-
             super.paintComponent(g);
-            game.render(g);
+            game.render(g);//render the game and the objects it contains
         }
     }
 }

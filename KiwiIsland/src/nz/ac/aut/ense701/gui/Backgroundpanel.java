@@ -27,6 +27,9 @@ public class Backgroundpanel extends JPanel {
     }
 
     @Override
+    /**
+     * Draw the background image onto the panel
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(ImageLoader.loadImage("res/background.jpg"), 0, 0, getWidth(), getHeight(), null);
