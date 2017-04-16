@@ -43,7 +43,7 @@ public class Game
     
     /**
      * Starts a new game.
-     * At this stage data is being read from a text file
+     * At this stage data is being read from a text file.
      */
     public void createNewGame()
     {
@@ -59,9 +59,6 @@ public class Game
         playerMessage = "";
         notifyGameEventListeners();
         keyManager = new KeyManager();
-        
-        GridSquare.width = KiwiIslandUI.height / island.getNumColumns() - 10;
-        GridSquare.height = KiwiIslandUI.height / island.getNumRows() - 10;
     }
 
     /***********************************************************************************************************************
@@ -70,7 +67,7 @@ public class Game
     /**
      * Get the key manager
      * 
-     * @return 
+     * @return key manager
      */
     public KeyManager getKeyManager()    
     {
@@ -534,7 +531,7 @@ public class Game
     /**
      * Draw the island and the player onto the canvas
      * 
-     * @param g 
+     * @param g a graphics object used to draw objects
      */
     public void render(Graphics g){        
         island.render(g);

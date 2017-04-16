@@ -63,6 +63,7 @@ public class Hazard extends Occupant {
 
     @Override
     public void render(Graphics g) {
+        //won't be rendering the hazard to keep it as a surprise element
     }
 
 

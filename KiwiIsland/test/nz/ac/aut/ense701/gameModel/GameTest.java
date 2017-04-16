@@ -438,7 +438,7 @@ public class GameTest extends junit.framework.TestCase
         
         //Now player needs to trap all predators
         //Predator 1
-        boolean moveOK = playerMoveEast(5);
+        boolean moveOK = playerMoveEast(4);
         game.useItem(trap);
         //Predator 2
         if(moveOK){

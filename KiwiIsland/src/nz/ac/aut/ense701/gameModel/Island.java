@@ -322,17 +322,23 @@ public class Island
         System.out.println(horizontalLine);
     }
     
+    /**
+     * Rendering the island with the terrains and the occupants.
+     * 
+     * @param g a Graphics object used to draw the image
+     */
     public void render(Graphics g){
         for(int row = 0; row < this.numRows; row++){
             for(int col = 0; col < this.numColumns; col++){
+                //get each grid square on the island
                 GridSquare gs = islandGrid[row][col];
                 
-                //only the render the visible gridsquare
+                //only the render the visible or explored gridsquare
                 if(gs.isVisible() || gs.isExplored()){
                     //render the terrains
                     gs.getTerrain().render(g, col, row);
                     //render the occupants
-                    for(Occupant o : gs.getOccupants()){//                       
+                    for(Occupant o : gs.getOccupants()){                      
                         o.render(g);
                     }
                 } else {

@@ -25,6 +25,7 @@ import nz.ac.aut.ense701.assets.Assets;
 import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.GameEventListener;
 import nz.ac.aut.ense701.gameModel.GameState;
+import nz.ac.aut.ense701.gameModel.GridSquare;
 import nz.ac.aut.ense701.gameModel.MoveDirection;
 
 /**
@@ -32,14 +33,17 @@ import nz.ac.aut.ense701.gameModel.MoveDirection;
  * @author Thong,Harindu
  */
 public class KiwiIslandUI implements ActionListener, GameEventListener{
-
     private JFrame frame;
     private DrawingCanvas canvas;
-
+    private JLabel titleLabel;
+    private JButton newGameButton;
+    private JButton loadGameButton;
+    private JButton highscoreButton;
+    private JButton exitButton;
+    private Backgroundpanel backgroundPanel;
+    
     private Timer timer;
-    private Game game;
-    private UIState state = UIState.Mainmenu;
-    private Backgroundpanel backgroundPanel = new Backgroundpanel();
+    private Game game;    
 
     public static int width, height;
     
@@ -48,19 +52,11 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         Dimension screenSize = kit.getScreenSize();
         width = screenSize.width * 4 / 5;
         height = screenSize.height * 4 / 5;
-    }
-
-    private void game(JFrame jframe) {
-        Assets.init();
-        game = new Game();        
-        frame.repaint();
-        frame = jframe;
-        frame.requestFocus();
-        frame.setSize(width, height);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        canvas = new DrawingCanvas(height, height);
-        frame.add(canvas);
+        
+        frame = new JFrame("Kiwi Island");
+        frame.setPreferredSize(new Dimension(width, height));
+        frame.setVisible(true);       
+        
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -72,51 +68,66 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
                 }
             }
         });
+        
+        mainMenu();
+    }
+
+    private void getGameView() {
+        Assets.init();
+        String name = JOptionPane.showInputDialog(frame,"Please enter your player name:","Player name",JOptionPane.PLAIN_MESSAGE);
+        game = new Game();
+        game.getPlayer().setName(name);
+        frame.repaint();
+        frame.requestFocus();
+        
+        canvas = new DrawingCanvas(height, height);
+        frame.add(canvas);
         frame.pack();
         frame.addKeyListener(game.getKeyManager());
     
         timer = new Timer(20, this);
         timer.start();
-        
     }
 
     /**
-     * The Mainmenu method contains code for the main menu of the game.
+     * The mainMenu method contains code for the main menu of the game.
      */
-    public final void Mainmenu() {
-        frame = new JFrame("Kiwi Island");
-
-        frame.setPreferredSize(
-                new Dimension(width, height));
-
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
+    public void mainMenu() {
+        backgroundPanel = new Backgroundpanel();
         backgroundPanel.setSize(width, height);
-        JButton newGameButton = new JButton("New Game");
-        JButton loadGameButton = new JButton("Load Game");
-        JButton highscoreButton = new JButton("High Score");
-        JButton exitButton = new JButton("Exit Game");
+        backgroundPanel.setLayout(null);
+        
+        newGameButton = new JButton("New Game");
+        loadGameButton = new JButton("Load Game");
+        highscoreButton = new JButton("High Score");
+        exitButton = new JButton("Exit Game");
+        titleLabel = new JLabel("Kiwi Island");
+        titleLabel.setFont(new Font("Serif", Font.BOLD, 36));
+        titleLabel.setForeground(Color.WHITE);
+        
+        titleLabel.setBounds(width / 2 - 100, 30, 200,100);        
+        newGameButton.setBounds(width / 2 - 100, 250, 200, 60);
+        loadGameButton.setBounds(width / 2 - 100, 325, 200, 60);
+        highscoreButton.setBounds(width / 2 - 100, 400, 200, 60);
+        exitButton.setBounds(width / 2 - 100, 475, 200, 60);
 
-        JLabel title = new JLabel("Kiwi Island");
+        backgroundPanel.add(titleLabel);
+        backgroundPanel.add(newGameButton);
+        backgroundPanel.add(loadGameButton);
+        backgroundPanel.add(highscoreButton);
+        backgroundPanel.add(exitButton);
 
-        title.setFont(new Font("Serif", Font.BOLD, 36));
-        title.setForeground(Color.BLACK);
-
-        newGameButton.addActionListener(
-                new ActionListener() {
+        newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e
             ) {
                 frame.remove(backgroundPanel);
-                state = UIState.Game;
-                game(frame);
+                getGameView();
             }
         }
         );
 
-        exitButton.addActionListener(
-                new ActionListener() {
+        exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e
             ) {
@@ -125,50 +136,11 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         }
         );
 
-        backgroundPanel.setLayout(null);
-
-        title.setBounds(
-                300, 30,
-                200,
-                100);
-        
-        newGameButton.setBounds(width
-                / 2, 250,
-                200,
-                60);
-        loadGameButton.setBounds(width
-                / 2, 325,
-                200,
-                60);
-        highscoreButton.setBounds(width
-                / 2, 400,
-                200,
-                60);
-        exitButton.setBounds(width
-                / 2, 475,
-                200,
-                60);
-
-        title.setText("Kiwi Island");
-
-        backgroundPanel.add(title);
-        backgroundPanel.add(newGameButton);
-        backgroundPanel.add(loadGameButton);
-        backgroundPanel.add(highscoreButton);
-        backgroundPanel.add(exitButton);
-
-        //frame.add(background1);
-        frame.add(backgroundPanel);
- 
+        frame.add(backgroundPanel); 
         frame.pack();
         frame.repaint();
+        frame.revalidate();              
         frame.setLocationRelativeTo(null);
-        frame.revalidate();
-        frame.setVisible(true);
-    }
-
-    public UIState getuistate() {
-        return state;
     }
 
     public void update() {
@@ -186,6 +158,9 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         if (game.getKeyManager().keyJustPressed(KeyEvent.VK_D)) {
             game.playerMove(MoveDirection.EAST);
         }
+        
+        GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumColumns();
+        GridSquare.height = GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumRows();
         
         canvas.repaint();
         gameStateChanged();
@@ -249,5 +224,4 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
             game.render(g);
         }
     }
-
 }

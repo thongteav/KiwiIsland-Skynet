@@ -10,8 +10,12 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- *
- * @author Thong
+ * Test of ImageLoader class
+ * 
+ * @author Harindu Tillekeratna
+ * @author David Balzer
+ * @author George Xu
+ * @author Thong Teav
  */
 public class ImagaLoaderTest {
     public ImagaLoaderTest(){

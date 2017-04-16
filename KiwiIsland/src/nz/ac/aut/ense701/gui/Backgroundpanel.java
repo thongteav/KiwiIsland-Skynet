@@ -10,29 +10,27 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
+import nz.ac.aut.ense701.gameModel.ImageLoader;
 
 /**
- *
- * @author admin
+ * This class draws the background image 
+ * 
+ * @author Harindu Tillekeratna
+ * @author David Balzer
+ * @author George Xu
+ * @author Thong Teav
  */
 public class Backgroundpanel extends JPanel {
 
-    Image image;
-    
-    Toolkit kit = Toolkit.getDefaultToolkit();
-    Dimension screenSize = kit.getScreenSize();
-    int width = screenSize.width * 4 / 5;
-    int height = screenSize.height * 4 / 5;
-
     public Backgroundpanel() {
-        // Loads the background image and stores in img object.
-        this.image = Toolkit.getDefaultToolkit().createImage("res/background.jpg");
+       
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-
+        g.drawImage(ImageLoader.loadImage("res/background.jpg"), 0, 0, getWidth(), getHeight(), null);
+        this.repaint();
+        this.revalidate();
     }
 }

@@ -9,6 +9,5 @@ package nz.ac.aut.ense701.gameModel;
 public enum MoveDirection
 {
     NORTH, EAST, SOUTH, WEST;
-    //this is a comment
 }
 

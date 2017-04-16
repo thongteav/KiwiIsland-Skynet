@@ -23,7 +23,7 @@ public enum Terrain
     
     private final double difficulty;
     private final String stringRep;
-    private BufferedImage texture;
+    private BufferedImage texture;//texture represening the image of the terrain
     
     /**
      * Creates a new terrain with a given difficulty 
@@ -60,7 +60,15 @@ public enum Terrain
         return texture;
     }
     
+    /**
+     * Renders the image of the terrain in the specified x,y position
+     * 
+     * @param g a graphics object used to draw images
+     * @param x an integer representing a grid square column
+     * @param y an integer representing a grid square row
+     */
     public void render(Graphics g, int x, int y){
+        //x, y times the grid square size to get to position in terms of pixel
         g.drawImage(texture, x * GridSquare.width, y * GridSquare.height, GridSquare.width, GridSquare.height, null);
     }
     

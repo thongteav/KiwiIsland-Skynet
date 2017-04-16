@@ -80,7 +80,14 @@ public class Tool extends Item
         return "T";
     }
     
+    /**
+     * Renders the images of the tools
+     * 
+     * @param g a graphics object used to draw images
+     */
     public void render(Graphics g){
+        //draw the image using the assets by passing in the name of the tool
+        //the position of the tool times the size of the gridsquare to get the position in terms of pixels
         g.drawImage(Assets.toolMap.get(this.getName()), this.getPosition().getColumn() * GridSquare.width, this.getPosition().getRow() * GridSquare.height, GridSquare.width, GridSquare.height, null);
     }
 }

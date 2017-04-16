@@ -11,8 +11,12 @@ import static org.junit.Assert.*;
  */
 
 /**
+ * Tests of Assets class
  *
- * @author Thong
+ * @author Harindu Tillekeratna
+ * @author David Balzer
+ * @author George Xu
+ * @author Thong Teav
  */
 public class AssetsTest {
     public AssetsTest(){
@@ -27,7 +31,17 @@ public class AssetsTest {
         Assets.init();
         Island island = new Island(3, 3);
         Position postion = new Position(island, 1, 1);
+        
         Fauna oystercatcher = new Fauna(postion, "Oystercatcher", "A nesting oystercatcher");
         assertEquals(Assets.oystercatcher, Assets.faunaMap.get(oystercatcher.getName()));
+        
+        Predator rat = new Predator(postion, "Rat", "A nasty rat");
+        assertEquals(Assets.rat, Assets.predatorMap.get(rat.getName()));
+        
+        Tool trap = new Tool(postion, "Trap", "A trap to get rid of predators", 1, 1);
+        assertEquals(Assets.trap, Assets.toolMap.get(trap.getName()));
+        
+        Kiwi kiwi = new Kiwi(postion, "Kiwi", "A cute kiwi");
+        assertEquals(Assets.kiwi, Assets.faunaMap.get(kiwi.getName()));
     }
 }
