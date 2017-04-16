@@ -69,7 +69,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 if (JOptionPane.showConfirmDialog(frame,
-                        "Are you sure to exit the game? progress will be lost", "Exit Game?",
+                        "Are you sure to exit the game?", "Exit Game?",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                     System.exit(0);
@@ -112,7 +112,6 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         
         //create the buttons
         newGameButton = new JButton("New Game");
-        loadGameButton = new JButton("Load Game");
         highscoreButton = new JButton("High Score");
         exitButton = new JButton("Exit Game");
         titleLabel = new JLabel("Kiwi Island");
@@ -121,15 +120,13 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         
         //set the size and position of the components
         titleLabel.setBounds(width / 2 - 100, 30, 200,100);        
-        newGameButton.setBounds(width / 2 - 100, 250, 200, 60);
-        loadGameButton.setBounds(width / 2 - 100, 325, 200, 60);
-        highscoreButton.setBounds(width / 2 - 100, 400, 200, 60);
-        exitButton.setBounds(width / 2 - 100, 475, 200, 60);
+        newGameButton.setBounds(width / 2 - 100, 250, 200, 70);
+        highscoreButton.setBounds(width / 2 - 100, 350, 200, 70);
+        exitButton.setBounds(width / 2 - 100, 450, 200, 70);
 
         //add the components to the panel
         backgroundPanel.add(titleLabel);
         backgroundPanel.add(newGameButton);
-        backgroundPanel.add(loadGameButton);
         backgroundPanel.add(highscoreButton);
         backgroundPanel.add(exitButton);
 
@@ -142,6 +139,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
                 getName.setVisible(true);
                 if (getName.getValidatedText() != null) {
                     frame.remove(backgroundPanel);
+                    frame.setResizable(true);
                     createGameView(getName.getValidatedText());
                 }
             }
@@ -161,6 +159,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         frame.add(backgroundPanel); 
         frame.pack();
         frame.repaint();
+        frame.setResizable(false);
         frame.revalidate();              
         frame.setLocationRelativeTo(null);
     }
