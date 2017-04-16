@@ -3,7 +3,7 @@ Project for Software Engineering.
 
 ## Team members 
 1. Davaid Balzer
-2. Thong Teav
+2. Thong Teav 
 3. Harindu Tillekratne
 4. Zhongjie Xu 
 
@@ -20,6 +20,8 @@ Project for Software Engineering.
 
 ## Installation
 Download the repo as zip file then extract it or clone the repo then use any JAVA IDE import.Then run it :)
+
+version 0.1
 
 
 
