@@ -7,4 +7,4 @@ PURPOSE OF PROJECT: Programming Assignment
 YEAR: 2017
 AUTHORS: Team Skynet
 
-This branch is the branch committed to keeping a working version. All code committed to the master branch must have completed testing prior to being pushed to keep the master a working version only branch.
+This branch is the branch committed to keeping a working version. All code committed to the master branch must have completed testing prior to being pushed to keep the master a working version only branch. Github use outlined fully on shared OneNote page
