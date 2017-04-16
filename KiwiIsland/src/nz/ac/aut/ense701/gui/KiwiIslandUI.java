@@ -85,9 +85,8 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
     /**
      * Creates a game user interface.
      */
-    private void createGameView() {
+    private void createGameView(String name) {
         Assets.init();//initialize the assets
-        String name = JOptionPane.showInputDialog(frame,"Please enter your player name:","Player name",JOptionPane.PLAIN_MESSAGE);//get the player name
         game = new Game();//create a game
         game.getPlayer().setName(name);//set the player name
         frame.repaint();
@@ -139,8 +138,13 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.remove(backgroundPanel);//remove the background panel
-                createGameView();//create and display the game interface
+                GetNameDialog getName = new GetNameDialog(frame);
+                getName.setLocationRelativeTo(null);
+                getName.setVisible(true);
+                if (getName.getValidatedText() != null) {
+                    frame.remove(backgroundPanel);
+                    createGameView(getName.getValidatedText());
+                }
             }
         }
         );
