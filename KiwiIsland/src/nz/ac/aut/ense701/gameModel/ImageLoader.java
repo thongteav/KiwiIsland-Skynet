@@ -10,10 +10,14 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-/**
- *
- * @author Thong
- */
+/***************************************************************************************
+*    Title: New-Beginner-Java-Game-Programming-Src
+*    Author: CodeNMore
+*    Date: 2014
+*    Code version: 
+*    Availability: https://github.com/CodeNMore/New-Beginner-Java-Game-Programming-Src
+*
+***************************************************************************************/
 public class ImageLoader {
     public static BufferedImage loadImage(String path){
         try {

@@ -1,5 +1,7 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.Graphics;
+
 
 /**
  * This class represents an item that can be found on the island.
@@ -53,4 +55,10 @@ public  abstract class Item extends Occupant
         return size > 0;
     }
     
+    /**
+     * A rendering method to be implemented by the concrete class
+     * 
+     * @param g a Graphics object used to draw the image
+     */
+    public abstract void render(Graphics g);
 }

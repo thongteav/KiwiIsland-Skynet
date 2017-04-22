@@ -1,6 +1,8 @@
 
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.Graphics;
+
 /**
  * This class represents a hazard that can be found on the island
  *  
@@ -58,6 +60,11 @@ public class Hazard extends Occupant {
     public String getStringRepresentation() {
         return "H";
     }   
+
+    @Override
+    public void render(Graphics g) {
+        //won't be rendering the hazard to keep it as a surprise element
+    }
 
 
     

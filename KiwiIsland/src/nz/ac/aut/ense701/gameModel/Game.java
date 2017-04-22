@@ -1,6 +1,7 @@
 package nz.ac.aut.ense701.gameModel;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class Game
     
     /**
      * Starts a new game.
-     * At this stage data is being read from a text file
+     * At this stage data is being read from a text file.
      */
     public void createNewGame()
     {
@@ -58,6 +59,7 @@ public class Game
         playerMessage = "";
         notifyGameEventListeners();
         keyManager = new KeyManager();
+        inventory=new Inventory();
     }
 
     /***********************************************************************************************************************
@@ -66,7 +68,7 @@ public class Game
     /**
      * Get the key manager
      * 
-     * @return 
+     * @return key manager
      */
     public KeyManager getKeyManager()    
     {
@@ -527,14 +529,24 @@ public class Game
         return successfulMove;
     }
     
+        public void tick(){
+		if(getKeyManager().keyJustPressed(KeyEvent.VK_E))
+			inventory.active = !inventory.active;
+		if(!inventory.active)
+			return;
+    }
+    
     /**
      * Draw the island and the player onto the canvas
      * 
-     * @param g 
+     * @param g a graphics object used to draw objects
      */
-    public void render(Graphics g){
+    public void render(Graphics g){        
         island.render(g);
         player.render(g);
+    if(!inventory.active){
+        inventory.render(g);   
+    }
     }
     
     /**
@@ -865,6 +877,7 @@ public class Game
     private int totalPredators;
     private int totalKiwis;
     private int predatorsTrapped;
+    private Inventory inventory;
     private Set<GameEventListener> eventListeners;
     
     private final double MIN_REQUIRED_CATCH = 0.8;

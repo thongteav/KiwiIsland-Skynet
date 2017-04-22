@@ -1,6 +1,7 @@
 
 package nz.ac.aut.ense701.gameModel;
 
+import nz.ac.aut.ense701.gui.Assets;
 import java.awt.Graphics;
 
 
@@ -13,9 +14,6 @@ import java.awt.Graphics;
  */
 public class Fauna extends Occupant
 {
-       
-    
-
     /**
      * Constructor for objects of class Endangered
      * @param pos the position of the kiwi
@@ -27,10 +25,16 @@ public class Fauna extends Occupant
         super(pos, name, description);
     } 
     
+    /**
+     * Rendering the image of the fauna in its position of the island
+     * 
+     * @param g a Graphics object used to draw the image
+     */
     public void render(Graphics g){
-        g.drawImage(Assets.faunaMap.get(this.getName()), this.getPosition().getColumn() * 64, this.getPosition().getRow() * 64, 64, 64, null);
+        //draw the image using the assets by passing in the name of the fauna
+        //the position of the fauna times the size of the gridsquare to get the position in terms of pixels
+        g.drawImage(Assets.faunaMap.get(this.getName()), this.getPosition().getColumn() * GridSquare.width, this.getPosition().getRow() * GridSquare.height, GridSquare.width, GridSquare.height, null);
     }
-
 
     @Override
     public String getStringRepresentation() 

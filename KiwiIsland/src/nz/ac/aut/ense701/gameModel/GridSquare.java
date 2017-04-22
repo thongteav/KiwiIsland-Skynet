@@ -14,6 +14,7 @@ import java.util.Set;
 
 public class GridSquare 
 {
+    public static int width, height;
     private static final int MAX_OCCUPANTS = 3;
     private Terrain terrain;
     private boolean visible;

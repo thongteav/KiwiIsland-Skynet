@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import nz.ac.aut.ense701.gui.Assets;
 import java.awt.Graphics;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,7 +18,7 @@ public class Player
     public static final double MOVE_STAMINA = 1.0;
     
     private Position  position;
-    private final String    name;
+    private String    name;
     private final double    maxStamina;
     private double    stamina;
     private boolean   alive;
@@ -53,7 +54,7 @@ public class Player
      * @param g a graphic object use to draw the character
      */
     public void render(Graphics g){
-        g.drawImage(Assets.player_down[0], position.getColumn() * 64, position.getRow() * 64, 64, 64, null);
+        g.drawImage(Assets.playerDown, position.getColumn() * GridSquare.width, position.getRow() * GridSquare.height, GridSquare.width, GridSquare.height, null);
     }
     
     /*****************************************************************************************************
@@ -255,7 +256,13 @@ public class Player
     /*************************************************************************************************************
      * Mutator methods
      ****************************************************************************************************************/
-    
+    /**
+      * Sets the name of the player
+      */
+    public void setName(String name){
+        this.name = name;
+    }
+  
     /**
      * Kills the Player
      */
