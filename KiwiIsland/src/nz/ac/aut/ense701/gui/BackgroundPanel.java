@@ -19,8 +19,7 @@ import nz.ac.aut.ense701.gameModel.ImageLoader;
  */
 public class BackgroundPanel extends JPanel {
 
-    public BackgroundPanel() {
-       
+    public BackgroundPanel() {     
     }
 
     @Override

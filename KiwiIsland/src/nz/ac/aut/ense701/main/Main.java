@@ -6,7 +6,7 @@ import nz.ac.aut.ense701.gui.KiwiIslandUI;
 /**
  * Kiwi Count Project
  *
- * @author Harindu Tillekeratna
+ * @author Harindu Tillekeratne
  * @author David Balzer
  * @author George Xu
  * @author Thong Teav
