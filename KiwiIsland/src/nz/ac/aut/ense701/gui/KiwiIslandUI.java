@@ -264,6 +264,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
+            game.tick();
             game.render(g);//render the game and the objects it contains
         }
     }
