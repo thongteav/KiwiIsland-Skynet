@@ -258,7 +258,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener{
                 e.printStackTrace();
             }
             setPreferredSize(new Dimension(width, height));
-            setBackground(Color.WHITE);
+            setBackground(Color.GRAY);
         }
 
         @Override
