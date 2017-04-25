@@ -1,6 +1,7 @@
 package nz.ac.aut.ense701.gameModel;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,7 +9,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Set;
-import nz.ac.aut.ense701.gui.KiwiIslandUI;
 
 /**
  * This is the class that knows the Kiwi Island game rules and state
@@ -59,6 +59,7 @@ public class Game
         playerMessage = "";
         notifyGameEventListeners();
         keyManager = new KeyManager();
+        inventory=new Inventory();
     }
 
     /***********************************************************************************************************************
@@ -528,6 +529,13 @@ public class Game
         return successfulMove;
     }
     
+        public void tick(){
+		if(getKeyManager().keyJustPressed(KeyEvent.VK_E))
+			inventory.active = !inventory.active;
+		if(!inventory.active)
+			return;
+    }
+    
     /**
      * Draw the island and the player onto the canvas
      * 
@@ -536,6 +544,9 @@ public class Game
     public void render(Graphics g){        
         island.render(g);
         player.render(g);
+    if(!inventory.active){
+        inventory.render(g);   
+    }
     }
     
     /**
@@ -866,6 +877,7 @@ public class Game
     private int totalPredators;
     private int totalKiwis;
     private int predatorsTrapped;
+    private Inventory inventory;
     private Set<GameEventListener> eventListeners;
     
     private final double MIN_REQUIRED_CATCH = 0.8;
@@ -874,6 +886,7 @@ public class Game
     private String loseMessage  = "";
     private String playerMessage  = "";   
     private KeyManager keyManager;
+
     
 
 

@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import nz.ac.aut.ense701.gameModel.Game;
@@ -44,7 +45,8 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     private JButton exitButton;
     private BackgroundPanel backgroundPanel;
     private StatusBarPanel statusbarPanel;
-    private GridBagConstraints gridbagConstraints;
+    private JPanel gamePanel;
+    private JProgressBar staminabar;
 
     private Timer timer;
     private Game game;
@@ -92,27 +94,30 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         Assets.init();//initialize the assets
         game = new Game();//create a game
         game.getPlayer().setName(name);//set the player name
-        
+
         frame.requestFocus();
 
-        canvas = new DrawingCanvas(height, height);
+        canvas = new DrawingCanvas(height, (height - (height / 4)));
 
-        //frame.setLayout(new GridBagLayout());
+       
         
-        gridbagConstraints = new GridBagConstraints();
-        //gridbagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        
-        gridbagConstraints.gridx = 1;
-        gridbagConstraints.gridy = 1;
-        //frame.add(canvas, gridbagConstraints);
-
-        frame.add(canvas);
         //Adding gamestatus panel
-        statusbarPanel = new StatusBarPanel();
-        statusbarPanel.setSize(100, 100);
-        statusbarPanel.setAlignmentY(height / 5);
+        statusbarPanel = new StatusBarPanel(height,width);
+        
+        staminabar =new JProgressBar();
+        staminabar.setBounds(0, 0, 100, 50);
+        //statusbarPanel.setSize(100, 100);
+        //setBounds(int x, int y, int width, int height)
+        canvas.setBounds(0, 0, height, height - (height / 4));
+        statusbarPanel.setBounds(0, height - (height / 4), height, height / 4);
+        statusbarPanel.add(staminabar);
+        gamePanel = new JPanel();
+        gamePanel.setLayout(null);
 
-        //frame.add(statusbarPanel);
+        gamePanel.add(canvas);
+        gamePanel.add(statusbarPanel);
+        gamePanel.setSize(height, height);
+        frame.add(gamePanel);
 
         frame.repaint();
         frame.revalidate();
@@ -122,7 +127,11 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         timer = new Timer(20, this);
         timer.start();
     }
-
+    public void setupStaminabar(){
+        staminabar =new JProgressBar();
+           
+    }
+    
     /**
      * This createMainMenuView method contains code for the main menu of the
      * game.
@@ -195,6 +204,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     public void update() {
         game.getKeyManager().update();//update the key input
 
+       
         //check if the player has pressed the keys representing the move direction and update the position of the player accordingly
         if (game.getKeyManager().keyJustPressed(KeyEvent.VK_W) || game.getKeyManager().keyJustPressed(KeyEvent.VK_UP)) {
             game.playerMove(MoveDirection.NORTH);
@@ -216,6 +226,8 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         //repaint the canvas with the updated information
         canvas.repaint();
 
+         
+        
         //check the game state
         gameStateChanged();
     }
@@ -257,6 +269,10 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                     game.getPlayerMessage(), "Important Information",
                     JOptionPane.INFORMATION_MESSAGE);
         }
+        int[] playerValues = game.getPlayerValues();
+        
+        staminabar.setMaximum(playerValues[Game.MAXSTAMINA_INDEX]);
+        staminabar.setValue(playerValues[Game.STAMINA_INDEX]);
     }
 
     /**
@@ -286,6 +302,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
+            game.tick();
             game.render(g);//render the game and the objects it contains
         }
     }

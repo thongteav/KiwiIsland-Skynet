@@ -5,7 +5,10 @@
  */
 package nz.ac.aut.ense701.gui;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.JPanel;
 import nz.ac.aut.ense701.gameModel.ImageLoader;
 
