@@ -31,7 +31,7 @@ public class StatusBarPanel extends JPanel {
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(nz.ac.aut.ense701.gameModel.ImageLoader.loadImage("res/background.jpg"), 0, 0, getWidth(), getHeight(), null);
+        g.drawImage(nz.ac.aut.ense701.gameModel.ImageLoader.loadImage("res/statuspanel.jpg"), 0, 0, getWidth(), getHeight(), null);
         this.repaint();
         this.revalidate();
     }

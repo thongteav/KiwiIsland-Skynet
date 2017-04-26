@@ -97,7 +97,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         frame.requestFocus();
 
-        canvas = new DrawingCanvas(height, (height - (height / 4)));
+        canvas = new DrawingCanvas(height, 300);
 
        
         
@@ -108,8 +108,8 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         staminabar.setBounds(0, 0, 100, 50);
         //statusbarPanel.setSize(100, 100);
         //setBounds(int x, int y, int width, int height)
-        canvas.setBounds(0, 0, height, height - (height / 4));
-        statusbarPanel.setBounds(0, height - (height / 4), height, height / 4);
+        canvas.setBounds(0, 0, height,height - (height / 4));
+        statusbarPanel.setBounds(0, height - (height / 4),height,(height / 4));
         statusbarPanel.add(staminabar);
         gamePanel = new JPanel();
         gamePanel.setLayout(null);
@@ -296,7 +296,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 e.printStackTrace();
             }
             setPreferredSize(new Dimension(width, height));
-            setBackground(Color.WHITE);
+            setBackground(Color.GRAY);
         }
 
         @Override
