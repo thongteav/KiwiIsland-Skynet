@@ -44,9 +44,11 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     private JButton highscoreButton;
     private JButton exitButton;
     private BackgroundPanel backgroundPanel;
+    
     private StatusBarPanel statusbarPanel;
     private JPanel gamePanel;
-    private JProgressBar staminabar;
+    private JProgressBar staminaProgressBar;
+    private JLabel staminaLable;
 
     private Timer timer;
     private Game game;
@@ -99,18 +101,16 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         canvas = new DrawingCanvas(height, 300);
 
-       
-        
+        statusbarPanel = new StatusBarPanel(height, width);
         //Adding gamestatus panel
-        statusbarPanel = new StatusBarPanel(height,width);
-        
-        staminabar =new JProgressBar();
-        staminabar.setBounds(0, 0, 100, 50);
         //statusbarPanel.setSize(100, 100);
         //setBounds(int x, int y, int width, int height)
-        canvas.setBounds(0, 0, height,height - (height / 4));
-        statusbarPanel.setBounds(0, height - (height / 4),height,(height / 4));
-        statusbarPanel.add(staminabar);
+        canvas.setBounds(0, 0, height, height - (height / 4));
+        statusbarPanel.setBounds(0, height - (height / 4), height, (height / 4));
+        
+        //initialize status bar components
+        setupStatusBarComponent();
+        
         gamePanel = new JPanel();
         gamePanel.setLayout(null);
 
@@ -123,15 +123,30 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         frame.revalidate();
         frame.pack();
         frame.addKeyListener(game.getKeyManager());
+        
         //initialized the timer to call repeatedly
         timer = new Timer(20, this);
         timer.start();
     }
-    public void setupStaminabar(){
-        staminabar =new JProgressBar();
-           
+
+    /*
+     adding components to staus bar
+    */
+    public void setupStatusBarComponent() {
+        statusbarPanel.setLayout(null);
+        
+        staminaLable =new JLabel("Stamina");
+        staminaLable.setBounds(height/10, 30, 200, 20);
+        staminaLable.setFont(new Font("Serif", Font.BOLD, 18));
+        staminaLable.setForeground(Color.WHITE);
+        
+        staminaProgressBar = new JProgressBar();
+        staminaProgressBar.setBounds(0, 60, 200, 20);
+        
+        statusbarPanel.add(staminaLable);
+        statusbarPanel.add(staminaProgressBar);     
     }
-    
+
     /**
      * This createMainMenuView method contains code for the main menu of the
      * game.
@@ -204,7 +219,6 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     public void update() {
         game.getKeyManager().update();//update the key input
 
-       
         //check if the player has pressed the keys representing the move direction and update the position of the player accordingly
         if (game.getKeyManager().keyJustPressed(KeyEvent.VK_W) || game.getKeyManager().keyJustPressed(KeyEvent.VK_UP)) {
             game.playerMove(MoveDirection.NORTH);
@@ -226,8 +240,9 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         //repaint the canvas with the updated information
         canvas.repaint();
 
-         
-        
+        //with each move player status will updated
+        SetPlayerStatus();
+
         //check the game state
         gameStateChanged();
     }
@@ -269,10 +284,26 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                     game.getPlayerMessage(), "Important Information",
                     JOptionPane.INFORMATION_MESSAGE);
         }
+
+    }
+
+    public void ShowStaminaWarining(int[] playerValues){
+   
+        if(playerValues[Game.STAMINA_INDEX]<= (playerValues[Game.MAXSTAMINA_INDEX]*0.2)){
+            JOptionPane.showMessageDialog(
+                    frame,
+                    game.getPlayerMessage(), "player has less than 20% stamina",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    /**
+     * gets player values from game object and updates player games status
+     * accordingly.
+     */
+    public void SetPlayerStatus() {
         int[] playerValues = game.getPlayerValues();
-        
-        staminabar.setMaximum(playerValues[Game.MAXSTAMINA_INDEX]);
-        staminabar.setValue(playerValues[Game.STAMINA_INDEX]);
+        staminaProgressBar.setMaximum(playerValues[Game.MAXSTAMINA_INDEX]);
+        staminaProgressBar.setValue(playerValues[Game.STAMINA_INDEX]);
     }
 
     /**
