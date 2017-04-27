@@ -24,11 +24,13 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
 import javax.swing.UIManager;
+import nz.ac.aut.ense701.gameModel.Food;
 import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.GameEventListener;
 import nz.ac.aut.ense701.gameModel.GameState;
 import nz.ac.aut.ense701.gameModel.GridSquare;
 import nz.ac.aut.ense701.gameModel.MoveDirection;
+import nz.ac.aut.ense701.gameModel.Occupant;
 
 /**
  *
@@ -245,6 +247,8 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         //check the game state
         gameStateChanged();
+        
+        showFoodPopUp();
     }
 
     @Override
@@ -286,15 +290,43 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         }
 
     }
+    
+    public void showFoodPopUp(){
+        for(Occupant occupant : game.getOccupantsPlayerPosition()){
+            if(!occupant.isInteracted() || game.getKeyManager().keyJustPressed(KeyEvent.VK_E)){
+                if(occupant instanceof Food){
+                    Object[] options = {"Collect", "Eat"};
+                    int userInput = JOptionPane.showOptionDialog(
+                        frame, 
+                        "You have encountered: " + occupant.getDescription(),
+                        "Food",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                    if(userInput == JOptionPane.YES_OPTION || userInput == JOptionPane.NO_OPTION){
+                        if (!game.collectItem(occupant)) {
+                            JOptionPane.showConfirmDialog(frame, "Sorry, you can't collect this item. Free some space from the bag.", "Inventory full", JOptionPane.WARNING_MESSAGE);
+                        }
+                        if(userInput == JOptionPane.NO_OPTION){
+                            game.useItem(occupant);
+                        }
+                    }
+                    occupant.setInteracted(true);
+                }
+            }
+        }
+    }
 
     public void ShowStaminaWarining(int[] playerValues){
    
-        if(playerValues[Game.STAMINA_INDEX]<= (playerValues[Game.MAXSTAMINA_INDEX]*0.2)){
-            JOptionPane.showMessageDialog(
-                    frame,
-                    game.getPlayerMessage(), "player has less than 20% stamina",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
+//        if(playerValues[Game.STAMINA_INDEX]<= (playerValues[Game.MAXSTAMINA_INDEX]*0.2)){
+//            JOptionPane.showMessageDialog(
+//                    frame,
+//                    game.getPlayerMessage(), "player has less than 20% stamina",
+//                    JOptionPane.INFORMATION_MESSAGE);
+//        }
     }
     /**
      * gets player values from game object and updates player games status
