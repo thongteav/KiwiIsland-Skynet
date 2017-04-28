@@ -24,13 +24,16 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
 import javax.swing.UIManager;
+import nz.ac.aut.ense701.gameModel.Fauna;
 import nz.ac.aut.ense701.gameModel.Food;
 import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.GameEventListener;
 import nz.ac.aut.ense701.gameModel.GameState;
 import nz.ac.aut.ense701.gameModel.GridSquare;
+import nz.ac.aut.ense701.gameModel.Kiwi;
 import nz.ac.aut.ense701.gameModel.MoveDirection;
 import nz.ac.aut.ense701.gameModel.Occupant;
+import nz.ac.aut.ense701.gameModel.Tool;
 
 /**
  *
@@ -247,8 +250,23 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         //check the game state
         gameStateChanged();
+        for(Occupant occupant : game.getOccupantsPlayerPosition()){
+            if(!occupant.isInteracted() || game.getKeyManager().keyJustPressed(KeyEvent.VK_E)){
+                if(occupant instanceof Food){
+                    showFoodPopUp(occupant);
+                }
+                else if(occupant instanceof Tool){
+                    showToolPopUp(occupant);
+                }
+                else if(occupant instanceof Kiwi){
+                    showKiwiPopUp(occupant);
+                }
+                else if(occupant instanceof Fauna){
+                    showFaunaPopUp(occupant);
+                }
+            }
+        }
         
-        showFoodPopUp();
     }
 
     @Override
@@ -291,32 +309,72 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
     }
     
-    public void showFoodPopUp(){
-        for(Occupant occupant : game.getOccupantsPlayerPosition()){
-            if(!occupant.isInteracted() || game.getKeyManager().keyJustPressed(KeyEvent.VK_E)){
-                if(occupant instanceof Food){
-                    Object[] options = {"Collect", "Eat"};
-                    int userInput = JOptionPane.showOptionDialog(
-                        frame, 
-                        "You have encountered: " + occupant.getDescription(),
-                        "Food",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        options,
-                        options[0]);
-                    if(userInput == JOptionPane.YES_OPTION || userInput == JOptionPane.NO_OPTION){
-                        if (!game.collectItem(occupant)) {
-                            JOptionPane.showConfirmDialog(frame, "Sorry, you can't collect this item. Free some space from the bag.", "Inventory full", JOptionPane.WARNING_MESSAGE);
-                        }
-                        if(userInput == JOptionPane.NO_OPTION){
-                            game.useItem(occupant);
-                        }
-                    }
-                    occupant.setInteracted(true);
-                }
+    public void showFoodPopUp(Occupant occupant){
+        Object[] options = {"Collect", "Eat"};
+        int userInput = JOptionPane.showOptionDialog(
+                frame,
+                "You have encountered: " + occupant.getDescription(),
+                "Food",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        if (userInput == JOptionPane.YES_OPTION || userInput == JOptionPane.NO_OPTION) {
+            if (!game.collectItem(occupant)) {
+                JOptionPane.showConfirmDialog(frame, "Sorry, you can't collect this item. Free some space from the bag.", "Inventory full", JOptionPane.WARNING_MESSAGE);                
+            }
+            if (userInput == JOptionPane.NO_OPTION) {
+                game.useItem(occupant);
             }
         }
+        occupant.setInteracted(true);        
+    }
+    
+    public void showToolPopUp(Occupant occupant){
+        Object[] options = {"Collect", "Ignore"};
+        int userInput = JOptionPane.showOptionDialog(
+                frame,
+                "You have encountered: " + occupant.getDescription(),
+                "Tool",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        if (userInput == JOptionPane.YES_OPTION) {
+            if (!game.collectItem(occupant)) {
+                JOptionPane.showMessageDialog(frame, "Item is not collected.", "Can't collect the item.", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        occupant.setInteracted(true);        
+    }
+    
+    public void showKiwiPopUp(Occupant occupant){
+        Object[] options = {"Count", "Ignore"};
+        int userInput = JOptionPane.showOptionDialog(
+                frame,
+                "You have encountered: " + occupant.getDescription(),
+                "Kiwi",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        if (userInput == JOptionPane.YES_OPTION) {
+            if(game.canCount(occupant)){                
+                game.countKiwi();
+            } 
+            else {
+                JOptionPane.showMessageDialog(frame, "Kiwi already been counted.", "Kiwi", JOptionPane.WARNING_MESSAGE);
+            } 
+        }
+        occupant.setInteracted(true);  
+    }
+    
+    public void showFaunaPopUp(Occupant occupant){
+        JOptionPane.showMessageDialog(frame, "You have encountered: " + occupant.getDescription(), occupant.getName(), JOptionPane.INFORMATION_MESSAGE);
+        occupant.setInteracted(true);
     }
 
     public void ShowStaminaWarining(int[] playerValues){
