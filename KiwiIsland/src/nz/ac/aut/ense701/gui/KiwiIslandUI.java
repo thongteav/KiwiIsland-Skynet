@@ -150,7 +150,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     }
 
     /*
- adding predator count text
+ adding predator count
      */
     public void setupPredatorCountText() {
         predatorLeft = new JLabel("");
