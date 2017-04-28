@@ -10,8 +10,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +31,7 @@ import nz.ac.aut.ense701.gameModel.GridSquare;
 import nz.ac.aut.ense701.gameModel.Kiwi;
 import nz.ac.aut.ense701.gameModel.MoveDirection;
 import nz.ac.aut.ense701.gameModel.Occupant;
+import nz.ac.aut.ense701.gameModel.Predator;
 import nz.ac.aut.ense701.gameModel.Tool;
 
 /**
@@ -45,11 +44,13 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     private JFrame frame;
     private DrawingCanvas canvas;
     private JLabel titleLabel;
+    private JLabel predatorLabel;
+    private JLabel predatorLeft;
     private JButton newGameButton;
     private JButton highscoreButton;
     private JButton exitButton;
     private BackgroundPanel backgroundPanel;
-    
+
     private StatusBarPanel statusbarPanel;
     private JPanel gamePanel;
     private JProgressBar staminaProgressBar;
@@ -57,6 +58,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
     private Timer timer;
     private Game game;
+    private boolean hastrap;
 
     public static int width, height;
     //--------------------------------------------------------------------------
@@ -112,10 +114,11 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         //setBounds(int x, int y, int width, int height)
         canvas.setBounds(0, 0, height, height - (height / 4));
         statusbarPanel.setBounds(0, height - (height / 4), height, (height / 4));
-        
+        setupPredatorLabel();
+        setupPredatorCountText();
         //initialize status bar components
         setupStatusBarComponent();
-        
+
         gamePanel = new JPanel();
         gamePanel.setLayout(null);
 
@@ -128,28 +131,52 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         frame.revalidate();
         frame.pack();
         frame.addKeyListener(game.getKeyManager());
-        
+
         //initialized the timer to call repeatedly
         timer = new Timer(20, this);
         timer.start();
     }
 
     /*
+ adding predator label
+     */
+    public void setupPredatorLabel() {
+        predatorLabel = new JLabel("Predator");
+        predatorLabel.setFont(new Font("Serif", Font.BOLD, 18));
+        predatorLabel.setForeground(Color.WHITE);
+        predatorLabel.setBounds(400, 30, 200, 20);
+        statusbarPanel.add(predatorLabel);
+
+    }
+
+    /*
+ adding predator count text
+     */
+    public void setupPredatorCountText() {
+        predatorLeft = new JLabel("");
+        predatorLeft.setFont(new Font("Serif", Font.BOLD, 18));
+        predatorLeft.setForeground(Color.WHITE);
+        predatorLeft.setBounds(480, 30, 200, 20);
+        statusbarPanel.add(predatorLeft);
+
+    }
+
+    /*
      adding components to staus bar
-    */
+     */
     public void setupStatusBarComponent() {
         statusbarPanel.setLayout(null);
-        
-        staminaLable =new JLabel("Stamina");
-        staminaLable.setBounds(height/10, 30, 200, 20);
+
+        staminaLable = new JLabel("Stamina");
+        staminaLable.setBounds(height / 10, 30, 200, 20);
         staminaLable.setFont(new Font("Serif", Font.BOLD, 18));
         staminaLable.setForeground(Color.WHITE);
-        
+
         staminaProgressBar = new JProgressBar();
         staminaProgressBar.setBounds(0, 60, 200, 20);
-        
+
         statusbarPanel.add(staminaLable);
-        statusbarPanel.add(staminaProgressBar);     
+        statusbarPanel.add(staminaProgressBar);
     }
 
     /**
@@ -241,7 +268,8 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         //updates the size of each grid square dynamically from the size of the frame
         GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumColumns();
         GridSquare.height = GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumRows();
-
+        //updates the number of predator left
+        predatorLeft.setText(Integer.toString(game.getPredatorsRemaining()));
         //repaint the canvas with the updated information
         canvas.repaint();
 
@@ -250,23 +278,24 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         //check the game state
         gameStateChanged();
-        for(Occupant occupant : game.getOccupantsPlayerPosition()){
-            if(!occupant.isInteracted() || game.getKeyManager().keyJustPressed(KeyEvent.VK_E)){
-                if(occupant instanceof Food){
+        for (Occupant occupant : game.getOccupantsPlayerPosition()) {
+            if (!occupant.isInteracted() || game.getKeyManager().keyJustPressed(KeyEvent.VK_E)) {
+                if (occupant instanceof Food) {
                     showFoodPopUp(occupant);
-                }
-                else if(occupant instanceof Tool){
+                } else if (occupant instanceof Tool) {
                     showToolPopUp(occupant);
-                }
-                else if(occupant instanceof Kiwi){
+                } else if (occupant instanceof Kiwi) {
                     showKiwiPopUp(occupant);
-                }
-                else if(occupant instanceof Fauna){
+                } /*else if(occupant instanceof Fauna){
                     showFaunaPopUp(occupant);
+                }
+                 */ else if (occupant instanceof Predator) {
+                    showCatchPredatorPopUp(occupant);
+
                 }
             }
         }
-        
+
     }
 
     @Override
@@ -308,8 +337,8 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         }
 
     }
-    
-    public void showFoodPopUp(Occupant occupant){
+
+    public void showFoodPopUp(Occupant occupant) {
         Object[] options = {"Collect", "Eat"};
         int userInput = JOptionPane.showOptionDialog(
                 frame,
@@ -322,16 +351,37 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 options[0]);
         if (userInput == JOptionPane.YES_OPTION || userInput == JOptionPane.NO_OPTION) {
             if (!game.collectItem(occupant)) {
-                JOptionPane.showConfirmDialog(frame, "Sorry, you can't collect this item. Free some space from the bag.", "Inventory full", JOptionPane.WARNING_MESSAGE);                
+                JOptionPane.showConfirmDialog(frame, "Sorry, you can't collect this item. Free some space from the bag.", "Inventory full", JOptionPane.WARNING_MESSAGE);
             }
             if (userInput == JOptionPane.NO_OPTION) {
                 game.useItem(occupant);
             }
         }
-        occupant.setInteracted(true);        
+        occupant.setInteracted(true);
     }
-    
-    public void showToolPopUp(Occupant occupant){
+
+    public void showCatchPredatorPopUp(Occupant occupant) {
+        Object[] options = {"Use Trap"};
+        int userInput = JOptionPane.showOptionDialog(
+                frame,
+                "You have encountered: " + occupant.getDescription(),
+                "Predator",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        if (userInput == JOptionPane.YES_NO_OPTION && hastrap == true && game.trapPredator()) {
+            game.useItem(occupant);
+        }
+           else{
+               JOptionPane.showMessageDialog(frame, "Please collect the trap first", "Can't collect the item", JOptionPane.WARNING_MESSAGE); 
+            }
+
+        occupant.setInteracted(true);
+    }
+
+    public void showToolPopUp(Occupant occupant) {
         Object[] options = {"Collect", "Ignore"};
         int userInput = JOptionPane.showOptionDialog(
                 frame,
@@ -343,14 +393,15 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 options,
                 options[0]);
         if (userInput == JOptionPane.YES_OPTION) {
+            hastrap = true;
             if (!game.collectItem(occupant)) {
                 JOptionPane.showMessageDialog(frame, "Item is not collected.", "Can't collect the item.", JOptionPane.WARNING_MESSAGE);
             }
         }
-        occupant.setInteracted(true);        
+        occupant.setInteracted(true);
     }
-    
-    public void showKiwiPopUp(Occupant occupant){
+
+    public void showKiwiPopUp(Occupant occupant) {
         Object[] options = {"Count", "Ignore"};
         int userInput = JOptionPane.showOptionDialog(
                 frame,
@@ -362,23 +413,21 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 options,
                 options[0]);
         if (userInput == JOptionPane.YES_OPTION) {
-            if(game.canCount(occupant)){                
+            if (game.canCount(occupant)) {
                 game.countKiwi();
-            } 
-            else {
+            } else {
                 JOptionPane.showMessageDialog(frame, "Kiwi already been counted.", "Kiwi", JOptionPane.WARNING_MESSAGE);
-            } 
+            }
         }
-        occupant.setInteracted(true);  
-    }
-    
-    public void showFaunaPopUp(Occupant occupant){
-        JOptionPane.showMessageDialog(frame, "You have encountered: " + occupant.getDescription(), occupant.getName(), JOptionPane.INFORMATION_MESSAGE);
         occupant.setInteracted(true);
     }
 
-    public void ShowStaminaWarining(int[] playerValues){
-   
+    /* public void showFaunaPopUp(Occupant occupant){
+        JOptionPane.showMessageDialog(frame, "You have encountered: " + occupant.getDescription(), occupant.getName(), JOptionPane.INFORMATION_MESSAGE);
+        occupant.setInteracted(true);
+    }*/
+    public void ShowStaminaWarining(int[] playerValues) {
+
 //        if(playerValues[Game.STAMINA_INDEX]<= (playerValues[Game.MAXSTAMINA_INDEX]*0.2)){
 //            JOptionPane.showMessageDialog(
 //                    frame,
@@ -386,6 +435,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 //                    JOptionPane.INFORMATION_MESSAGE);
 //        }
     }
+
     /**
      * gets player values from game object and updates player games status
      * accordingly.

@@ -629,7 +629,7 @@ public class Game {
      *
      * @return true if predator trapped
      */
-    private boolean trapPredator() {
+    public boolean trapPredator() {
         Position current = player.getPosition();
         boolean hadPredator = island.hasPredator(current);
         if (hadPredator) //can trap it
