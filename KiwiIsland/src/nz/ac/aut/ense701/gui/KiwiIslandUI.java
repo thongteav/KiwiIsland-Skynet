@@ -5,6 +5,7 @@
  */
 package nz.ac.aut.ense701.gui;
 
+import nz.ac.aut.ense701.audio.AudioPlayer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,6 +15,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -59,6 +62,10 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     private Timer timer;
     private Game game;
     private boolean hastrap;
+    
+    //Audio Elements
+    private AudioPlayer bgMusic;
+    private HashMap<String, AudioPlayer> sfx;
 
     public static int width, height;
     //--------------------------------------------------------------------------
@@ -94,6 +101,12 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         //create the main menu user interface
         createMainMenuView();
+        bgMusic = new AudioPlayer(new File("res/audio/music/bird_in_rain.mp3"));
+        bgMusic.play();
+        
+        sfx = new HashMap<String, AudioPlayer>();
+        sfx.put("walk", new AudioPlayer(new File("res/audio/sfx/cartoon_run.mp3")));
+        sfx.put("eat", new AudioPlayer(new File("res/audio/sfx/apple_bite.mp3")));
     }
 
     /**
@@ -103,7 +116,11 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         Assets.init();//initialize the assets
         game = new Game();//create a game
         game.getPlayer().setName(name);//set the player name
-
+        
+        bgMusic.stop();
+        bgMusic = new AudioPlayer(new File("res/audio/music/bgmusic.mp3"));
+        bgMusic.play();
+        
         frame.requestFocus();
 
         canvas = new DrawingCanvas(height, 300);
@@ -208,7 +225,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         backgroundPanel.add(newGameButton);
         backgroundPanel.add(highscoreButton);
         backgroundPanel.add(exitButton);
-
+        
         //listen for button press for a new game
         newGameButton.addActionListener(new ActionListener() {
             @Override
@@ -253,15 +270,19 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         //check if the player has pressed the keys representing the move direction and update the position of the player accordingly
         if (game.getKeyManager().keyJustPressed(KeyEvent.VK_W) || game.getKeyManager().keyJustPressed(KeyEvent.VK_UP)) {
+            sfx.get("walk").play();
             game.playerMove(MoveDirection.NORTH);
         }
         if (game.getKeyManager().keyJustPressed(KeyEvent.VK_S) || game.getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)) {
+            sfx.get("walk").play();
             game.playerMove(MoveDirection.SOUTH);
         }
         if (game.getKeyManager().keyJustPressed(KeyEvent.VK_A) || game.getKeyManager().keyJustPressed(KeyEvent.VK_LEFT)) {
+            sfx.get("walk").play();
             game.playerMove(MoveDirection.WEST);
         }
         if (game.getKeyManager().keyJustPressed(KeyEvent.VK_D) || game.getKeyManager().keyJustPressed(KeyEvent.VK_RIGHT)) {
+            sfx.get("walk").play();
             game.playerMove(MoveDirection.EAST);
         }
 
@@ -354,6 +375,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 JOptionPane.showConfirmDialog(frame, "Sorry, you can't collect this item. Free some space from the bag.", "Inventory full", JOptionPane.WARNING_MESSAGE);
             }
             if (userInput == JOptionPane.NO_OPTION) {
+                sfx.get("eat").play();
                 game.useItem(occupant);
             }
         }
