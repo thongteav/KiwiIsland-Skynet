@@ -14,16 +14,16 @@ import javax.sound.sampled.*;
 public class AudioPlayer {
 
     private Clip clip;
-
+    
+    //Constructor loads inputted file and decodes the MP3 through imported libraries
+    //since MP3 files are not supported in Java by default
     public AudioPlayer(File file) {
 
         try {
-            System.out.println("check in 1");
             AudioInputStream ais
                     = AudioSystem.getAudioInputStream(
                             file
                     );
-            System.out.println("check in 2");
             AudioFormat baseFormat = ais.getFormat();
             AudioFormat decodeFormat = new AudioFormat(
                     AudioFormat.Encoding.PCM_SIGNED,
@@ -44,7 +44,8 @@ public class AudioPlayer {
         }
 
     }
-
+    
+    //Plays decoded file. If the clip is already running, issues stop command
     public void play() {
         if (clip == null) {
             return;

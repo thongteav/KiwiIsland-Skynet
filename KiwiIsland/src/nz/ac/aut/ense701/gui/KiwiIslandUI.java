@@ -118,7 +118,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         game.getPlayer().setName(name);//set the player name
         
         bgMusic.stop();
-        bgMusic = new AudioPlayer(new File("res/audio/music/bgmusic.mp3"));
+        bgMusic = new AudioPlayer(new File("res/audio/music/Puzzle-Game.mp3"));
         bgMusic.play();
         
         frame.requestFocus();
