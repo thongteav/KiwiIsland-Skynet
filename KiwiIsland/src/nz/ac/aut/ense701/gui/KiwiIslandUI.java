@@ -105,7 +105,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         bgMusic.play();
         
         sfx = new HashMap<String, AudioPlayer>();
-        sfx.put("walk", new AudioPlayer(new File("res/audio/sfx/cartoon_run.mp3")));
+        sfx.put("walk", new AudioPlayer(new File("res/audio/sfx/fantozzi_walk-a03.wav")));
         sfx.put("eat", new AudioPlayer(new File("res/audio/sfx/apple_bite.mp3")));
     }
 
