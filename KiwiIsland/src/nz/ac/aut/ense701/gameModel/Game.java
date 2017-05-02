@@ -507,7 +507,7 @@ public class Game {
     }
 
     public void tick() {
-        if (getKeyManager().keyJustPressed(KeyEvent.VK_E)) {
+        if (getKeyManager().keyJustPressed(KeyEvent.VK_I)) {
             inventory.active = !inventory.active;
         }
         if (!inventory.active) {

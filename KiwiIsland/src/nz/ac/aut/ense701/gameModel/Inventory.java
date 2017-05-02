@@ -16,8 +16,8 @@ public class Inventory {
     
 	public boolean active = false;
 	
-	private final int invX = 570, invY = 4;
-        private final int invWidth=512, invHeight=384;
+	private final int invX = 65, invY = 30;
+        private final int invWidth=512, invHeight=300;
 		
                 
 
