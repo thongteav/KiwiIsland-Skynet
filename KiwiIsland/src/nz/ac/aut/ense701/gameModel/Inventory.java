@@ -24,10 +24,13 @@ public class Inventory {
     private final int invX = 65, invY = 30, invListSpacing = 30;
     private final int invWidth = 512, invHeight = 384;
     private final int invListCenterY = invY + invHeight / 2 + 5, invListCenterX = invWidth / 2;
+    private int invImageX, invImageY, invImageWidth = 64, invImageHeight = 64;
     private int selectedItem = 0;
 
     public Inventory() {
         items = new ArrayList<Item>();
+        invImageX = invWidth * 22 / 25;
+        invImageY = invHeight * 15 / 100;
     }
 
     public void update() {
@@ -52,6 +55,14 @@ public class Inventory {
                     Text.drawString(g, items.get(selectedItem + i).getName(), invListCenterX, invListCenterY + i * invListSpacing, true, Color.WHITE, new Font("Serif", Font.PLAIN, 24));
                 }
             }
+        }
+        
+        Item item = items.get(selectedItem);
+        if(item instanceof Tool){
+            g.drawImage(Assets.toolMap.get(item.getName()), invImageX, invImageY, invImageWidth, invImageHeight, null);
+        }
+        else if (item instanceof Food) {
+            g.drawImage(Assets.foodMap.get(item.getName()), invImageX, invImageY, invImageWidth, invImageHeight, null);
         }
     }
 

@@ -519,8 +519,7 @@ public class Game {
         }       
         
         if(inventory.getActive()){
-            inventory.setItems(player.getInventory());
-            inventory.update();
+            inventory.setItems(player.getInventory());            
             
             if (getKeyManager().keyJustPressed(KeyEvent.VK_W) || getKeyManager().keyJustPressed(KeyEvent.VK_UP)) {
                 inventory.setSelectedItem(inventory.getSelectedItem() - 1);
@@ -528,6 +527,11 @@ public class Game {
             if (getKeyManager().keyJustPressed(KeyEvent.VK_S) || getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)) {
                 inventory.setSelectedItem(inventory.getSelectedItem() + 1);
             }
+            if (getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)){
+                useItem(inventory.getItems().get(inventory.getSelectedItem()));
+            }
+            
+            inventory.update();
             return;
         }
         
