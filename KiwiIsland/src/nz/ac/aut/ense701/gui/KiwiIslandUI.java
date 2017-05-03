@@ -105,7 +105,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         bgMusic.play();
         
         sfx = new HashMap<String, AudioPlayer>();
-        sfx.put("walk", new AudioPlayer(new File("res/audio/sfx/fantozzi_walk-a03.wav")));
+//        sfx.put("walk", new AudioPlayer(new File("res/audio/sfx/fantozzi_walk-a03.wav")));
         sfx.put("eat", new AudioPlayer(new File("res/audio/sfx/apple_bite.mp3")));
     }
 
@@ -266,25 +266,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
      * background
      */
     public void update() {
-        game.getKeyManager().update();//update the key input
-
-        //check if the player has pressed the keys representing the move direction and update the position of the player accordingly
-        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_W) || game.getKeyManager().keyJustPressed(KeyEvent.VK_UP)) {
-            sfx.get("walk").play();
-            game.playerMove(MoveDirection.NORTH);
-        }
-        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_S) || game.getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)) {
-            sfx.get("walk").play();
-            game.playerMove(MoveDirection.SOUTH);
-        }
-        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_A) || game.getKeyManager().keyJustPressed(KeyEvent.VK_LEFT)) {
-            sfx.get("walk").play();
-            game.playerMove(MoveDirection.WEST);
-        }
-        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_D) || game.getKeyManager().keyJustPressed(KeyEvent.VK_RIGHT)) {
-            sfx.get("walk").play();
-            game.playerMove(MoveDirection.EAST);
-        }
+        game.tick();
 
         //updates the size of each grid square dynamically from the size of the frame
         GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumColumns();
@@ -495,7 +477,6 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            game.tick();
             game.render(g);//render the game and the objects it contains
         }
     }

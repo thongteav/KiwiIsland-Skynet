@@ -5,10 +5,12 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Set;
+import nz.ac.aut.ense701.audio.AudioPlayer;
 
 /**
  * This is the class that knows the Kiwi Island game rules and state and
@@ -54,6 +56,9 @@ public class Game {
         notifyGameEventListeners();
         keyManager = new KeyManager();
         inventory = new Inventory();
+        
+        sfx = new HashMap<String, AudioPlayer>();
+        sfx.put("walk", new AudioPlayer(new File("res/audio/sfx/cartoon_run.mp3")));
     }
 
     /**
@@ -507,11 +512,41 @@ public class Game {
     }
 
     public void tick() {
+        getKeyManager().update();//update the key input
+        
         if (getKeyManager().keyJustPressed(KeyEvent.VK_I)) {
-            inventory.active = !inventory.active;
-        }
-        if (!inventory.active) {
+            inventory.setActive(!inventory.getActive());
+        }       
+        
+        if(inventory.getActive()){
+            inventory.setItems(player.getInventory());
+            inventory.update();
+            
+            if (getKeyManager().keyJustPressed(KeyEvent.VK_W) || getKeyManager().keyJustPressed(KeyEvent.VK_UP)) {
+                inventory.setSelectedItem(inventory.getSelectedItem() - 1);
+            }
+            if (getKeyManager().keyJustPressed(KeyEvent.VK_S) || getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)) {
+                inventory.setSelectedItem(inventory.getSelectedItem() + 1);
+            }
             return;
+        }
+        
+        //check if the player has pressed the keys representing the move direction and update the position of the player accordingly
+        if (getKeyManager().keyJustPressed(KeyEvent.VK_W) || getKeyManager().keyJustPressed(KeyEvent.VK_UP)) {
+            sfx.get("walk").play();
+            playerMove(MoveDirection.NORTH);
+        }
+        if (getKeyManager().keyJustPressed(KeyEvent.VK_S) || getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)) {
+            sfx.get("walk").play();
+            playerMove(MoveDirection.SOUTH);
+        }
+        if (getKeyManager().keyJustPressed(KeyEvent.VK_A) || getKeyManager().keyJustPressed(KeyEvent.VK_LEFT)) {
+            sfx.get("walk").play();
+            playerMove(MoveDirection.WEST);
+        }
+        if (getKeyManager().keyJustPressed(KeyEvent.VK_D) || getKeyManager().keyJustPressed(KeyEvent.VK_RIGHT)) {
+            sfx.get("walk").play();
+            playerMove(MoveDirection.EAST);
         }
     }
 
@@ -523,7 +558,7 @@ public class Game {
     public void render(Graphics g) {
         island.render(g);
         player.render(g);
-        if (!inventory.active) {
+        if (inventory.getActive()) {
             inventory.render(g);
         }
     }
@@ -829,5 +864,5 @@ public class Game {
     private String loseMessage = "";
     private String playerMessage = "";
     private KeyManager keyManager;
-
+    private HashMap<String, AudioPlayer> sfx;
 }
