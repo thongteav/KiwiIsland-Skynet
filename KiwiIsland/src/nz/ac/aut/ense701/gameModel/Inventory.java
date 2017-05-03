@@ -55,15 +55,15 @@ public class Inventory {
                     Text.drawString(g, items.get(selectedItem + i).getName(), invListCenterX, invListCenterY + i * invListSpacing, true, Color.WHITE, new Font("Serif", Font.PLAIN, 24));
                 }
             }
-        }
-        
-        Item item = items.get(selectedItem);
-        if(item instanceof Tool){
-            g.drawImage(Assets.toolMap.get(item.getName()), invImageX, invImageY, invImageWidth, invImageHeight, null);
-        }
-        else if (item instanceof Food) {
-            g.drawImage(Assets.foodMap.get(item.getName()), invImageX, invImageY, invImageWidth, invImageHeight, null);
-        }
+            
+            Item item = items.get(selectedItem);
+            if(item instanceof Tool){
+                g.drawImage(Assets.toolMap.get(item.getName()), invImageX, invImageY, invImageWidth, invImageHeight, null);
+            }
+            else if (item instanceof Food) {
+                g.drawImage(Assets.foodMap.get(item.getName()), invImageX, invImageY, invImageWidth, invImageHeight, null);
+            }
+        }       
     }
 
     public boolean getActive() {
