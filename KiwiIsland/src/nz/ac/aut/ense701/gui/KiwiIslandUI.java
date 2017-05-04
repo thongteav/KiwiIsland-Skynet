@@ -51,6 +51,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     private JLabel predatorLeft;
     private JButton newGameButton;
     private JButton highscoreButton;
+    private JButton helpButton;
     private JButton exitButton;
     private BackgroundPanel backgroundPanel;
 
@@ -62,7 +63,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     private Timer timer;
     private Game game;
     private boolean hastrap;
-    
+
     //Audio Elements
     private AudioPlayer bgMusic;
     private HashMap<String, AudioPlayer> sfx;
@@ -103,7 +104,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         createMainMenuView();
         bgMusic = new AudioPlayer(new File("res/audio/music/bird_in_rain.mp3"));
         bgMusic.play();
-        
+
         sfx = new HashMap<String, AudioPlayer>();
 //        sfx.put("walk", new AudioPlayer(new File("res/audio/sfx/fantozzi_walk-a03.wav")));
         sfx.put("eat", new AudioPlayer(new File("res/audio/sfx/apple_bite.mp3")));
@@ -116,11 +117,11 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         Assets.init();//initialize the assets
         game = new Game();//create a game
         game.getPlayer().setName(name);//set the player name
-        
+
         bgMusic.stop();
         bgMusic = new AudioPlayer(new File("res/audio/music/Puzzle-Game.mp3"));
         bgMusic.play();
-        
+
         frame.requestFocus();
 
         canvas = new DrawingCanvas(height, 300);
@@ -210,22 +211,25 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         newGameButton = new JButton("New Game");
         highscoreButton = new JButton("High Score");
         exitButton = new JButton("Exit Game");
+        helpButton = new JButton("Help");
         titleLabel = new JLabel("Kiwi Island");
         titleLabel.setFont(new Font("Serif", Font.BOLD, 36));
         titleLabel.setForeground(Color.WHITE);
 
         //set the size and position of the components
         titleLabel.setBounds(width / 2 - 100, 30, 200, 100);
-        newGameButton.setBounds(width / 2 - 100, 250, 200, 70);
-        highscoreButton.setBounds(width / 2 - 100, 350, 200, 70);
-        exitButton.setBounds(width / 2 - 100, 450, 200, 70);
+        newGameButton.setBounds(width / 2 - 100, 220, 200, 70);
+        highscoreButton.setBounds(width / 2 - 100, 300, 200, 70);
+        helpButton.setBounds(width / 2 - 100, 380, 200, 70);
+        exitButton.setBounds(width / 2 - 100, 460, 200, 70);
 
         //add the components to the panel
         backgroundPanel.add(titleLabel);
         backgroundPanel.add(newGameButton);
         backgroundPanel.add(highscoreButton);
+        backgroundPanel.add(helpButton);
         backgroundPanel.add(exitButton);
-        
+
         //listen for button press for a new game
         newGameButton.addActionListener(new ActionListener() {
             @Override
@@ -239,6 +243,16 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                     createGameView(getName.getValidatedText());
                 }
                 getName.exit();
+            }
+        }
+        );
+        
+        //listen for help button press
+        helpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                helpList();
+                
             }
         }
         );
@@ -278,7 +292,11 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         //with each move player status will updated
         SetPlayerStatus();
+        //show help menu
+        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_H)) {
+            helpList();
 
+        }
         //check the game state
         gameStateChanged();
         for (Occupant occupant : game.getOccupantsPlayerPosition()) {
@@ -300,6 +318,18 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         }
 
     }
+    
+     //shows help menu
+    public void helpList() {
+        JOptionPane.showMessageDialog(
+                frame,
+                "<html>Player movement buttons <br>Move North : W /north arrow<br>Move South : S /south arrow<br> Move East : D /East arrow<br> Move West : A /West arrow<br>"
+                        + "<br>Player Actions<br>Pick item : E<br>"
+                        + "<br>Inventory Controlls<br>Open inventory :I<br> Use Item from Inventory:E  </html>"
+                , "Help",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
 
     @Override
     /**
@@ -377,10 +407,9 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 options[0]);
         if (userInput == JOptionPane.YES_NO_OPTION && hastrap == true && game.trapPredator()) {
             game.useItem(occupant);
+        } else {
+            JOptionPane.showMessageDialog(frame, "Please collect the trap first", "Can't collect the item", JOptionPane.WARNING_MESSAGE);
         }
-           else{
-               JOptionPane.showMessageDialog(frame, "Please collect the trap first", "Can't collect the item", JOptionPane.WARNING_MESSAGE); 
-            }
 
         occupant.setInteracted(true);
     }
