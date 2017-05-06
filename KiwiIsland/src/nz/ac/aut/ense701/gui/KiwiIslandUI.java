@@ -132,11 +132,15 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         //setBounds(int x, int y, int width, int height)
         canvas.setBounds(0, 0, height, height - (height / 4));
         statusbarPanel.setBounds(0, height - (height / 4), height, (height / 4));
+        
+        statusbarPanel.setLayout(null);
+        
+        //initialize status bar components
+        setupStaminaText();
         setupPredatorLabel();
         setupPredatorCountText();
-        //initialize status bar components
-        setupStatusBarComponent();
-
+        setupStaminaProgressBar();
+       
         gamePanel = new JPanel();
         gamePanel.setLayout(null);
 
@@ -180,23 +184,30 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     }
 
     /*
-     adding components to staus bar
+     adding stamina lebal text
      */
-    public void setupStatusBarComponent() {
-        statusbarPanel.setLayout(null);
-
+    public void setupStaminaText() {
+        
         staminaLable = new JLabel("Stamina");
         staminaLable.setBounds(height / 10, 30, 200, 20);
         staminaLable.setFont(new Font("Serif", Font.BOLD, 18));
         staminaLable.setForeground(Color.WHITE);
-
-        staminaProgressBar = new JProgressBar();
-        staminaProgressBar.setBounds(0, 60, 200, 20);
-
         statusbarPanel.add(staminaLable);
+    }
+    
+    /*
+     adding stamina lebal text
+     */
+    public void setupStaminaProgressBar() {
+        
+        staminaProgressBar = new JProgressBar();
+        staminaProgressBar.setBounds(0, 60, 200, 20);    
         statusbarPanel.add(staminaProgressBar);
     }
+    
+    
 
+    
     /**
      * This createMainMenuView method contains code for the main menu of the
      * game.
@@ -290,15 +301,8 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         //repaint the canvas with the updated information
         canvas.setBounds(0, 0, height, frame.getContentPane().getHeight()-(frame.getContentPane().getHeight()/5));
         canvas.repaint();
-        
-        //repaint staminabar alignment according to frame size
-       
-        int frameheight=frame.getContentPane().getHeight();
-        //staminaLable.repaint();
-        statusbarPanel.setBounds(0, frame.getContentPane().getHeight()-(frame.getContentPane().getHeight()/5), height, frame.getContentPane().getHeight()/5);
-        staminaLable.setBounds(frameheight / 10, frameheight/30, 200, frameheight/20);
-        staminaProgressBar.setBounds(0,frameheight/10, 200, frameheight/20);
-        
+       //repaint staminabar alignment according to frame size      
+        resizeComponentsAlignments(frame.getContentPane().getHeight(),frame.getContentPane().getHeight());     
         //with each move player status will updated
         SetPlayerStatus();
         //show help menu
@@ -326,6 +330,19 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
             }
         }
 
+    }
+    
+    /**
+     * resize components according frame size 
+     * @param frameheight inserts frame height 
+     * @param framewidth  insets frame width
+     */
+    public void resizeComponentsAlignments(int frameheight,int framewidth){
+        statusbarPanel.setBounds(0, frameheight-(frameheight/5), height, frameheight/5);
+        staminaLable.setBounds(frameheight / 10, frameheight/30, 200, frameheight/20);
+        staminaProgressBar.setBounds(0,frameheight/10, 200, frameheight/20);
+        predatorLabel.setBounds(400, frameheight/30, 200, frameheight/20);
+        predatorLeft.setBounds(480, frameheight/30, 200, frameheight/20);
     }
     
      //shows help menu
