@@ -284,12 +284,21 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         //updates the size of each grid square dynamically from the size of the frame
         GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumColumns();
-        GridSquare.height = GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumRows();
+        GridSquare.height = GridSquare.width = Math.min(frame.getContentPane().getHeight()-(frame.getContentPane().getHeight()/5), frame.getContentPane().getWidth()) / game.getNumRows();
         //updates the number of predator left
         predatorLeft.setText(Integer.toString(game.getPredatorsRemaining()));
         //repaint the canvas with the updated information
+        canvas.setBounds(0, 0, height, frame.getContentPane().getHeight()-(frame.getContentPane().getHeight()/5));
         canvas.repaint();
-
+        
+        //repaint staminabar alignment according to frame size
+       
+        int frameheight=frame.getContentPane().getHeight();
+        //staminaLable.repaint();
+        statusbarPanel.setBounds(0, frame.getContentPane().getHeight()-(frame.getContentPane().getHeight()/5), height, frame.getContentPane().getHeight()/5);
+        staminaLable.setBounds(frameheight / 10, frameheight/30, 200, frameheight/20);
+        staminaProgressBar.setBounds(0,frameheight/10, 200, frameheight/20);
+        
         //with each move player status will updated
         SetPlayerStatus();
         //show help menu
@@ -459,15 +468,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         JOptionPane.showMessageDialog(frame, "You have encountered: " + occupant.getDescription(), occupant.getName(), JOptionPane.INFORMATION_MESSAGE);
         occupant.setInteracted(true);
     }*/
-    public void ShowStaminaWarining(int[] playerValues) {
-
-//        if(playerValues[Game.STAMINA_INDEX]<= (playerValues[Game.MAXSTAMINA_INDEX]*0.2)){
-//            JOptionPane.showMessageDialog(
-//                    frame,
-//                    game.getPlayerMessage(), "player has less than 20% stamina",
-//                    JOptionPane.INFORMATION_MESSAGE);
-//        }
-    }
+   
 
     /**
      * gets player values from game object and updates player games status
