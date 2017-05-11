@@ -530,6 +530,9 @@ public class Game {
             if (getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)){
                 useItem(inventory.getItems().get(inventory.getSelectedItem()));
             }
+            if (getKeyManager().keyJustPressed(KeyEvent.VK_SPACE)){
+                dropItem(inventory.getItems().get(inventory.getSelectedItem()));
+            }
             
             inventory.update();
             return;

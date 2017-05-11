@@ -108,6 +108,8 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         sfx = new HashMap<String, AudioPlayer>();
 //        sfx.put("walk", new AudioPlayer(new File("res/audio/sfx/fantozzi_walk-a03.wav")));
         sfx.put("eat", new AudioPlayer(new File("res/audio/sfx/apple_bite.mp3")));
+        //Weka sound used since Kiwi call is very harsh
+        sfx.put("kiwi", new AudioPlayer(new File("res/audio/sfx/weka-song.mp3")));
     }
 
     /**
@@ -319,6 +321,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 } else if (occupant instanceof Tool) {
                     showToolPopUp(occupant);
                 } else if (occupant instanceof Kiwi) {
+                    sfx.get("kiwi").play();
                     showKiwiPopUp(occupant);
                 } /*else if(occupant instanceof Fauna){
                     showFaunaPopUp(occupant);
@@ -349,9 +352,9 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     public void helpList() {
         JOptionPane.showMessageDialog(
                 frame,
-                "<html>Player movement buttons <br>Move North : W /north arrow<br>Move South : S /south arrow<br> Move East : D /East arrow<br> Move West : A /West arrow<br>"
-                        + "<br>Player Actions<br>Pick item : E<br>"
-                        + "<br>Inventory Controlls<br>Open inventory :I<br> Use Item from Inventory:E  </html>"
+                "<html><b>Player Movement Controls</b> <br>Move North: W /north arrow<br>Move South: S /south arrow<br> Move East: D /East arrow<br> Move West: A /West arrow<br>"
+                        + "<br>Player Actions<br>Pick Item: E<br>"
+                        + "<br>Inventory Controls<br>Open Inventory: I<br>Use Item from Inventory: E<br>Drop Item from Inventory: Space  </html>"
                 , "Help",
                 JOptionPane.INFORMATION_MESSAGE);
     }
