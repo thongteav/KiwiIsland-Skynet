@@ -8,6 +8,7 @@ package nz.ac.aut.ense701.gui;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 
 /***************************************************************************************
@@ -31,10 +32,11 @@ public class ImageLoader {
     public static BufferedImage loadImage(String path){
         try {
             return ImageIO.read(new File(path));
-        } catch (IOException ex) {
+        } catch (IIOException ex) {
             //if the path is invalid
-            ex.printStackTrace();//print the stack trace
-            System.exit(1);//close the application with an error
+            System.out.println(ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
         return null;
     } 

@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nz.ac.aut.ense701.gameModel;
+package nz.ac.aut.ense701.gui;
 
-import nz.ac.aut.ense701.gui.ImageLoader;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -28,6 +27,15 @@ public class ImagaLoaderTest {
     @Test
     public void testImageLoading(){
         String validPath = "res/occupants/kiwi.png";
-        assertNotNull(ImageLoader.loadImage(validPath));
+        assertNotNull(ImageLoader.loadImage(validPath));   
+    }
+    
+    /**
+     * 
+     */
+    @Test
+    public void testImageLoadingNull(){
+        String invalidPath = "";     
+        assertNull(ImageLoader.loadImage(invalidPath));
     }
 }
