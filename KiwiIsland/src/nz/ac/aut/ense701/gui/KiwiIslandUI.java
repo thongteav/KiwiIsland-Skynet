@@ -11,12 +11,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.HashMap;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -48,17 +50,17 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     private DrawingCanvas canvas;
     private JLabel titleLabel;
     private JLabel predatorLabel;
-    private JLabel predatorLeft;
+    private JLabel predatorLeftLabel;
     private JButton newGameButton;
     private JButton highscoreButton;
     private JButton helpButton;
     private JButton exitButton;
     private BackgroundPanel backgroundPanel;
-
     private StatusBarPanel statusbarPanel;
     private JPanel gamePanel;
     private JProgressBar staminaProgressBar;
     private JLabel staminaLable;
+    private JLabel kiwiCountLabel;
 
     private Timer timer;
     private Game game;
@@ -99,12 +101,10 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 }
             }
         });
-
         //create the main menu user interface
         createMainMenuView();
         bgMusic = new AudioPlayer(new File("res/audio/music/bird_in_rain.mp3"));
         bgMusic.play();
-
         sfx = new HashMap<String, AudioPlayer>();
 //        sfx.put("walk", new AudioPlayer(new File("res/audio/sfx/fantozzi_walk-a03.wav")));
         sfx.put("eat", new AudioPlayer(new File("res/audio/sfx/apple_bite.mp3")));
@@ -126,29 +126,24 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         frame.requestFocus();
 
-        canvas = new DrawingCanvas(height, 300);
+        canvas = new DrawingCanvas(height, height);
 
-        statusbarPanel = new StatusBarPanel(height, width);
+        statusbarPanel = new StatusBarPanel(width / 5, height);
         //Adding gamestatus panel
         //statusbarPanel.setSize(100, 100);
         //setBounds(int x, int y, int width, int height)
-        canvas.setBounds(0, 0, height, height - (height / 4));
-        statusbarPanel.setBounds(0, height - (height / 4), height, (height / 4));
-        
-        statusbarPanel.setLayout(null);
-        
-        //initialize status bar components
-        setupStaminaText();
+//        canvas.setBounds(0, 0, height, height - (height / 4));
+//        statusbarPanel.setBounds(0, height - (height / 4), height, (height / 4));
         setupPredatorLabel();
-        setupPredatorCountText();
-        setupStaminaProgressBar();
+//        setupPredatorCountText();
+        setUpKiwiCountText();
+        //initialize status bar components
+        setupStatusBarComponent();
        
-        gamePanel = new JPanel();
-        gamePanel.setLayout(null);
-
-        gamePanel.add(canvas);
-        gamePanel.add(statusbarPanel);
-        gamePanel.setSize(height, height);
+        gamePanel = new JPanel(new BorderLayout());
+        gamePanel.add(statusbarPanel, BorderLayout.EAST);
+        gamePanel.add(canvas, BorderLayout.CENTER);
+//        gamePanel.setSize(height, height);
         frame.add(gamePanel);
 
         frame.repaint();
@@ -165,11 +160,10 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
  adding predator label
      */
     public void setupPredatorLabel() {
-        predatorLabel = new JLabel("Predator");
+        predatorLabel = new JLabel("Predator remaining: " + game.getPredatorsRemaining());
         predatorLabel.setFont(new Font("Serif", Font.BOLD, 18));
         predatorLabel.setForeground(Color.WHITE);
         predatorLabel.setBounds(400, 30, 200, 20);
-        statusbarPanel.add(predatorLabel);
 
     }
 
@@ -177,38 +171,37 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
  adding predator count text
      */
     public void setupPredatorCountText() {
-        predatorLeft = new JLabel("");
-        predatorLeft.setFont(new Font("Serif", Font.BOLD, 18));
-        predatorLeft.setForeground(Color.WHITE);
-        predatorLeft.setBounds(480, 30, 200, 20);
-        statusbarPanel.add(predatorLeft);
-
+        predatorLeftLabel = new JLabel("");
+        predatorLeftLabel.setFont(new Font("Serif", Font.BOLD, 18));
+        predatorLeftLabel.setForeground(Color.WHITE);
+        predatorLeftLabel.setBounds(480, 30, 200, 20);
+        statusbarPanel.add(predatorLeftLabel);
+    }
+    
+    public void setUpKiwiCountText() {
+        kiwiCountLabel = new JLabel("Kiwis counted: " + game.getKiwiCount());
+        kiwiCountLabel.setForeground(Color.WHITE);
     }
 
-    /*
-     adding stamina lebal text
+     /**
+     adding components to status bar
      */
-    public void setupStaminaText() {
-        
+    public void setupStatusBarComponent() {
+        statusbarPanel.setLayout(new BoxLayout(statusbarPanel, BoxLayout.Y_AXIS));
+
         staminaLable = new JLabel("Stamina");
         staminaLable.setBounds(height / 10, 30, 200, 20);
         staminaLable.setFont(new Font("Serif", Font.BOLD, 18));
         staminaLable.setForeground(Color.WHITE);
-        statusbarPanel.add(staminaLable);
-    }
-    
-    /*
-     adding stamina lebal text
-     */
-    public void setupStaminaProgressBar() {
-        
-        staminaProgressBar = new JProgressBar();
-        staminaProgressBar.setBounds(0, 60, 200, 20);    
-        statusbarPanel.add(staminaProgressBar);
-    }
-    
-    
 
+        staminaProgressBar = new JProgressBar();
+        staminaProgressBar.setBounds(0, 60, 200, 20);
+
+        statusbarPanel.add(staminaLable);
+        statusbarPanel.add(staminaProgressBar);
+        statusbarPanel.add(predatorLabel);
+        statusbarPanel.add(kiwiCountLabel);
+    }
     
     /**
      * This createMainMenuView method contains code for the main menu of the
@@ -299,12 +292,12 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumColumns();
         GridSquare.height = GridSquare.width = Math.min(frame.getContentPane().getHeight()-(frame.getContentPane().getHeight()/5), frame.getContentPane().getWidth()) / game.getNumRows();
         //updates the number of predator left
-        predatorLeft.setText(Integer.toString(game.getPredatorsRemaining()));
+        predatorLabel.setText("Predators remaining: " + game.getPredatorsRemaining());
+        kiwiCountLabel.setText("Kiwis counted: " + game.getKiwiCount());
         //repaint the canvas with the updated information
-        canvas.setBounds(0, 0, height, frame.getContentPane().getHeight()-(frame.getContentPane().getHeight()/5));
         canvas.repaint();
        //repaint staminabar alignment according to frame size      
-        resizeComponentsAlignments(frame.getContentPane().getHeight(),frame.getContentPane().getHeight());     
+//        resizeComponentsAlignments(frame.getContentPane().getHeight(),frame.getContentPane().getHeight());     
         //with each move player status will updated
         SetPlayerStatus();
         //show help menu
@@ -321,31 +314,14 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 } else if (occupant instanceof Tool) {
                     showToolPopUp(occupant);
                 } else if (occupant instanceof Kiwi) {
-                    sfx.get("kiwi").play();
                     showKiwiPopUp(occupant);
-                } /*else if(occupant instanceof Fauna){
-                    showFaunaPopUp(occupant);
-                }
-                 */ else if (occupant instanceof Predator) {
+                } else if (occupant instanceof Predator) {
                     showCatchPredatorPopUp(occupant);
-
-                }
+                } else if(occupant instanceof Fauna){
+                    showFaunaPopUp(occupant);
+                } 
             }
         }
-
-    }
-    
-    /**
-     * resize components according frame size 
-     * @param frameheight inserts frame height 
-     * @param framewidth  insets frame width
-     */
-    public void resizeComponentsAlignments(int frameheight,int framewidth){
-        statusbarPanel.setBounds(0, frameheight-(frameheight/5), height, frameheight/5);
-        staminaLable.setBounds(frameheight / 10, frameheight/30, 200, frameheight/20);
-        staminaProgressBar.setBounds(0,frameheight/10, 200, frameheight/20);
-        predatorLabel.setBounds(400, frameheight/30, 200, frameheight/20);
-        predatorLeft.setBounds(480, frameheight/30, 200, frameheight/20);
     }
     
      //shows help menu
@@ -434,9 +410,10 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 null,
                 options,
                 options[0]);
-        if (userInput == JOptionPane.YES_NO_OPTION && hastrap == true && game.trapPredator()) {
-            game.useItem(occupant);
-        } else {
+        if(userInput == JOptionPane.YES_OPTION && game.useItem(game.getPlayer().getTrap())){
+            game.trapPredator();
+        } 
+        else {
             JOptionPane.showMessageDialog(frame, "Please collect the trap first", "Can't collect the item", JOptionPane.WARNING_MESSAGE);
         }
 
@@ -484,11 +461,10 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         occupant.setInteracted(true);
     }
 
-    /* public void showFaunaPopUp(Occupant occupant){
+    public void showFaunaPopUp(Occupant occupant){
         JOptionPane.showMessageDialog(frame, "You have encountered: " + occupant.getDescription(), occupant.getName(), JOptionPane.INFORMATION_MESSAGE);
         occupant.setInteracted(true);
-    }*/
-   
+    }   
 
     /**
      * gets player values from game object and updates player games status
@@ -527,6 +503,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
+            setSize(GridSquare.width * game.getNumColumns(), GridSquare.height * game.getNumRows());
             game.render(g);//render the game and the objects it contains
         }
     }
