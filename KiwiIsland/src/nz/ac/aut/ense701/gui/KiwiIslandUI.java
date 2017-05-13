@@ -410,12 +410,13 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 null,
                 options,
                 options[0]);
-        if(userInput == JOptionPane.YES_OPTION && game.useItem(game.getPlayer().getTrap())){
-            game.trapPredator();
+        if(userInput == JOptionPane.YES_OPTION){
+            if(game.useItem(game.getPlayer().getTrap())){                
+                game.trapPredator();
+            } else {
+                JOptionPane.showMessageDialog(frame, "Please collect the trap first", "Can't trap predator", JOptionPane.WARNING_MESSAGE);
+            }
         } 
-        else {
-            JOptionPane.showMessageDialog(frame, "Please collect the trap first", "Can't collect the item", JOptionPane.WARNING_MESSAGE);
-        }
 
         occupant.setInteracted(true);
     }
