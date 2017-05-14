@@ -555,6 +555,8 @@ public class Game {
             sfx.get("walk").play();
             playerMove(MoveDirection.EAST);
         }
+        
+        player.update();
     }
 
     /**

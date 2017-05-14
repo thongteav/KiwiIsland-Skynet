@@ -303,23 +303,26 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         //show help menu
         if (game.getKeyManager().keyJustPressed(KeyEvent.VK_H)) {
             helpList();
-
         }
-        //check the game state
-        gameStateChanged();
-        for (Occupant occupant : game.getOccupantsPlayerPosition()) {
-            if (!occupant.isInteracted() || game.getKeyManager().keyJustPressed(KeyEvent.VK_E)) {
-                if (occupant instanceof Food) {
-                    showFoodPopUp(occupant);
-                } else if (occupant instanceof Tool) {
-                    showToolPopUp(occupant);
-                } else if (occupant instanceof Kiwi) {
-                    showKiwiPopUp(occupant);
-                } else if (occupant instanceof Predator) {
-                    showCatchPredatorPopUp(occupant);
-                } else if(occupant instanceof Fauna){
-                    showFaunaPopUp(occupant);
-                } 
+        
+        if(game.getPlayer().isStopped()){            
+            //check the game state
+            gameStateChanged();
+            
+            for (Occupant occupant : game.getOccupantsPlayerPosition()) {
+                if (!occupant.isInteracted() || game.getKeyManager().keyJustPressed(KeyEvent.VK_E)) {
+                    if (occupant instanceof Food) {
+                        showFoodPopUp(occupant);
+                    } else if (occupant instanceof Tool) {
+                        showToolPopUp(occupant);
+                    } else if (occupant instanceof Kiwi) {
+                        showKiwiPopUp(occupant);
+                    } else if (occupant instanceof Predator) {
+                        showCatchPredatorPopUp(occupant);
+                    } else if(occupant instanceof Fauna){
+                        showFaunaPopUp(occupant);
+                    } 
+                }
             }
         }
     }

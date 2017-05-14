@@ -8,13 +8,17 @@
             <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gui/KiwiIslandUI.java</file>
             <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gameModel/Terrain.java</file>
             <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gameModel/GameState.java</file>
+            <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/test/nz/ac/aut/ense701/gui/KiwiIslandUITest.java</file>
             <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gui/Assets.java</file>
+            <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gameModel/Hazard.java</file>
             <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gameModel/Occupant.java</file>
             <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gui/StatusBarPanel.java</file>
+            <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gameModel/Predator.java</file>
             <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gameModel/Game.java</file>
             <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gui/GetNameDialog.java</file>
             <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gui/BackgroundPanel.java</file>
             <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gui/ImageLoader.java</file>
+            <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/src/nz/ac/aut/ense701/gameModel/Island.java</file>
             <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/test/nz/ac/aut/ense701/gameModel/HazardTest.java</file>
             <file>file:/C:/Users/Thong/Desktop/AUT%20home/KiwiIsland-Skynet/KiwiIsland/test/nz/ac/aut/ense701/gui/ImagaLoaderTest.java</file>
         </group>

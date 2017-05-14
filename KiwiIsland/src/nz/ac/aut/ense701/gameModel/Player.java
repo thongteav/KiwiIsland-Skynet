@@ -25,6 +25,8 @@ public class Player
     private Set<Item> backpack;
     private final double    maxBackpackWeight;
     private final double    maxBackpackSize;   
+    private int x, y;
+    private boolean stopped;
     
     /**
      * Constructs a new player object.
@@ -46,6 +48,9 @@ public class Player
        this.maxBackpackSize = maxBackpackSize;
        this.alive = true;
        this.backpack = new HashSet<Item>();
+       this.x = position.getColumn() * GridSquare.width;
+       this.y = position.getColumn() * GridSquare.height;
+       this.stopped = true;
     }   
     
     /**
@@ -54,12 +59,38 @@ public class Player
      * @param g a graphic object use to draw the character
      */
     public void render(Graphics g){
-        g.drawImage(Assets.playerDown, position.getColumn() * GridSquare.width, position.getRow() * GridSquare.height, GridSquare.width, GridSquare.height, null);
+//        g.drawImage(Assets.playerDown, position.getColumn() * GridSquare.width, position.getRow() * GridSquare.height, GridSquare.width, GridSquare.height, null);
+        g.drawImage(Assets.playerDown, (int) x, (int) y, GridSquare.width, GridSquare.height, null);
+    }
+    
+    public void update(){
+        if(x < position.getColumn() * GridSquare.width){
+            x += GridSquare.width / 10;
+        } 
+        if(x > position.getColumn() * GridSquare.width){
+            x -= GridSquare.width / 10;
+        }
+        if(y < position.getRow()* GridSquare.height){
+            y += GridSquare.height / 10;
+        }
+        if(y > position.getRow() * GridSquare.height){
+            y -= GridSquare.height / 10;
+        }
+        
+        if(Math.abs(x - position.getColumn() * GridSquare.width) < GridSquare.height / 10 && Math.abs(y - position.getRow() * GridSquare.height) < GridSquare.height / 10){
+            stopped = true;
+        } else {
+            stopped = false;
+        }
     }
     
     /*****************************************************************************************************
      * Accessor methods
      ****************************************************************************************************/
+    public boolean isStopped()    
+    {
+        return stopped;
+    }
     
     /**
      * Gets the name of the player.
