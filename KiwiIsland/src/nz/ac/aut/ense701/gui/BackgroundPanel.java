@@ -5,9 +5,11 @@
  */
 package nz.ac.aut.ense701.gui;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.JPanel;
-import nz.ac.aut.ense701.gameModel.ImageLoader;
 
 /**
  * This class draws the background image 
@@ -19,8 +21,7 @@ import nz.ac.aut.ense701.gameModel.ImageLoader;
  */
 public class BackgroundPanel extends JPanel {
 
-    public BackgroundPanel() {
-       
+    public BackgroundPanel() {     
     }
 
     @Override

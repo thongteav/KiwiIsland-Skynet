@@ -538,4 +538,15 @@ public class GameTest extends junit.framework.TestCase
         }
         return success;
     }
+    
+     /**
+     * Test of checkForStaminaWarning method, of class Game.
+     */
+    @Test
+    public void testCheckForStaminaWarning() {
+        System.out.println("checkForStaminaWarning");
+        Game instance = new Game();
+        instance.checkForStaminaWarning();
+       
+    }
 }

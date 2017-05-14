@@ -14,6 +14,7 @@ public abstract class Occupant
     private Position position;
     private final String   name;
     private final String   description;    
+    private boolean interacted;
 
     /**
      * Construct an occupant for a known position & name.
@@ -78,6 +79,23 @@ public abstract class Occupant
         return getName();
     }
     
+    /**
+     * Returns true if occupant has interacted and false if otherwise
+     * 
+     * @return boolean true if interacted and false if not
+     */
+    public boolean isInteracted() {
+        return interacted;
+    }
+
+    /**
+     * Sets the interaction to true or false
+     * 
+     * @param interacted boolean value specified by the user
+     */
+    public void setInteracted(boolean interacted) {
+        this.interacted = interacted;
+    } 
     
     /**
      * Gets a string representation of the occupant.

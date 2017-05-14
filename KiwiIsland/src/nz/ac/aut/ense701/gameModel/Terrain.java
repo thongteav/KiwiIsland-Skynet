@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.Color;
 import nz.ac.aut.ense701.gui.Assets;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -69,10 +70,26 @@ public enum Terrain
      */
     public void render(Graphics g, int x, int y){
         //x, y times the grid square size to get to position in terms of pixel
-        g.drawImage(texture, x * GridSquare.width, y * GridSquare.height, GridSquare.width, GridSquare.height, null);
+        if(texture == null){
+            if(this == Terrain.SAND){
+                g.setColor(Color.YELLOW);                
+            } else if(this == Terrain.FOREST){
+                g.setColor(Color.GREEN);
+            } else if(this == Terrain.SCRUB){
+                g.setColor(Color.DARK_GRAY);
+            } else if(this == Terrain.WETLAND){
+                g.setColor(Color.BLUE);
+            } else if(this == Terrain.WATER){
+                g.setColor(Color.CYAN);
+            }
+            g.fillRect(x * GridSquare.width, y * GridSquare.height, GridSquare.width, GridSquare.height);
+        } else {
+            g.drawImage(texture, x * GridSquare.width, y * GridSquare.height, GridSquare.width, GridSquare.height, null);
+        }
     }
     
     public void renderGrid(Graphics g, int x, int y){
+        g.setColor(Color.BLACK);
         g.drawRect(x * GridSquare.width, y * GridSquare.height, GridSquare.width, GridSquare.height);
     }
     

@@ -25,6 +25,7 @@ public class Assets {
     public static BufferedImage sandwich, muesliBar, apple, orangeJuice;//food
     public static BufferedImage trap, screwdriver;//tools
     public static BufferedImage rat, cat, kiore, stoat, possum;//predators
+      public static BufferedImage inventory;
     
     public static HashMap<String, BufferedImage> faunaMap, foodMap, predatorMap, toolMap;
     
@@ -43,6 +44,8 @@ public class Assets {
         playerUp = playerSheet.crop(0, playerHeight, playerWidth, playerHeight);
         playerLeft = playerSheet.crop(0, playerHeight * 2, playerWidth, playerHeight);
         playerRight = playerSheet.crop(0, playerHeight * 3, playerWidth, playerHeight);
+          //load the image of inventory
+        inventory=ImageLoader.loadImage("res/inventory.png");
         
         //load the sprite sheet for the terrain
         SpriteSheet terrainSheet = new SpriteSheet(ImageLoader.loadImage("res/tile.png"));
