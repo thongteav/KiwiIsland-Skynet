@@ -25,7 +25,8 @@ public class Assets {
     public static BufferedImage sandwich, muesliBar, apple, orangeJuice;//food
     public static BufferedImage trap, screwdriver;//tools
     public static BufferedImage rat, cat, kiore, stoat, possum;//predators
-      public static BufferedImage inventory;
+    public static BufferedImage inventory;
+    public static BufferedImage hazard;
     
     public static HashMap<String, BufferedImage> faunaMap, foodMap, predatorMap, toolMap;
     
@@ -111,5 +112,7 @@ public class Assets {
         toolMap = new HashMap<String, BufferedImage>();
         toolMap.put("Trap", trap);
         toolMap.put("Screwdriver", screwdriver);
+        
+        hazard = ImageLoader.loadImage("res/hazard.png");
     }
 }

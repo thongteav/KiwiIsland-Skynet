@@ -2,6 +2,7 @@
 package nz.ac.aut.ense701.gameModel;
 
 import java.awt.Graphics;
+import nz.ac.aut.ense701.gui.Assets;
 
 /**
  * This class represents a hazard that can be found on the island
@@ -64,6 +65,7 @@ public class Hazard extends Occupant {
     @Override
     public void render(Graphics g) {
         //won't be rendering the hazard to keep it as a surprise element
+        g.drawImage(Assets.hazard, this.getPosition().getColumn() * GridSquare.width, this.getPosition().getRow() * GridSquare.height, GridSquare.width, GridSquare.height, null);
     }
 
 
