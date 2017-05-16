@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public class Assets {
     //variables-----------------------------------------------------------------
-    public static BufferedImage playerDown, playerUp, playerLeft, playerRight;//player
+    public static BufferedImage[] playerDown, playerUp, playerLeft, playerRight;//player
     public static BufferedImage sand, forest, wetland, scrub, water;//terrains
     public static BufferedImage kiwi, tui, crab, fernbird, heron, oystercatcher, robin;//fauna
     public static BufferedImage sandwich, muesliBar, apple, orangeJuice;//food
@@ -41,10 +41,30 @@ public class Assets {
         //load the sprite sheet for the player
         SpriteSheet playerSheet = new SpriteSheet(ImageLoader.loadImage("res/player.png")); 
         //crop the corresponding section of the sprite sheet
-        playerDown = playerSheet.crop(0, 0, playerWidth, playerHeight);
-        playerUp = playerSheet.crop(0, playerHeight, playerWidth, playerHeight);
-        playerLeft = playerSheet.crop(0, playerHeight * 2, playerWidth, playerHeight);
-        playerRight = playerSheet.crop(0, playerHeight * 3, playerWidth, playerHeight);
+        playerDown = new BufferedImage[4];
+        playerDown[0] = playerSheet.crop(0, 0, playerWidth, playerHeight);
+        playerDown[1] = playerSheet.crop(playerWidth, 0, playerWidth, playerHeight);
+        playerDown[2] = playerSheet.crop(playerWidth * 2, 0, playerWidth, playerHeight);
+        playerDown[3] = playerSheet.crop(playerWidth * 3, 0, playerWidth, playerHeight);
+        
+        playerUp = new BufferedImage[4];
+        playerUp[0] = playerSheet.crop(0, playerHeight, playerWidth, playerHeight);
+        playerUp[1] = playerSheet.crop(playerWidth, playerHeight, playerWidth, playerHeight);
+        playerUp[2] = playerSheet.crop(playerWidth * 2, playerHeight, playerWidth, playerHeight);
+        playerUp[3] = playerSheet.crop(playerWidth * 3, playerHeight, playerWidth, playerHeight);
+        
+        playerLeft = new BufferedImage[4];
+        playerLeft[0] = playerSheet.crop(0, playerHeight * 2, playerWidth, playerHeight);
+        playerLeft[1] = playerSheet.crop(playerWidth, playerHeight * 2, playerWidth, playerHeight);
+        playerLeft[2] = playerSheet.crop(playerWidth * 2, playerHeight * 2, playerWidth, playerHeight);
+        playerLeft[3] = playerSheet.crop(playerWidth * 3, playerHeight * 2, playerWidth, playerHeight);
+        
+        playerRight = new BufferedImage[4];
+        playerRight[0] = playerSheet.crop(0, playerHeight * 3, playerWidth, playerHeight);
+        playerRight[1] = playerSheet.crop(playerWidth, playerHeight * 3, playerWidth, playerHeight);
+        playerRight[2] = playerSheet.crop(playerWidth * 2, playerHeight * 3, playerWidth, playerHeight);
+        playerRight[3] = playerSheet.crop(playerWidth * 3, playerHeight * 3, playerWidth, playerHeight);
+        
           //load the image of inventory
         inventory=ImageLoader.loadImage("res/inventory.png");
         
