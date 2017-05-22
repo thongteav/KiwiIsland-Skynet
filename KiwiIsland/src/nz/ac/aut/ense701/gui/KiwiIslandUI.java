@@ -61,6 +61,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     private JProgressBar staminaProgressBar;
     private JLabel staminaLable;
     private JLabel kiwiCountLabel;
+    private JLabel overallScoreLabel;
 
     private Timer timer;
     private Game game;
@@ -137,6 +138,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         setupPredatorLabel();
 //        setupPredatorCountText();
         setUpKiwiCountText();
+        setOverallScoreText();
         //initialize status bar components
         setupStatusBarComponent();
        
@@ -179,8 +181,13 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     }
     
     public void setUpKiwiCountText() {
-        kiwiCountLabel = new JLabel("Kiwis counted: " + game.getKiwiCount());
+        kiwiCountLabel = new JLabel("Kiwis counted: " + game.getOverallScore());
         kiwiCountLabel.setForeground(Color.WHITE);
+    }
+    
+    public void setOverallScoreText() {
+        overallScoreLabel = new JLabel("Score: " + game.getKiwiCount());
+        overallScoreLabel.setForeground(Color.WHITE);
     }
 
      /**
@@ -201,6 +208,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         statusbarPanel.add(staminaProgressBar);
         statusbarPanel.add(predatorLabel);
         statusbarPanel.add(kiwiCountLabel);
+        statusbarPanel.add(overallScoreLabel);
     }
     
     /**
@@ -294,6 +302,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         //updates the number of predator left
         predatorLabel.setText("Predators remaining: " + game.getPredatorsRemaining());
         kiwiCountLabel.setText("Kiwis counted: " + game.getKiwiCount());
+        overallScoreLabel.setText("Score: " + game.getOverallScore());
         //repaint the canvas with the updated information
         canvas.repaint();
        //repaint staminabar alignment according to frame size      

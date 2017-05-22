@@ -228,6 +228,9 @@ public class Game {
     public int getKiwiCount() {
         return kiwiCount;
     }
+    
+   
+    
 
     /**
      * How many predators are left?
@@ -246,7 +249,14 @@ public class Game {
     public Object[] getPlayerInventory() {
         return player.getInventory().toArray();
     }
-
+    /**
+     * get Overall score of the player
+     * Kiwi = 5  trapped predators =10
+     * @return player overall score
+     */
+    public int getOverallScore() {    
+        return (getKiwiCount()*5)+((predatorsTrapped)*10);
+    }
     /**
      * Get player name
      *
@@ -502,7 +512,7 @@ public class Game {
         }
         return successfulMove;
     }
-
+    
     public void checkForStaminaWarning() {
 
         if (player.getStaminaLevel() < player.getMaximumStaminaLevel() * 0.2) {
@@ -861,6 +871,7 @@ public class Game {
     private Player player;
     private GameState state;
     private int kiwiCount;
+    private int overallScore;
     private int totalPredators;
     private int totalKiwis;
     private int predatorsTrapped;
