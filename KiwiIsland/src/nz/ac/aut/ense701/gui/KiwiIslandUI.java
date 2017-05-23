@@ -326,6 +326,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                         showToolPopUp(occupant);
                     } else if (occupant instanceof Kiwi) {
                         showKiwiPopUp(occupant);
+                        sfx.get("kiwi").play();
                     } else if (occupant instanceof Predator) {
                         showCatchPredatorPopUp(occupant);
                     } else if(occupant instanceof Fauna){
