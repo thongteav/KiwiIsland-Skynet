@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.Set;
 import nz.ac.aut.ense701.audio.AudioPlayer;
+import nz.ac.aut.ense701.gui.KiwiIslandUI;
 
 /**
  * This is the class that knows the Kiwi Island game rules and state and
@@ -47,7 +48,15 @@ public class Game {
         totalKiwis = 0;
         predatorsTrapped = 0;
         kiwiCount = 0;
-        initialiseIslandFromFile("IslandData.txt");
+        
+        if (KiwiIslandUI.difficulty == Difficulty.MEDIUM) {
+            initialiseIslandFromFile("IslandDataMedium.txt");
+        } else if (KiwiIslandUI.difficulty == Difficulty.HARD) {
+            initialiseIslandFromFile("IslandDataHard.txt");
+        } else {
+            initialiseIslandFromFile("IslandData.txt");
+        }
+        
         drawIsland();
         state = GameState.PLAYING;
         winMessage = "";
@@ -229,9 +238,6 @@ public class Game {
         return kiwiCount;
     }
     
-   
-    
-
     /**
      * How many predators are left?
      *
@@ -249,6 +255,7 @@ public class Game {
     public Object[] getPlayerInventory() {
         return player.getInventory().toArray();
     }
+    
     /**
      * get Overall score of the player
      * Kiwi = 5  trapped predators =10
@@ -257,6 +264,7 @@ public class Game {
     public int getOverallScore() {    
         return (getKiwiCount()*5)+((predatorsTrapped)*10);
     }
+    
     /**
      * Get player name
      *

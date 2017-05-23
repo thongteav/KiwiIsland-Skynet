@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
 import javax.swing.UIManager;
+import nz.ac.aut.ense701.gameModel.Difficulty;
 import nz.ac.aut.ense701.gameModel.Fauna;
 import nz.ac.aut.ense701.gameModel.Food;
 import nz.ac.aut.ense701.gameModel.Game;
@@ -72,6 +73,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     private HashMap<String, AudioPlayer> sfx;
 
     public static int width, height;
+    public static Difficulty difficulty = Difficulty.EASY;    
     //--------------------------------------------------------------------------
 
     //constructor---------------------------------------------------------------
@@ -117,6 +119,25 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
      * Creates a game user interface.
      */
     private void createGameView(String name) {
+        Object[] possibilities = {"Easy", "Medium", "Hard"};
+        String s = (String)JOptionPane.showInputDialog(
+                    frame,
+                    "Choose a difficulty for the game:",
+                    "Game Difficulty",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    possibilities,
+                    "Easy");
+        if(s == "Medium"){
+            difficulty = Difficulty.MEDIUM;
+        } 
+        else if (s == "Hard") {
+            difficulty = Difficulty.HARD;
+        } 
+        else {
+            difficulty = Difficulty.EASY;
+        }
+        
         Assets.init();//initialize the assets
         game = new Game();//create a game
         game.getPlayer().setName(name);//set the player name
@@ -174,9 +195,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
      */
     public void setupPredatorCountText() {
         predatorLeftLabel = new JLabel("");
-        predatorLeftLabel.setFont(new Font("Serif", Font.BOLD, 18));
         predatorLeftLabel.setForeground(Color.WHITE);
-        predatorLeftLabel.setBounds(480, 30, 200, 20);
         statusbarPanel.add(predatorLeftLabel);
     }
     
@@ -195,15 +214,14 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
      */
     public void setupStatusBarComponent() {
         statusbarPanel.setLayout(new BoxLayout(statusbarPanel, BoxLayout.Y_AXIS));
-
+        JLabel playerName = new JLabel("Player name: " + game.getPlayerName());
+        playerName.setForeground(Color.WHITE);
         staminaLable = new JLabel("Stamina");
-        staminaLable.setBounds(height / 10, 30, 200, 20);
-        staminaLable.setFont(new Font("Serif", Font.BOLD, 18));
         staminaLable.setForeground(Color.WHITE);
 
         staminaProgressBar = new JProgressBar();
-        staminaProgressBar.setBounds(0, 60, 200, 20);
 
+        statusbarPanel.add(playerName);
         statusbarPanel.add(staminaLable);
         statusbarPanel.add(staminaProgressBar);
         statusbarPanel.add(predatorLabel);
@@ -298,7 +316,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         //updates the size of each grid square dynamically from the size of the frame
         GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumColumns();
-        GridSquare.height = GridSquare.width = Math.min(frame.getContentPane().getHeight()-(frame.getContentPane().getHeight()/5), frame.getContentPane().getWidth()) / game.getNumRows();
+        GridSquare.height = GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumRows();
         //updates the number of predator left
         predatorLabel.setText("Predators remaining: " + game.getPredatorsRemaining());
         kiwiCountLabel.setText("Kiwis counted: " + game.getKiwiCount());
