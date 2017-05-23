@@ -113,6 +113,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         sfx.put("eat", new AudioPlayer(new File("res/audio/sfx/apple_bite.mp3")));
         //Weka sound used since Kiwi call is very harsh
         sfx.put("kiwi", new AudioPlayer(new File("res/audio/sfx/weka-song.mp3")));
+        sfx.put("predator", new AudioPlayer(new File("res/audio/sfx/146960__zabuhailo__cathisses.wav")));
     }
 
     /**
@@ -143,7 +144,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         game.getPlayer().setName(name);//set the player name
 
         bgMusic.stop();
-        bgMusic = new AudioPlayer(new File("res/audio/music/Puzzle-Game.mp3"));
+        bgMusic = new AudioPlayer(new File("res/audio/music/Puzzle-Game_Looping.mp3"));
         bgMusic.play();
 
         frame.requestFocus();
@@ -347,6 +348,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                         sfx.get("kiwi").play();
                     } else if (occupant instanceof Predator) {
                         showCatchPredatorPopUp(occupant);
+                        sfx.get("predator").play();
                     } else if(occupant instanceof Fauna){
                         showFaunaPopUp(occupant);
                     } 
