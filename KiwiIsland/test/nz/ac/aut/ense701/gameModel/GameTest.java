@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import nz.ac.aut.ense701.gui.Assets;
 import org.junit.Test;
 
 /**
@@ -32,6 +33,7 @@ public class GameTest extends junit.framework.TestCase
     {
         // Create a new game from the data file.
         // Player is in position 2,0 & has 100 units of stamina
+        Assets.init();
         game           = new Game();
         playerPosition = game.getPlayer().getPosition();
         player         = game.getPlayer();

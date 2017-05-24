@@ -16,8 +16,18 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -185,10 +195,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
      */
     public void setupPredatorLabel() {
         predatorLabel = new JLabel("Predator remaining: " + game.getPredatorsRemaining());
-        predatorLabel.setFont(new Font("Serif", Font.BOLD, 18));
         predatorLabel.setForeground(Color.WHITE);
-        predatorLabel.setBounds(400, 30, 200, 20);
-
     }
 
     /*
@@ -222,12 +229,37 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         staminaProgressBar = new JProgressBar();
 
+        JLabel creditLbl = new JLabel("**CREDITS**");
+        creditLbl.setForeground(Color.WHITE);
+        creditLbl.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JOptionPane.showMessageDialog(frame, readTextFile("credits.txt"));
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
         statusbarPanel.add(playerName);
         statusbarPanel.add(staminaLable);
         statusbarPanel.add(staminaProgressBar);
         statusbarPanel.add(predatorLabel);
         statusbarPanel.add(kiwiCountLabel);
         statusbarPanel.add(overallScoreLabel);
+        statusbarPanel.add(creditLbl);
     }
     
     /**
@@ -510,6 +542,30 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         staminaProgressBar.setValue(playerValues[Game.STAMINA_INDEX]);
     }
 
+    private String readTextFile(String path){
+        String content = "";
+        FileReader fr = null;
+        try {            
+            fr = new FileReader(path);
+            BufferedReader inputStream = new BufferedReader(fr);
+            String line = null;
+            while((line=inputStream.readLine())!=null){
+                content += line + "\n";
+            }  
+        } catch (FileNotFoundException ex) {
+            System.out.println("File not found: " + ex);
+        } catch (IOException ex) {
+            System.out.println("Error opening file: " + ex);
+        } finally {
+            try {
+                fr.close();
+            } catch (IOException ex) {
+                System.out.println("Can't open file: " + ex); 
+            }
+        }
+        return content;
+    }
+    
     /**
      * This is a private class to draw all the objects existed in the game class
      * into the screen.

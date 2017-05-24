@@ -3,6 +3,7 @@ package nz.ac.aut.ense701.gameModel;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import nz.ac.aut.ense701.gui.Assets;
 import org.junit.Test;
 
 
@@ -103,6 +104,7 @@ public class GridSquareTest extends junit.framework.TestCase
     
     @Test
     public void testHasPlayerWithPlayer() {
+        Assets.init();
         Player player = new Player(position,"",25.0, 10.0, 12.0);
         occupiedSquare.setPlayer(player);
         assertTrue( occupiedSquare.hasPlayer());
