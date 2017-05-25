@@ -54,13 +54,6 @@ public class AudioPlayer {
         clip.setFramePosition(0);
         clip.start();
     }
-    
-    public void loopPlay() {
-        long time = clip.getMicrosecondLength();
-        while(!clip.isRunning()){
-            this.play();
-        }
-    }
 
     public void stop() {
         if (clip.isRunning()) {
@@ -71,6 +64,10 @@ public class AudioPlayer {
     public void close() {
         stop();
         clip.close();
+    }
+    
+    public boolean isPlaying(){
+        return clip.isRunning();
     }
 
 }

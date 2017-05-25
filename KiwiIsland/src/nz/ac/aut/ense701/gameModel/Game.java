@@ -68,6 +68,7 @@ public class Game {
         
         sfx = new HashMap<String, AudioPlayer>();
         sfx.put("walk", new AudioPlayer(new File("res/audio/sfx/fantozzi_walk-a03.wav")));
+        sfx.put("bgMusic", new AudioPlayer(new File("res/audio/music/Puzzle-Game_Looping.mp3")));
     }
 
     /**
@@ -530,6 +531,9 @@ public class Game {
     }
 
     public void tick() {
+        if(!sfx.get("bgMusic").isPlaying()){
+            sfx.get("bgMusic").play();
+        }
         getKeyManager().update();//update the key input
         
         if (getKeyManager().keyJustPressed(KeyEvent.VK_I)) {
