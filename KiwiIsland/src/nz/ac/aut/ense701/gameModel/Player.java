@@ -21,7 +21,7 @@ public class Player
     
     private Position  position;
     private String    name;
-    private final double    maxStamina;
+    public final double    maxStamina;
     private double    stamina;
     private boolean   alive;
     private Set<Item> backpack;
@@ -31,7 +31,6 @@ public class Player
     private boolean stopped;
     private Animation animDown, animUp, animLeft, animRight;
     private BufferedImage currentAnimFrame;
-    
     /**
      * Constructs a new player object.
      * 

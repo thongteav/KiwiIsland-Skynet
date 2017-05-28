@@ -77,6 +77,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     private Timer timer;
     private Game game;
     private boolean hastrap;
+    private CheatCodeInput code;
 
     //Audio Elements
     private AudioPlayer bgMusic;
@@ -116,6 +117,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         });
         //create the main menu user interface
         createMainMenuView();
+         code=new CheatCodeInput(frame);
         bgMusic = new AudioPlayer(new File("res/audio/music/bird_in_rain.mp3"));
         bgMusic.play();
         sfx = new HashMap<String, AudioPlayer>();
@@ -346,7 +348,6 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
      */
     public void update() {
         game.tick();
-
         //updates the size of each grid square dynamically from the size of the frame
         GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumColumns();
         GridSquare.height = GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumRows();
@@ -364,7 +365,11 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         if (game.getKeyManager().keyJustPressed(KeyEvent.VK_H)) {
             helpList();
         }
-        
+          if (game.getKeyManager().keyJustPressed(KeyEvent.VK_BACK_QUOTE)) {
+            cheatCodePopUp();
+               game.staminaCheat(code.getcheat());
+               game.wonCheat(code.getcheat());
+          }
         if(game.getPlayer().isStopped()){            
             //check the game state
             gameStateChanged();
@@ -395,7 +400,8 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 frame,
                 "<html><b>Player Movement Controls</b> <br>Move North: W /north arrow<br>Move South: S /south arrow<br> Move East: D /East arrow<br> Move West: A /West arrow<br>"
                         + "<br>Player Actions<br>Pick Item: E<br>"
-                        + "<br>Inventory Controls<br>Open Inventory: I<br>Use Item from Inventory: E<br>Drop Item from Inventory: Space  </html>"
+                        + "<br>Inventory Controls<br>Open Inventory: I<br>Use Item from Inventory: E<br>Drop Item from Inventory: Space "
+                       +"<br>Cheat Code Input<br>Open cheat code input: `<br>Win the game: winNow<br>Increase stamina to max: maxStamina </html>"
                 , "Help",
                 JOptionPane.INFORMATION_MESSAGE);
     }
@@ -411,6 +417,11 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
             update();
         }
     }
+    public void cheatCodePopUp(){
+                code.setLocationRelativeTo(null);
+                code.setVisible(true);
+}
+  
 
     @Override
     /**

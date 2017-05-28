@@ -815,8 +815,18 @@ public class Game {
             }
         }
     }
-
-    /**
+    public void wonCheat(Cheat cheat){
+        if(cheat==Cheat.WINNOW){
+            state=GameState.WON;
+    }
+    }
+    public void staminaCheat(Cheat cheat){
+           if(cheat==Cheat.MAX_STNAMIA){
+           player.increaseStamina(player.maxStamina);
+           }
+    }
+     
+  /**
      * Reads player data and creates the player.
      *
      * @param input data from the level file
