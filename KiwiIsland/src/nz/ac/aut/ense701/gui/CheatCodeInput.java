@@ -20,11 +20,7 @@ import nz.ac.aut.ense701.gameModel.GameState;
 import nz.ac.aut.ense701.gameModel.Player;
 
 /**
- * This class establishes the dialog boxes to enter name and checks input to ensure it is correct
- * @author Harindu Tillekeratna
- * @author David Balzer
  * @author George Xu
- * @author Thong Teav
  **/
 
 class CheatCodeInput extends JDialog implements ActionListener, PropertyChangeListener {
@@ -116,11 +112,11 @@ class CheatCodeInput extends JDialog implements ActionListener, PropertyChangeLi
                 if( "winNow".equals(typedText)){ 
                   cheat=Cheat.WINNOW;
                 }
-                else if( "maxStamina".equals(typedText)){ 
+                else if( "staminaNow".equals(typedText)){ 
                   cheat=Cheat.MAX_STNAMIA;
                 }
-                   if( "getTrap".equals(typedText)){ 
-                  cheat=Cheat.GET_TRAP;
+                else{
+                    cheat=null;
                 }
             }
             

@@ -817,7 +817,10 @@ public class Game {
     }
     public void wonCheat(Cheat cheat){
         if(cheat==Cheat.WINNOW){
+            String message="";
             state=GameState.WON;
+            message = "You win! You have done an excellent job and trapped all the predators.";
+            this.setWinMessage(message);
     }
     }
     public void staminaCheat(Cheat cheat){

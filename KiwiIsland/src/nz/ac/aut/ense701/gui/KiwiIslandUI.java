@@ -401,7 +401,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 "<html><b>Player Movement Controls</b> <br>Move North: W /north arrow<br>Move South: S /south arrow<br> Move East: D /East arrow<br> Move West: A /West arrow<br>"
                         + "<br>Player Actions<br>Pick Item: E<br>"
                         + "<br>Inventory Controls<br>Open Inventory: I<br>Use Item from Inventory: E<br>Drop Item from Inventory: Space "
-                       +"<br>Cheat Code Input<br>Open cheat code input: `<br>Win the game: winNow<br>Increase stamina to max: maxStamina </html>"
+                       +"<br>Cheat Code Input<br>Open cheat code input: `<br>Win the game: winNow<br>Increase stamina to max: staminaNow </html>"
                 , "Help",
                 JOptionPane.INFORMATION_MESSAGE);
     }

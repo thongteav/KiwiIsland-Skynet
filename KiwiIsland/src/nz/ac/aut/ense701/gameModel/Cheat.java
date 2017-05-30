@@ -10,5 +10,5 @@ package nz.ac.aut.ense701.gameModel;
  * @author ZJ
  */
 public enum Cheat {
-    WINNOW,MAX_STNAMIA,GET_TRAP
+    WINNOW,MAX_STNAMIA
 }
