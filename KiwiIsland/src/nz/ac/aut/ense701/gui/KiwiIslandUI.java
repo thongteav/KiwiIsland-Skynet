@@ -117,7 +117,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         });
         //create the main menu user interface
         createMainMenuView();
-         code=new CheatCodeInput(frame);
+        code=new CheatCodeInput(frame);
         bgMusic = new AudioPlayer(new File("res/audio/music/bird_in_rain.mp3"));
         bgMusic.play();
         sfx = new HashMap<String, AudioPlayer>();
@@ -569,7 +569,9 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
             System.out.println("Error opening file: " + ex);
         } finally {
             try {
-                fr.close();
+                if(fr != null){
+                    fr.close();
+                }
             } catch (IOException ex) {
                 System.out.println("Can't open file: " + ex); 
             }
