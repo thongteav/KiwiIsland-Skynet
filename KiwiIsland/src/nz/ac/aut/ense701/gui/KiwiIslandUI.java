@@ -25,7 +25,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
@@ -44,6 +47,7 @@ import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.GameEventListener;
 import nz.ac.aut.ense701.gameModel.GameState;
 import nz.ac.aut.ense701.gameModel.GridSquare;
+import nz.ac.aut.ense701.gameModel.HighScore;
 import nz.ac.aut.ense701.gameModel.Kiwi;
 import nz.ac.aut.ense701.gameModel.MoveDirection;
 import nz.ac.aut.ense701.gameModel.Occupant;
@@ -82,7 +86,10 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     //Audio Elements
     private AudioPlayer bgMusic;
     private HashMap<String, AudioPlayer> sfx;
-
+    
+    //HighScore List Creation
+    HighScore highScores = new HighScore();
+    
     public static int width, height;
     public static Difficulty difficulty = Difficulty.EASY;    
     //--------------------------------------------------------------------------
@@ -121,7 +128,6 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         bgMusic = new AudioPlayer(new File("res/audio/music/bird_in_rain.mp3"));
         bgMusic.play();
         sfx = new HashMap<String, AudioPlayer>();
-//        sfx.put("walk", new AudioPlayer(new File("res/audio/sfx/fantozzi_walk-a03.wav")));
         sfx.put("eat", new AudioPlayer(new File("res/audio/sfx/apple_bite.mp3")));
         //Weka sound used since Kiwi call is very harsh
         sfx.put("kiwi", new AudioPlayer(new File("res/audio/sfx/weka-song.mp3")));
@@ -314,6 +320,14 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         }
         );
         
+        //Listener for the highscore button
+        highscoreButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                displayHighScore();
+            }
+        });
+        
         //listen for help button press
         helpButton.addActionListener(new ActionListener() {
             @Override
@@ -421,8 +435,22 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 code.setLocationRelativeTo(null);
                 code.setVisible(true);
 }
+    
+    public void displayHighScore(){
+        JOptionPane.showMessageDialog(
+                frame,
+                HighScore.getScoreList()
+                , "High Scores",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void displayNewHighScore(){
+        JOptionPane.showMessageDialog(
+                    frame,
+                    HighScore.getScoreList(), "New high score "+ game.getPlayerName() +"!",
+                    JOptionPane.INFORMATION_MESSAGE);
+    }
   
-
     @Override
     /**
      * Check if the game state has changed.
@@ -434,6 +462,10 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                     frame,
                     game.getLoseMessage(), "Game over!",
                     JOptionPane.INFORMATION_MESSAGE);
+            if(HighScore.newHighScore){
+                displayNewHighScore();
+                HighScore.newHighScore = false;
+            }
             game.createNewGame();
             frame.addKeyListener(game.getKeyManager());//add the listener again for the new game
         } else if (game.getState() == GameState.WON) {
@@ -441,6 +473,10 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                     frame,
                     game.getWinMessage(), "Well Done!",
                     JOptionPane.INFORMATION_MESSAGE);
+            if(HighScore.newHighScore){
+                displayNewHighScore();
+                HighScore.newHighScore = false;
+            }
             game.createNewGame();
             frame.addKeyListener(game.getKeyManager());//add the listener for the name game
         } else if (game.messageForPlayer()) {

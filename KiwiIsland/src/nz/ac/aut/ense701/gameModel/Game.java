@@ -631,20 +631,24 @@ public class Game {
             state = GameState.LOST;
             message = "Sorry, you have lost the game. " + this.getLoseMessage();
             this.setLoseMessage(message);
+            HighScore.saveScores(new HighScore(player.getName(), getOverallScore()));
         } else if (!playerCanMove()) {
             state = GameState.LOST;
             message = "Sorry, you have lost the game. You do not have sufficient stamina to move.";
             this.setLoseMessage(message);
+            HighScore.saveScores(new HighScore(player.getName(), getOverallScore()));
         } else if (predatorsTrapped == totalPredators) {
             state = GameState.WON;
             message = "You win! You have done an excellent job and trapped all the predators.";
             this.setWinMessage(message);
+            HighScore.saveScores(new HighScore(player.getName(), getOverallScore()));
         } else if (kiwiCount == totalKiwis) {
             if (predatorsTrapped >= totalPredators * MIN_REQUIRED_CATCH) {
                 state = GameState.WON;
                 message = "You win! You have counted all the kiwi and trapped at least 80% of the predators.";
                 this.setWinMessage(message);
             }
+            HighScore.saveScores(new HighScore(player.getName(), getOverallScore()));
         }
 
         // notify listeners about changes
