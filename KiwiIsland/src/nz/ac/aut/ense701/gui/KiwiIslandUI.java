@@ -261,6 +261,30 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
             public void mouseExited(MouseEvent e) {
             }
         });
+        JLabel highscores = new JLabel("**HIGHSCORES**");
+        highscores.setForeground(Color.WHITE);
+        highscores.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                displayHighScore();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
         statusbarPanel.add(playerName);
         statusbarPanel.add(staminaLable);
         statusbarPanel.add(staminaProgressBar);
@@ -268,6 +292,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         statusbarPanel.add(kiwiCountLabel);
         statusbarPanel.add(overallScoreLabel);
         statusbarPanel.add(creditLbl);
+        statusbarPanel.add(highscores);
     }
     
     /**
