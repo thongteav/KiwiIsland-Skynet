@@ -22,14 +22,18 @@ public class HighScore implements Comparable<HighScore>{
     private String name;
     private int score;
     
+    //A single highscore object list that can be accessed from all classes through accessor methods
     private static ArrayList<HighScore> highScores;
+    //Variable to declare if new score was added.
     public static boolean newHighScore;
     
+    //Constructor for individual scores to be entered
     public HighScore(String name, int score){
         this.name = name;
         this.score = score;
     }
     
+    //Constructor to create HighScore list from file
     public HighScore(){
         highScores = new ArrayList<HighScore>();
         newHighScore = false;
@@ -47,6 +51,8 @@ public class HighScore implements Comparable<HighScore>{
         return Integer.compare(this.score, o.score);
     }
     
+    
+    //Creates the highscore off of the text file
     public static ArrayList<HighScore> createHighScore(){
         try {
             Scanner input = new Scanner(new File("highscores.txt"));
@@ -73,6 +79,7 @@ public class HighScore implements Comparable<HighScore>{
         return null;
     }
     
+    //Saves highscores to the text file 
     public static void saveScoresToFile(){
         try{
             File file = new File("highscores.txt");
@@ -95,8 +102,8 @@ public class HighScore implements Comparable<HighScore>{
         }
     }
     
+    //takes input field of new score and adds it to the list if it is greater than lowest score. Then calls save to file function
     public static void saveScores(HighScore score){
-       Collections.sort(highScores);
        if(score.getScore() > highScores.get(4).getScore()){
            highScores.set(4, score);
            Collections.sort(highScores);
@@ -106,6 +113,7 @@ public class HighScore implements Comparable<HighScore>{
        }
     }
     
+    //Return string for listing all 5 highscores.
     public static String getScoreList(){
         return "High Scores\n\n1: "+highScores.get(0)+"\n2: "+highScores.get(1)+"\n3: "+highScores.get(2)+"\n4: "+highScores.get(3)+"\n"
                         + "5: "+highScores.get(4);
