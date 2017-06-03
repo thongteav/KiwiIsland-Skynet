@@ -6,6 +6,7 @@
 package nz.ac.aut.ense701.gameModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -77,9 +78,14 @@ public class HighScoreTest {
     public void testSaveScores() {
         System.out.println("saveScores");
         HighScore score = new HighScore("WIN", 10000);
+        HighScore placeholder = HighScore.getHighScores().get(4);
         HighScore.saveScores(score);
         HighScore test = HighScore.getHighScores().get(0);
         assertEquals(score, test);
+        
+        //removes the score added in the text file
+        HighScore.getHighScores().set(0,placeholder);
+        HighScore.saveScoresToFile();
     }
 
     

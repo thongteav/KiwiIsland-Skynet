@@ -15,6 +15,7 @@ public class GameTest extends junit.framework.TestCase
     Player     player;
     Position   playerPosition;
     Island island ;
+    HighScore highscore;
     
     /**
      * Default constructor for test class GameTest
@@ -38,6 +39,7 @@ public class GameTest extends junit.framework.TestCase
         playerPosition = game.getPlayer().getPosition();
         player         = game.getPlayer();
         island = game.getIsland();
+        highscore = new HighScore();
     }
 
     /**
@@ -51,6 +53,7 @@ public class GameTest extends junit.framework.TestCase
         game = null;
         player = null;
         playerPosition = null;
+        highscore = null;
     }
 
     /*********************************************************************************************************
