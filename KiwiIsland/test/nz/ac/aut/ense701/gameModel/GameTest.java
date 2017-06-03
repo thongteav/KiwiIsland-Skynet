@@ -427,6 +427,18 @@ public class GameTest extends junit.framework.TestCase
         game.countKiwi();
         assertEquals("Wrong count", game.getKiwiCount(), 1);
     }
+    
+    @Test
+    public void testgetOverallScore()
+    {
+        //Need to move to a place where there is a kiwi
+        assertTrue (" This move valid", playerMoveEast(5));
+        game.countKiwi();
+        
+        //compare if score equals 5.1 counted kiwi score is 5
+        assertEquals("Correct score", game.getOverallScore(),5);
+    }
+    
 
 /**
  * Private helper methods
