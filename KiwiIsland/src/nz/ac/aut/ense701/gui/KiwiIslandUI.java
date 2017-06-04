@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class contains the main gui frames and methods.
  */
 package nz.ac.aut.ense701.gui;
 
@@ -38,8 +36,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import nz.ac.aut.ense701.gameModel.Difficulty;
@@ -172,7 +168,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         frame.setResizable(false);
         canvas = new DrawingCanvas(height, height);
 
-        statusbarPanel = new StatusBarPanel(width / 5, height);
+        statusbarPanel = new StatusBarPanel(frame.getContentPane().getWidth() - height, height);
         
         setupPredatorLabel();
 
@@ -241,12 +237,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         creditLbl.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JTextArea textArea = new JTextArea(readTextFile("credits.txt"));
-                JScrollPane scrollPane = new JScrollPane(textArea);
-                textArea.setLineWrap(true);
-                textArea.setWrapStyleWord(true);
-                scrollPane.setPreferredSize(new Dimension(500, 500));
-                JOptionPane.showMessageDialog(null, scrollPane, "Credits", JOptionPane.DEFAULT_OPTION);
+                JOptionPane.showMessageDialog(frame, readTextFile("credits.txt"));
             }
 
             @Override
@@ -394,6 +385,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         //updates the size of each grid square dynamically from the size of the frame
         GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumColumns();
         GridSquare.height = GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumRows();
+        statusbarPanel.setPreferredSize(new Dimension(frame.getContentPane().getWidth() - GridSquare.width * game.getNumColumns(), GridSquare.height * game.getNumRows()));
         //updates the number of predator left
         predatorLabel.setText("Predators remaining: " + game.getPredatorsRemaining());
         kiwiCountLabel.setText("Kiwis counted: " + game.getKiwiCount());
