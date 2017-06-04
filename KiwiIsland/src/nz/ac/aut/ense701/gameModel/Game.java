@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import nz.ac.aut.ense701.gui.Inventory;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.io.File;

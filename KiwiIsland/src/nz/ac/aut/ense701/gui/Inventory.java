@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nz.ac.aut.ense701.gameModel;
+package nz.ac.aut.ense701.gui;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collection;
+import nz.ac.aut.ense701.gameModel.Food;
+import nz.ac.aut.ense701.gameModel.Item;
+import nz.ac.aut.ense701.gameModel.Tool;
 import nz.ac.aut.ense701.gui.Assets;
 import nz.ac.aut.ense701.gui.Text;
 
