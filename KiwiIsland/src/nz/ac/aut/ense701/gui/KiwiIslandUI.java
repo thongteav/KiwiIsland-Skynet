@@ -38,6 +38,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import nz.ac.aut.ense701.gameModel.Difficulty;
@@ -239,7 +241,12 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         creditLbl.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(frame, readTextFile("credits.txt"));
+                JTextArea textArea = new JTextArea(readTextFile("credits.txt"));
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                textArea.setLineWrap(true);
+                textArea.setWrapStyleWord(true);
+                scrollPane.setPreferredSize(new Dimension(500, 500));
+                JOptionPane.showMessageDialog(null, scrollPane, "Credits", JOptionPane.DEFAULT_OPTION);
             }
 
             @Override

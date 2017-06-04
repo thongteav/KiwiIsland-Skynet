@@ -1,3 +1,59 @@
-Credits here:
-Music By:
-    Eric Matyas
+CC0 art from OpenGameArt.org
+	(license: https://creativecommons.org/publicdomain/zero/1.0/)
+Free Icons Download
+	(license: http://free-icon-download.com/modules/PDdownloads/viewcat.php?start=10&cid=19&orderby=titleA)
+OpenClipArt.org
+	(license: https://openclipart.org/share)
+Wikia
+	(license: http://www.wikia.com/Licensing)
+Clipart Library (http://clipart-library.com/terms.html)
+Cartoon Animals (http://cartoon-animals-homepage.clipartonline.net/)
+
+
+Music
+	• Bird sounds were sourced from the Department of Conservation who have their material for reuse under the Creative Commons international act with reference to DOC: http://www.doc.govt.nz/nature/native-animals/birds/bird-songs-and-calls/
+	• Background music was sourced from Eric Matyas with the license to use as long as he is credited directly within the game: http://soundimage.org/
+	• Walking sound was sourced from freesounds and has a CC-0 license attached and therefore can be used without reference: http://www.freesound.org/people/Fantozzi/packs/10338/?page=2#sound
+	• Predator hissing sound was sourced from freesounds and has a CC-0 license attached and therefore can be used without reference: http://www.freesound.org/people/Zabuhailo/sounds/146960/
+
+Terrain
+	• Tile image(tile.png) created by CreativeSpore can be found on: https://forum.unity3d.com/threads/released-rpg-map-editor.278604/page-10
+	• Terrrain image(terrain.png) is a CCO art from OpenGameArt.org: https://opengameart.org/content/rpg-itemterraincharacter-sprites-ice-insignia
+
+Player character
+	• Character sprite sheet(player.png) is from OpenClipArt.org:
+	https://openclipart.org/detail/248259/retro-character-sprite-sheet
+
+Main menu background
+	• Island background image https://pixabay.com/en/island-god-rays-sky-nature-sea-2211290/  CC0 Public Domain Free for commercial use No attribution required. 
+	
+Occupants
+	• Hazard image (hazard.png) is a royalty free icons for commercial use from Free Icons Download: 
+	http://free-icon-download.com/modules/PDdownloads/singlefile.php?cid=19&lid=97
+	• Oyster catcher(oystercatcher.png) is from OpenClipArt.org: https://openclipart.org/detail/1578/oyster-catcher
+	• Crab is from OpenClipArt.org: https://openclipart.org/detail/192996/red-crab
+	• Fern bird is from Clipart-Library which can be found: http://clipart-library.com/clipart/kcKn7nKAi.htm
+	• Heron is from Clipart-Library which can be found: http://clipart-library.com/clipart/6cyo46xcn.htm
+	• Kiwi(kiwi.png) can be used freely for personal or commercial projects without restrictions: http://www.clipartlord.com/2014/04/07/free-cartoon-kiwi-bird-clip-art/
+	• Robin is free to download: http://cartoon-birds.clipartonline.net/bullfinch-bird-images
+	• Tui - link is broken
+	
+Predators
+	• Cat is free for commercial use: http://www.softicons.com/animal-icons/cat-force-icons-by-iconka/cat-sing-icon
+	• Kiore https://openclipart.org/detail/95893/greedy-rat
+	• Possum http://farmville.wikia.com/wiki/File:White_Opossum-icon.png
+	• Rat http://ztreasureisle.wikia.com/wiki/File:CreepyCrawlies_Rat-icon.png
+	• Stoat http://farmville.wikia.com/wiki/File:Irish_Stoat-icon.png
+	
+Food
+	• Apple is under CCO Public Domain which is free for commercial use: https://pixabay.com/en/apple-fruit-red-crayons-drawing-1485458/
+	• Muesli bar is copyrighted. It can be used in a way that qualifies as fair use under US copyright law( https://www.copyright.gov/fair-use/more-info.html ) which can be found on http://rust.wikia.com/wiki/File:Granola_Bar_icon.png
+	• Orange Juice free from Icon Ninja: http://www.iconninja.com/files/139/6/376/orange-juice-icon.png
+	• Sandwich http://www.okclipart.com/Healthy-Sandwich-Clip-Art30dunfcewh/
+	
+Tools
+	• Screwdriver is a free icon from SimpleIcon: http://simpleicon.com/screwdriver.html
+	• Trap is from wikia: http://airmech.wikia.com/wiki/File:Beartrap.png
+
+Inventory
+	• Inventory from CodeNMore: https://github.com/CodeNMore/New-Beginner-Java-Game-Programming-Src/blob/master/Episode%2034/TileGame/res/textures/inventoryScreen.png
