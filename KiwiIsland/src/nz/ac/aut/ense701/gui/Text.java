@@ -10,10 +10,15 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 
-/**
- *
- * @author Thong
- */
+/***************************************************************************************
+*    Title: New-Beginner-Java-Game-Programming-Src
+*    Author: CodeNMore
+*    Date: 2014
+*    Code version: 
+*    Availability: https://github.com/CodeNMore/New-Beginner-Java-Game-Programming-Src
+*
+***************************************************************************************/
+
 public class Text {
     public static void drawString(Graphics g, String text, int xPos, int yPos, boolean center, Color c, Font font){
         g.setColor(c);

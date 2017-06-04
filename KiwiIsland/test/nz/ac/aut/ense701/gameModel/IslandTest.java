@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import nz.ac.aut.ense701.gui.Assets;
 import org.junit.Test;
 
 /**
@@ -112,6 +113,7 @@ public class IslandTest extends junit.framework.TestCase
     
     @Test
     public void testUpdatePlayerPosition(){
+        Assets.init();
         Position newPos = new Position(testIsland, 2,3);
         assertFalse(testIsland.isExplored(newPos));
         Player player = new Player(newPos ,"Ada Lovelace",25.0, 15.0, 20.0);

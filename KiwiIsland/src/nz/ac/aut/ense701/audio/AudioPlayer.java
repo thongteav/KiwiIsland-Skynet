@@ -65,5 +65,9 @@ public class AudioPlayer {
         stop();
         clip.close();
     }
+    
+    public boolean isPlaying(){
+        return clip.isRunning();
+    }
 
 }

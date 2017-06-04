@@ -1,6 +1,7 @@
 package nz.ac.aut.ense701.gameModel;
 
 import java.util.Collection;
+import nz.ac.aut.ense701.gui.Assets;
 import org.junit.Test;
 
 /**
@@ -30,6 +31,7 @@ public class PlayerTest extends junit.framework.TestCase
     @Override
     protected void setUp()
     {
+        Assets.init();
         island = new Island(5,5);
         playerPosition = new Position(island, 0,0);
         player = new Player(playerPosition,"Lisa Simpson",25.0, 15.0, 20.0);

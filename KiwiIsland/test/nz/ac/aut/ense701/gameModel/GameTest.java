@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import nz.ac.aut.ense701.gui.Assets;
 import org.junit.Test;
 
 /**
@@ -14,6 +15,7 @@ public class GameTest extends junit.framework.TestCase
     Player     player;
     Position   playerPosition;
     Island island ;
+    HighScore highscore;
     
     /**
      * Default constructor for test class GameTest
@@ -32,10 +34,12 @@ public class GameTest extends junit.framework.TestCase
     {
         // Create a new game from the data file.
         // Player is in position 2,0 & has 100 units of stamina
+        Assets.init();
         game           = new Game();
         playerPosition = game.getPlayer().getPosition();
         player         = game.getPlayer();
         island = game.getIsland();
+        highscore = new HighScore();
     }
 
     /**
@@ -49,6 +53,7 @@ public class GameTest extends junit.framework.TestCase
         game = null;
         player = null;
         playerPosition = null;
+        highscore = null;
     }
 
     /*********************************************************************************************************
@@ -425,6 +430,18 @@ public class GameTest extends junit.framework.TestCase
         game.countKiwi();
         assertEquals("Wrong count", game.getKiwiCount(), 1);
     }
+    
+    @Test
+    public void testgetOverallScore()
+    {
+        //Need to move to a place where there is a kiwi
+        assertTrue (" This move valid", playerMoveEast(5));
+        game.countKiwi();
+        
+        //compare if score equals 5.1 counted kiwi score is 5
+        assertEquals("Correct score", game.getOverallScore(),5);
+    }
+    
 
 /**
  * Private helper methods

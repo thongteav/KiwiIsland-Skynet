@@ -1,36 +1,30 @@
 /*
- * Title: CustomerDialog source code
- * Author: Oracle
- * Date: 16/04/17
- * Code Version: 1.4
- * Availability: https://docs.oracle.com/javase/tutorial/uiswing/examples/components/DialogDemoProject/src/components/CustomDialog.java
- * Use of source code must be referenced with below copyright and Oracle is not used to promote product
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package nz.ac.aut.ense701.gui;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
-import java.util.regex.Pattern;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import nz.ac.aut.ense701.gameModel.Cheat;
 
 /**
- * This class establishes the dialog boxes to enter name and checks input to ensure it is correct
- * @author Harindu Tillekeratna
- * @author David Balzer
  * @author George Xu
- * @author Thong Teav
- **/
-
-class GetNameDialog extends JDialog implements ActionListener, PropertyChangeListener {
+ *
+ */
+class CheatCodeInput extends JDialog implements ActionListener, PropertyChangeListener {
     private String typedText = null;
     private JTextField textField;
     private JOptionPane optionPane;
     private String btnString1 = "Enter";
     private String btnString2 = "Cancel";
+    private Cheat cheat;
 
     /**
      * Returns null if the typed string was invalid; otherwise, returns the
@@ -43,16 +37,14 @@ class GetNameDialog extends JDialog implements ActionListener, PropertyChangeLis
     /**
      * Creates the dialog that can be reused.
      */
-    public GetNameDialog(Frame aFrame) {
+    public CheatCodeInput(Frame aFrame) {
         super(aFrame, true);
-
-        setTitle("Player Name");
-
+        setTitle("Input cheat code");
         textField = new JTextField(10);
 
         //Create an array of the text and components to be displayed. Messages can be added later
-        String msgString1 = "Please enter your player name:";
-    
+        String msgString1 = "Please enter the cheat code:";
+
         Object[] array = {msgString1, textField};
 
         //Create an array specifying the number of dialog button and their text.
@@ -100,12 +92,19 @@ class GetNameDialog extends JDialog implements ActionListener, PropertyChangeLis
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         String prop = e.getPropertyName();
-
-        if (isVisible()
-                && (e.getSource() == optionPane)
-                && (JOptionPane.VALUE_PROPERTY.equals(prop)
+        if (isVisible() && (e.getSource() == optionPane) && (JOptionPane.VALUE_PROPERTY.equals(prop)
                 || JOptionPane.INPUT_VALUE_PROPERTY.equals(prop))) {
             Object value = optionPane.getValue();
+            if (btnString1.equals(value)) {
+                typedText = textField.getText();
+                if ("winNow".equals(typedText)) {
+                    cheat = Cheat.WINNOW;
+                } else if ("staminaNow".equals(typedText)) {
+                    cheat = Cheat.MAX_STNAMIA;
+                } else {
+                    cheat = null;
+                }
+            }
 
             if (value == JOptionPane.UNINITIALIZED_VALUE) {
                 //ignore reset
@@ -116,34 +115,15 @@ class GetNameDialog extends JDialog implements ActionListener, PropertyChangeLis
             //If you don't do this, then if the user
             //presses the same button next time, no
             //property change event will be fired.
-            optionPane.setValue(
-                    JOptionPane.UNINITIALIZED_VALUE);
-            
-            //Checks the input against regex to match suitable strings
-            if (btnString1.equals(value)) {
-                Pattern pattern = Pattern.compile("^[A-Za-z_ ]++$");
-                typedText = textField.getText();
-                if (pattern.matcher(typedText).matches()) {
-                    exit();
-                } else {
-                    //text was invalid
-                    textField.selectAll();
-                    JOptionPane.showMessageDialog(this,
-                            "Sorry, \"" + typedText + "\" "
-                            + "isn't a valid name.\n"
-                            + "Only alphanumeric characters, underscores and spaces accepted.",
-                            "Try again",
-                            JOptionPane.ERROR_MESSAGE);
-                    typedText = null;
-                    textField.requestFocusInWindow();
-                }
-            } else { //user closed dialog or clicked cancel
-                JOptionPane.showMessageDialog(this, "It's OK.  "
-                        + "We won't force you to play.");
-                typedText = null;
-                exit();
-            }
+            optionPane.setValue(JOptionPane.UNINITIALIZED_VALUE);
+
+            //Checks the input against regex to match suitable strings 
+            exit();
         }
+    }
+
+    public Cheat getcheat() {
+        return cheat;
     }
 
     /**

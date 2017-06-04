@@ -36,7 +36,6 @@ public class Kiwi  extends Fauna
         return counted;
     }
 
-
     @Override
     public String getStringRepresentation() 
     {
