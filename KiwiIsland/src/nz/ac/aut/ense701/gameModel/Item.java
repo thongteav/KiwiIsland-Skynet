@@ -42,7 +42,6 @@ public  abstract class Item extends Occupant
     public double getSize() {
         return this.size;
     }    
-
     
     /**
      * Is it OK to pick up and carry this item?

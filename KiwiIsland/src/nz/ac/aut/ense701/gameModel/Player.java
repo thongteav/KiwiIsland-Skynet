@@ -74,38 +74,43 @@ public class Player
         g.drawImage(currentAnimFrame, (int) x, (int) y, GridSquare.width, GridSquare.height, null);
     }
     
+    /**
+     * Update the animation frame based on the direction the player is moving by checking the position when it changes
+     */
     public void update(){
         animDown.update();
         animUp.update();
         animLeft.update();
         animRight.update();
         
+        //if player is moving
         if(!stopped){
-            if(x < position.getColumn() * GridSquare.width){
+            if(x < position.getColumn() * GridSquare.width){//if x position is less than position column, player is moving to the right
                 x += GridSquare.width / 10;
                 currentAnimFrame = animRight.getCurrentFrame();
             }        
-            if(x > position.getColumn() * GridSquare.width){
+            if(x > position.getColumn() * GridSquare.width){//player is moving to the left
                 x -= GridSquare.width / 10;
                 currentAnimFrame = animLeft.getCurrentFrame();
             }        
-            if(y < position.getRow()* GridSquare.height){
+            if(y < position.getRow()* GridSquare.height){//player is moving down
                 y += GridSquare.height / 10;
                 currentAnimFrame = animDown.getCurrentFrame();
             }
-            if(y > position.getRow() * GridSquare.height){
+            if(y > position.getRow() * GridSquare.height){//player is moving up
                 y -= GridSquare.height / 10;
                 currentAnimFrame = animUp.getCurrentFrame();
             }
         }
         
+        //to compensate the ending difference when player's moved
         if(Math.abs(x - position.getColumn() * GridSquare.width) < GridSquare.height / 10 && Math.abs(y - position.getRow() * GridSquare.height) < GridSquare.height / 10){
-            stopped = true;
-            x = position.getColumn() * GridSquare.width;
-            y = position.getRow()* GridSquare.height;
-            currentAnimFrame = Assets.playerDown[0];
+            stopped = true;//player has come to a stop
+            x = position.getColumn() * GridSquare.width;//set the correct x position
+            y = position.getRow()* GridSquare.height;//set the correct y position
+            currentAnimFrame = Assets.playerDown[0];//set the default position
         } else {
-            stopped = false;
+            stopped = false;//player is still walking
         }
     }
     

@@ -7,7 +7,7 @@ package nz.ac.aut.ense701.gameModel;
 
 /**
  *
- * @author ZJ
+ * @author Zhongjie Xu
  */
 public enum Cheat {
     WINNOW,MAX_STNAMIA

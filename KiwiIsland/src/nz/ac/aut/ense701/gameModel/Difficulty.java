@@ -6,8 +6,8 @@
 package nz.ac.aut.ense701.gameModel;
 
 /**
- *
- * @author Thong
+ * Different levels of difficulty
+ * @author Thong Teav
  */
 public enum Difficulty {
     EASY, MEDIUM, HARD;

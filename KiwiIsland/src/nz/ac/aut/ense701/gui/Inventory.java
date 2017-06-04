@@ -13,17 +13,19 @@ import java.util.Collection;
 import nz.ac.aut.ense701.gameModel.Food;
 import nz.ac.aut.ense701.gameModel.Item;
 import nz.ac.aut.ense701.gameModel.Tool;
-import nz.ac.aut.ense701.gui.Assets;
-import nz.ac.aut.ense701.gui.Text;
 
-/**
- *
- * @author ZJ
- */
+/***************************************************************************************
+*    Title: New-Beginner-Java-Game-Programming-Src
+*    Author: CodeNMore
+*    Date: 2014
+*    Code version: 
+*    Availability: https://github.com/CodeNMore/New-Beginner-Java-Game-Programming-Src
+*
+***************************************************************************************/
+
 public class Inventory {
     private boolean active = false;
     private ArrayList<Item> items;
-
     private final int invX = 65, invY = 30, invListSpacing = 30;
     private final int invWidth = 512, invHeight = 384;
     private final int invListCenterY = invY + invHeight / 2 + 5, invListCenterX = invWidth / 2;
@@ -36,6 +38,9 @@ public class Inventory {
         invImageY = invHeight * 15 / 100;
     }
 
+    /**
+     * Update the current selected item
+     */
     public void update() {
         if (selectedItem < 0) {
             selectedItem = items.size() - 1;
@@ -44,6 +49,10 @@ public class Inventory {
         }
     }
 
+    /**
+     * Draws the items into their own position
+     * @param g 
+     */
     public void render(Graphics g) {
         g.drawImage(Assets.inventory, invX, invY, invWidth, invHeight, null);
 

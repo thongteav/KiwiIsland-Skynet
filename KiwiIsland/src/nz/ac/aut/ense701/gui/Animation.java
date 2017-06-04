@@ -3,16 +3,15 @@ package nz.ac.aut.ense701.gui;
 
 import java.awt.image.BufferedImage;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/***************************************************************************************
+*    Title: New-Beginner-Java-Game-Programming-Src
+*    Author: CodeNMore
+*    Date: 2014
+*    Code version: 
+*    Availability: https://github.com/CodeNMore/New-Beginner-Java-Game-Programming-Src
+*
+***************************************************************************************/
 
-/**
- *
- * @author Thong
- */
 public class Animation {
     private int speed, index;
     private long lastTime, timer;

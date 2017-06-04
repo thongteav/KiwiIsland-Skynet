@@ -49,7 +49,8 @@ public class Game {
         totalKiwis = 0;
         predatorsTrapped = 0;
         kiwiCount = 0;
-        
+
+        //construct different island maps based on the selected difficulty
         if (KiwiIslandUI.difficulty == Difficulty.MEDIUM) {
             initialiseIslandFromFile("IslandDataMedium.txt");
         } else if (KiwiIslandUI.difficulty == Difficulty.HARD) {
@@ -57,7 +58,7 @@ public class Game {
         } else {
             initialiseIslandFromFile("IslandData.txt");
         }
-        
+
         drawIsland();
         state = GameState.PLAYING;
         winMessage = "";
@@ -66,7 +67,7 @@ public class Game {
         notifyGameEventListeners();
         keyManager = new KeyManager();
         inventory = new Inventory();
-        
+
         sfx = new HashMap<String, AudioPlayer>();
         sfx.put("walk", new AudioPlayer(new File("res/audio/sfx/fantozzi_walk-a03.wav")));
         sfx.put("bgMusic", new AudioPlayer(new File("res/audio/music/Puzzle-Game_Looping.mp3")));
@@ -239,7 +240,7 @@ public class Game {
     public int getKiwiCount() {
         return kiwiCount;
     }
-    
+
     /**
      * How many predators are left?
      *
@@ -257,16 +258,16 @@ public class Game {
     public Object[] getPlayerInventory() {
         return player.getInventory().toArray();
     }
-    
+
     /**
-     * get Overall score of the player
-     * Kiwi = 5  trapped predators =10
+     * get Overall score of the player Kiwi = 5 trapped predators =10
+     *
      * @return player overall score
      */
-    public int getOverallScore() {    
-        return (getKiwiCount()*5)+((predatorsTrapped)*10);
+    public int getOverallScore() {
+        return (getKiwiCount() * 5) + ((predatorsTrapped) * 10);
     }
-    
+
     /**
      * Get player name
      *
@@ -522,45 +523,48 @@ public class Game {
         }
         return successfulMove;
     }
-    
-    public void checkForStaminaWarning() {
 
+    public void checkForStaminaWarning() {
         if (player.getStaminaLevel() < player.getMaximumStaminaLevel() * 0.2) {
-            String message = "You got less than 20% stamina, plase eat to increase stamina";
+            String message = "You got less than 20% stamina, please eat to increase stamina.";
             this.setPlayerMessage(message);
         }
     }
 
-    public void tick() {
-        if(!sfx.get("bgMusic").isPlaying()){
+    /**
+     * Update different components
+     */
+    public void update() {
+        if (!sfx.get("bgMusic").isPlaying()) {
             sfx.get("bgMusic").play();
         }
         getKeyManager().update();//update the key input
-        
+
         if (getKeyManager().keyJustPressed(KeyEvent.VK_I)) {
             inventory.setActive(!inventory.getActive());
-        }       
-        
-        if(inventory.getActive()){
-            inventory.setItems(player.getInventory());            
-            
+        }
+
+        //if inventory is opened
+        if (inventory.getActive()) {
+            inventory.setItems(player.getInventory());
+
             if (getKeyManager().keyJustPressed(KeyEvent.VK_W) || getKeyManager().keyJustPressed(KeyEvent.VK_UP)) {
-                inventory.setSelectedItem(inventory.getSelectedItem() - 1);
+                inventory.setSelectedItem(inventory.getSelectedItem() - 1); //move the item to the next one
             }
             if (getKeyManager().keyJustPressed(KeyEvent.VK_S) || getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)) {
-                inventory.setSelectedItem(inventory.getSelectedItem() + 1);
+                inventory.setSelectedItem(inventory.getSelectedItem() + 1);//move to the previous item
             }
-            if (getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)){
-                useItem(inventory.getItems().get(inventory.getSelectedItem()));
+            if (getKeyManager().keyJustPressed(KeyEvent.VK_ENTER)) {
+                useItem(inventory.getItems().get(inventory.getSelectedItem()));//use the item
             }
-            if (getKeyManager().keyJustPressed(KeyEvent.VK_SPACE)){
-                dropItem(inventory.getItems().get(inventory.getSelectedItem()));
+            if (getKeyManager().keyJustPressed(KeyEvent.VK_SPACE)) {
+                dropItem(inventory.getItems().get(inventory.getSelectedItem()));//drop the item
             }
-            
-            inventory.update();
-            return;
+
+            inventory.update(); //update the inventory
+            return; //return here so player won't move when the inventory is opened
         }
-        
+
         //check if the player has pressed the keys representing the move direction and update the position of the player accordingly
         if (getKeyManager().keyJustPressed(KeyEvent.VK_W) || getKeyManager().keyJustPressed(KeyEvent.VK_UP)) {
             sfx.get("walk").play();
@@ -578,7 +582,7 @@ public class Game {
             sfx.get("walk").play();
             playerMove(MoveDirection.EAST);
         }
-        
+
         player.update();
     }
 
@@ -591,7 +595,7 @@ public class Game {
         island.render(g);
         player.render(g);
         if (inventory.getActive()) {
-            inventory.render(g);
+            inventory.render(g);//only display the inventory if player opens it
         }
     }
 
@@ -624,10 +628,8 @@ public class Game {
      */
     private void updateGameState() {
         String message = "";
-        if (player.getStaminaLevel() <= MAXSTAMINA_INDEX * 0.2) {
-            message = "test stamiana.";
-            this.setWinMessage(message);
-        }
+        
+        //save the player's score when they either win or lose
         if (!player.isAlive()) {
             state = GameState.LOST;
             message = "Sorry, you have lost the game. " + this.getLoseMessage();
@@ -820,21 +822,23 @@ public class Game {
             }
         }
     }
-    public void wonCheat(Cheat cheat){
-        if(cheat==Cheat.WINNOW){
-            String message="";
-            state=GameState.WON;
+
+    public void wonCheat(Cheat cheat) {
+        if (cheat == Cheat.WINNOW) {
+            String message = "";
+            state = GameState.WON;
             message = "You win! You have done an excellent job and trapped all the predators.";
             this.setWinMessage(message);
+        }
     }
+
+    public void staminaCheat(Cheat cheat) {
+        if (cheat == Cheat.MAX_STNAMIA) {
+            player.increaseStamina(player.maxStamina);
+        }
     }
-    public void staminaCheat(Cheat cheat){
-           if(cheat==Cheat.MAX_STNAMIA){
-           player.increaseStamina(player.maxStamina);
-           }
-    }
-     
-  /**
+
+    /**
      * Reads player data and creates the player.
      *
      * @param input data from the level file
@@ -901,7 +905,6 @@ public class Game {
     private Player player;
     private GameState state;
     private int kiwiCount;
-    private int overallScore;
     private int totalPredators;
     private int totalKiwis;
     private int predatorsTrapped;

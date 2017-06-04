@@ -6,25 +6,17 @@
 package nz.ac.aut.ense701.gui;
 
 import java.awt.Graphics;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 
 /**
  *
  * @author Harindu
  */
 public class StatusBarPanel extends JPanel {
-
-  
-
+    
     public StatusBarPanel(int height,int width) {
         
     }
-
-   
-
     @Override
     /**
      * Draw the background image onto the panel

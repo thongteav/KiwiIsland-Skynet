@@ -26,7 +26,6 @@ import javax.swing.JTextField;
  **/
 
 class GetNameDialog extends JDialog implements ActionListener, PropertyChangeListener {
-
     private String typedText = null;
     private JTextField textField;
     private JOptionPane optionPane;

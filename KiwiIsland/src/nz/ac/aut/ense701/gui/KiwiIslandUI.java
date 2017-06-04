@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,17 +17,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -36,6 +28,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import nz.ac.aut.ense701.gameModel.Difficulty;
@@ -47,7 +41,6 @@ import nz.ac.aut.ense701.gameModel.GameState;
 import nz.ac.aut.ense701.gameModel.GridSquare;
 import nz.ac.aut.ense701.gameModel.HighScore;
 import nz.ac.aut.ense701.gameModel.Kiwi;
-import nz.ac.aut.ense701.gameModel.MoveDirection;
 import nz.ac.aut.ense701.gameModel.Occupant;
 import nz.ac.aut.ense701.gameModel.Predator;
 import nz.ac.aut.ense701.gameModel.Tool;
@@ -57,7 +50,6 @@ import nz.ac.aut.ense701.gameModel.Tool;
  * @author Thong,Harindu
  */
 public class KiwiIslandUI implements ActionListener, GameEventListener {
-
     //variables-----------------------------------------------------------------
     private JFrame frame;
     private DrawingCanvas canvas;
@@ -84,12 +76,12 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     //Audio Elements
     private AudioPlayer bgMusic;
     private HashMap<String, AudioPlayer> sfx;
-    
+
     //HighScore List Creation
     HighScore highScores = new HighScore();
-    
+
     public static int width, height;
-    public static Difficulty difficulty = Difficulty.EASY;    
+    public static Difficulty difficulty = Difficulty.EASY;
     //--------------------------------------------------------------------------
 
     //constructor---------------------------------------------------------------
@@ -105,7 +97,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         //set up the frame
         frame = new JFrame("Kiwi Island");
-        frame.setPreferredSize(new Dimension(height+(height/4), height));
+        frame.setPreferredSize(new Dimension(height + (height / 4), height));
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setResizable(false);
@@ -123,7 +115,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         });
         //create the main menu user interface
         createMainMenuView();
-        code=new CheatCodeInput(frame);
+        code = new CheatCodeInput(frame);
         bgMusic = new AudioPlayer(new File("res/audio/music/bird_in_rain.mp3"));
         bgMusic.play();
         sfx = new HashMap<String, AudioPlayer>();
@@ -137,25 +129,24 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
      * Creates a game user interface.
      */
     private void createGameView(String name) {
+        //asking for difficulty
         Object[] possibilities = {"Easy", "Medium", "Hard"};
-        String s = (String)JOptionPane.showInputDialog(
-                    frame,
-                    "Choose a difficulty for the game:",
-                    "Game Difficulty",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    possibilities,
-                    "Easy");
-        if(s == "Medium"){
+        String s = (String) JOptionPane.showInputDialog(
+                frame,
+                "Choose a difficulty for the game:",
+                "Game Difficulty",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                possibilities,
+                "Easy");
+        if (s == "Medium") {
             difficulty = Difficulty.MEDIUM;
-        } 
-        else if (s == "Hard") {
+        } else if (s == "Hard") {
             difficulty = Difficulty.HARD;
-        } 
-        else {
+        } else {
             difficulty = Difficulty.EASY;
         }
-        
+
         Assets.init();//initialize the assets
         game = new Game();//create a game
         game.getPlayer().setName(name);//set the player name
@@ -169,18 +160,17 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         canvas = new DrawingCanvas(height, height);
 
         statusbarPanel = new StatusBarPanel(frame.getContentPane().getWidth() - height, height);
-        
+
         setupPredatorLabel();
 
         setUpKiwiCountText();
         setOverallScoreText();
         //initialize status bar components
         setupStatusBarComponent();
-       
+
         gamePanel = new JPanel(new BorderLayout());
         gamePanel.add(statusbarPanel, BorderLayout.EAST);
         gamePanel.add(canvas, BorderLayout.CENTER);
-//        gamePanel.setSize(height, height);
         frame.add(gamePanel);
 
         frame.repaint();
@@ -193,35 +183,41 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         timer.start();
     }
 
-    /*
- adding predator label
+    /**
+     * Adding predator label
      */
     public void setupPredatorLabel() {
         predatorLabel = new JLabel("Predator remaining: " + game.getPredatorsRemaining());
         predatorLabel.setForeground(Color.WHITE);
     }
 
-    /*
- adding predator count text
+    /**
+     * Adding predator count text
      */
     public void setupPredatorCountText() {
         predatorLeftLabel = new JLabel("");
         predatorLeftLabel.setForeground(Color.WHITE);
         statusbarPanel.add(predatorLeftLabel);
     }
-    
+
+    /**
+     * Adding the kiwi count
+     */
     public void setUpKiwiCountText() {
         kiwiCountLabel = new JLabel("Kiwis counted: " + game.getOverallScore());
         kiwiCountLabel.setForeground(Color.WHITE);
     }
-    
+
+    /**
+     * Adding the score label
+     */
     public void setOverallScoreText() {
         overallScoreLabel = new JLabel("Score: " + game.getKiwiCount());
         overallScoreLabel.setForeground(Color.WHITE);
     }
 
-     /**
-     adding components to status bar
+    /**
+     * adding components to status bar
      */
     public void setupStatusBarComponent() {
         statusbarPanel.setLayout(new BoxLayout(statusbarPanel, BoxLayout.Y_AXIS));
@@ -229,15 +225,18 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         playerName.setForeground(Color.WHITE);
         staminaLable = new JLabel("Stamina");
         staminaLable.setForeground(Color.WHITE);
-
         staminaProgressBar = new JProgressBar();
-
         JLabel creditLbl = new JLabel("**CREDITS**");
         creditLbl.setForeground(Color.WHITE);
         creditLbl.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(frame, readTextFile("credits.txt"));
+                JTextArea textArea = new JTextArea(readTextFile("credits.txt"));
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                textArea.setLineWrap(true);
+                textArea.setWrapStyleWord(true);
+                scrollPane.setPreferredSize(new Dimension(500, 500));
+                JOptionPane.showMessageDialog(null, scrollPane, "Credits", JOptionPane.DEFAULT_OPTION);
             }
 
             @Override
@@ -289,7 +288,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         statusbarPanel.add(creditLbl);
         statusbarPanel.add(highscores);
     }
-    
+
     /**
      * This createMainMenuView method contains code for the main menu of the
      * game.
@@ -339,7 +338,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
             }
         }
         );
-        
+
         //Listener for the highscore button
         highscoreButton.addActionListener(new ActionListener() {
             @Override
@@ -347,13 +346,13 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 displayHighScore();
             }
         });
-        
+
         //listen for help button press
         helpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 helpList();
-                
+
             }
         }
         );
@@ -381,7 +380,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
      * background
      */
     public void update() {
-        game.tick();
+        game.update();
         //updates the size of each grid square dynamically from the size of the frame
         GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumColumns();
         GridSquare.height = GridSquare.width = Math.min(frame.getContentPane().getHeight(), frame.getContentPane().getWidth()) / game.getNumRows();
@@ -392,7 +391,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         overallScoreLabel.setText("Score: " + game.getOverallScore());
         //repaint the canvas with the updated information
         canvas.repaint();
-       //repaint staminabar alignment according to frame size      
+        //repaint staminabar alignment according to frame size      
 //        resizeComponentsAlignments(frame.getContentPane().getHeight(),frame.getContentPane().getHeight());     
         //with each move player status will updated
         SetPlayerStatus();
@@ -400,15 +399,15 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         if (game.getKeyManager().keyJustPressed(KeyEvent.VK_H)) {
             helpList();
         }
-          if (game.getKeyManager().keyJustPressed(KeyEvent.VK_BACK_QUOTE)) {
+        if (game.getKeyManager().keyJustPressed(KeyEvent.VK_BACK_QUOTE)) {
             cheatCodePopUp();
-               game.staminaCheat(code.getcheat());
-               game.wonCheat(code.getcheat());
-          }
-        if(game.getPlayer().isStopped()){            
+            game.staminaCheat(code.getcheat());
+            game.wonCheat(code.getcheat());
+        }
+        if (game.getPlayer().isStopped()) {
             //check the game state
             gameStateChanged();
-            
+
             for (Occupant occupant : game.getOccupantsPlayerPosition()) {
                 if (!occupant.isInteracted() || game.getKeyManager().keyJustPressed(KeyEvent.VK_E)) {
                     if (occupant instanceof Food) {
@@ -421,26 +420,24 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                     } else if (occupant instanceof Predator) {
                         showCatchPredatorPopUp(occupant);
                         sfx.get("predator").play();
-                    } else if(occupant instanceof Fauna){
+                    } else if (occupant instanceof Fauna) {
                         showFaunaPopUp(occupant);
-                    } 
+                    }
                 }
             }
         }
     }
-    
-     //shows help menu
+
+    //shows help menu
     public void helpList() {
         JOptionPane.showMessageDialog(
                 frame,
                 "<html><b>Player Movement Controls</b> <br>Move North: W /north arrow<br>Move South: S /south arrow<br> Move East: D /East arrow<br> Move West: A /West arrow<br>"
-                        + "<br>Player Actions<br>Pick Item: E<br>"
-                        + "<br>Inventory Controls<br>Open Inventory: I<br>Use Item from Inventory: E<br>Drop Item from Inventory: Space "
-                       +"<br>Cheat Code Input<br>Open cheat code input: `<br>Win the game: winNow<br>Increase stamina to max: staminaNow </html>"
-                , "Help",
+                + "<br>Player Actions<br>Pick Item: E<br>"
+                + "<br>Inventory Controls<br>Open Inventory: I<br>Use Item from Inventory: E<br>Drop Item from Inventory: Space "
+                + "<br>Cheat Code Input<br>Open cheat code input: `<br>Win the game: winNow<br>Increase stamina to max: staminaNow </html>", "Help",
                 JOptionPane.INFORMATION_MESSAGE);
     }
-
 
     @Override
     /**
@@ -452,26 +449,26 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
             update();
         }
     }
-    public void cheatCodePopUp(){
-                code.setLocationRelativeTo(null);
-                code.setVisible(true);
-}
-    
-    public void displayHighScore(){
+
+    public void cheatCodePopUp() {
+        code.setLocationRelativeTo(null);
+        code.setVisible(true);
+    }
+
+    public void displayHighScore() {
         JOptionPane.showMessageDialog(
                 frame,
-                HighScore.getScoreList()
-                , "High Scores",
+                HighScore.getScoreList(), "High Scores",
                 JOptionPane.INFORMATION_MESSAGE);
     }
-    
-    public void displayNewHighScore(){
+
+    public void displayNewHighScore() {
         JOptionPane.showMessageDialog(
-                    frame,
-                    HighScore.getScoreList(), "New high score "+ game.getPlayerName() +"!",
-                    JOptionPane.INFORMATION_MESSAGE);
+                frame,
+                HighScore.getScoreList(), "New high score " + game.getPlayerName() + "!",
+                JOptionPane.INFORMATION_MESSAGE);
     }
-  
+
     @Override
     /**
      * Check if the game state has changed.
@@ -483,7 +480,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                     frame,
                     game.getLoseMessage(), "Game over!",
                     JOptionPane.INFORMATION_MESSAGE);
-            if(HighScore.newHighScore){
+            if (HighScore.newHighScore) {
                 displayNewHighScore();
                 HighScore.newHighScore = false;
             }
@@ -494,7 +491,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                     frame,
                     game.getWinMessage(), "Well Done!",
                     JOptionPane.INFORMATION_MESSAGE);
-            if(HighScore.newHighScore){
+            if (HighScore.newHighScore) {
                 displayNewHighScore();
                 HighScore.newHighScore = false;
             }
@@ -543,13 +540,13 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
                 null,
                 options,
                 options[0]);
-        if(userInput == JOptionPane.YES_OPTION){
-            if(game.useItem(game.getPlayer().getTrap())){                
+        if (userInput == JOptionPane.YES_OPTION) {
+            if (game.useItem(game.getPlayer().getTrap())) {
                 game.trapPredator();
             } else {
                 JOptionPane.showMessageDialog(frame, "Please collect the trap first", "Can't trap predator", JOptionPane.WARNING_MESSAGE);
             }
-        } 
+        }
 
         occupant.setInteracted(true);
     }
@@ -595,10 +592,10 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         occupant.setInteracted(true);
     }
 
-    public void showFaunaPopUp(Occupant occupant){
+    public void showFaunaPopUp(Occupant occupant) {
         JOptionPane.showMessageDialog(frame, "You have encountered: " + occupant.getDescription(), occupant.getName(), JOptionPane.INFORMATION_MESSAGE);
         occupant.setInteracted(true);
-    }   
+    }
 
     /**
      * gets player values from game object and updates player games status
@@ -610,32 +607,32 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         staminaProgressBar.setValue(playerValues[Game.STAMINA_INDEX]);
     }
 
-    private String readTextFile(String path){
+    private String readTextFile(String path) {
         String content = "";
         FileReader fr = null;
-        try {            
+        try {
             fr = new FileReader(path);
             BufferedReader inputStream = new BufferedReader(fr);
             String line = null;
-            while((line=inputStream.readLine())!=null){
+            while ((line = inputStream.readLine()) != null) {
                 content += line + "\n";
-            }  
+            }
         } catch (FileNotFoundException ex) {
             System.out.println("File not found: " + ex);
         } catch (IOException ex) {
             System.out.println("Error opening file: " + ex);
         } finally {
             try {
-                if(fr != null){
+                if (fr != null) {
                     fr.close();
                 }
             } catch (IOException ex) {
-                System.out.println("Can't open file: " + ex); 
+                System.out.println("Can't open file: " + ex);
             }
         }
         return content;
     }
-    
+
     /**
      * This is a private class to draw all the objects existed in the game class
      * into the screen.

@@ -8,30 +8,24 @@ package nz.ac.aut.ense701.gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
-import java.util.regex.Pattern;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import nz.ac.aut.ense701.gameModel.Cheat;
-import nz.ac.aut.ense701.gameModel.Game;
-import nz.ac.aut.ense701.gameModel.GameState;
-import nz.ac.aut.ense701.gameModel.Player;
 
 /**
  * @author George Xu
- **/
-
+ *
+ */
 class CheatCodeInput extends JDialog implements ActionListener, PropertyChangeListener {
-
     private String typedText = null;
     private JTextField textField;
     private JOptionPane optionPane;
     private String btnString1 = "Enter";
     private String btnString2 = "Cancel";
     private Cheat cheat;
- 
+
     /**
      * Returns null if the typed string was invalid; otherwise, returns the
      * string as the user entered it.
@@ -40,8 +34,6 @@ class CheatCodeInput extends JDialog implements ActionListener, PropertyChangeLi
         return typedText;
     }
 
-   
-    
     /**
      * Creates the dialog that can be reused.
      */
@@ -49,10 +41,10 @@ class CheatCodeInput extends JDialog implements ActionListener, PropertyChangeLi
         super(aFrame, true);
         setTitle("Input cheat code");
         textField = new JTextField(10);
-      
+
         //Create an array of the text and components to be displayed. Messages can be added later
         String msgString1 = "Please enter the cheat code:";
-    
+
         Object[] array = {msgString1, textField};
 
         //Create an array specifying the number of dialog button and their text.
@@ -92,7 +84,6 @@ class CheatCodeInput extends JDialog implements ActionListener, PropertyChangeLi
     @Override
     public void actionPerformed(ActionEvent e) {
         optionPane.setValue(btnString1);
-      
     }
 
     /**
@@ -100,27 +91,21 @@ class CheatCodeInput extends JDialog implements ActionListener, PropertyChangeLi
      */
     @Override
     public void propertyChange(PropertyChangeEvent e) {
-     
         String prop = e.getPropertyName();
-        if (isVisible()
-                && (e.getSource() == optionPane)
-                && (JOptionPane.VALUE_PROPERTY.equals(prop)
+        if (isVisible() && (e.getSource() == optionPane) && (JOptionPane.VALUE_PROPERTY.equals(prop)
                 || JOptionPane.INPUT_VALUE_PROPERTY.equals(prop))) {
             Object value = optionPane.getValue();
             if (btnString1.equals(value)) {
                 typedText = textField.getText();
-                if( "winNow".equals(typedText)){ 
-                  cheat=Cheat.WINNOW;
-                }
-                else if( "staminaNow".equals(typedText)){ 
-                  cheat=Cheat.MAX_STNAMIA;
-                }
-                else{
-                    cheat=null;
+                if ("winNow".equals(typedText)) {
+                    cheat = Cheat.WINNOW;
+                } else if ("staminaNow".equals(typedText)) {
+                    cheat = Cheat.MAX_STNAMIA;
+                } else {
+                    cheat = null;
                 }
             }
-            
-            
+
             if (value == JOptionPane.UNINITIALIZED_VALUE) {
                 //ignore reset
                 return;
@@ -130,20 +115,14 @@ class CheatCodeInput extends JDialog implements ActionListener, PropertyChangeLi
             //If you don't do this, then if the user
             //presses the same button next time, no
             //property change event will be fired.
-            optionPane.setValue(
-                    JOptionPane.UNINITIALIZED_VALUE);
-            
-            //Checks the input against regex to match suitable strings
-         
-               
-       
-                exit();
-            
+            optionPane.setValue(JOptionPane.UNINITIALIZED_VALUE);
+
+            //Checks the input against regex to match suitable strings 
+            exit();
         }
     }
-    
-    public Cheat getcheat(){
-    
+
+    public Cheat getcheat() {
         return cheat;
     }
 
