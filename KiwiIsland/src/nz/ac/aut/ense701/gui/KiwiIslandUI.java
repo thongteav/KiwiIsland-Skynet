@@ -107,9 +107,10 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
 
         //set up the frame
         frame = new JFrame("Kiwi Island");
-        frame.setPreferredSize(new Dimension(width, height));
+        frame.setPreferredSize(new Dimension(height+(height/4), height));
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setResizable(false);
         //addd a listener to close the application
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -166,17 +167,13 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         bgMusic.play();
 
         frame.requestFocus();
-
+        frame.setResizable(false);
         canvas = new DrawingCanvas(height, height);
 
         statusbarPanel = new StatusBarPanel(width / 5, height);
-        //Adding gamestatus panel
-        //statusbarPanel.setSize(100, 100);
-        //setBounds(int x, int y, int width, int height)
-//        canvas.setBounds(0, 0, height, height - (height / 4));
-//        statusbarPanel.setBounds(0, height - (height / 4), height, (height / 4));
+        
         setupPredatorLabel();
-//        setupPredatorCountText();
+
         setUpKiwiCountText();
         setOverallScoreText();
         //initialize status bar components
@@ -302,7 +299,7 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
     public void createMainMenuView() {
         //create the background panel
         backgroundPanel = new BackgroundPanel();
-        backgroundPanel.setSize(width, height);
+        backgroundPanel.setSize(height, height);
         backgroundPanel.setLayout(null);
 
         //create the buttons
@@ -315,11 +312,11 @@ public class KiwiIslandUI implements ActionListener, GameEventListener {
         titleLabel.setForeground(Color.WHITE);
 
         //set the size and position of the components
-        titleLabel.setBounds(width / 2 - 100, 30, 200, 100);
-        newGameButton.setBounds(width / 2 - 100, 220, 200, 70);
-        highscoreButton.setBounds(width / 2 - 100, 300, 200, 70);
-        helpButton.setBounds(width / 2 - 100, 380, 200, 70);
-        exitButton.setBounds(width / 2 - 100, 460, 200, 70);
+        titleLabel.setBounds(width / 2 - 250, 30, 200, 100);
+        newGameButton.setBounds(width / 2 - 250, 220, 200, 70);
+        highscoreButton.setBounds(width / 2 - 250, 300, 200, 70);
+        helpButton.setBounds(width / 2 - 250, 380, 200, 70);
+        exitButton.setBounds(width / 2 - 250, 460, 200, 70);
 
         //add the components to the panel
         backgroundPanel.add(titleLabel);
